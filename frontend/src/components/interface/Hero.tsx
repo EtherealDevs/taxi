@@ -1,72 +1,52 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import Image from 'next/image'
+import FormReserv from "../Reserv"
+import Image from "next/image"
 
 export default function Hero() {
-    const stats = [
-        { value: '100%', label: 'Seguridad' },
-        { value: '+200', label: 'Viajes' },
-        { value: '4.5', label: 'Calidad' },
-        { value: '5 Años', label: 'Experiencia' }
-    ]
-
     return (
-        <div className="bg-white py-12 lg:py-20">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
-                    >
-                        <h1 className="text-4xl lg:text-5xl font-bold mb-4">
-                            Somos Chofer Connect
-                        </h1>
-                        <p className="text-lg text-[#272727] mb-8">
-                            Viajes internacionales al precio ideal.
-                            <br />
-                            Ofreciendo viajes Seguros desde 2004
-                        </p>
-                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
-                            {stats.map((stat, index) => (
-                                <motion.div
-                                    key={index}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.6, delay: index * 0.1 }}
-                                    className="bg-white rounded-xl shadow-sm p-4 text-center"
-                                >
-                                    <div className="text-xl font-bold text-[#6944ff]">{stat.value}</div>
-                                    <div className="text-sm text-[#272727]">{stat.label}</div>
-                                </motion.div>
-                            ))}
+        <div className="w-full min-h-screen bg-white p-4 md:p-8 flex items-center">
+            <div className="w-full max-w-6xl mx-auto flex flex-col md:flex-row gap-8 items-start">
+                {/* Columna Izquierda */}
+                <div className="flex-1 space-y-6 p-8">
+                    <div>
+                        <h1 className="text-3xl font-bold text-gray-900">Jorge Gomez</h1>
+                        <p className="text-gray-600">Viajes Internacionales al precio Ideal.</p>
+                        <p className="text-gray-600">Ofreciendo viajes Seguros desde 2004</p>
+                    </div>
+
+                    <div className="flex flex-col md:flex-row gap-6 mt-8">
+                        <div className="relative w-[180px] h-[180px]">
+                            <Image
+                                src="/img/driver.png"
+                                alt="Travel Agent"
+                                fill
+                                className="rounded-[2rem] object-cover"
+                            />
                         </div>
-                    </motion.div>
-                    <motion.div
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.6 }}
-                        className="grid grid-cols-2 gap-4"
-                    >
-                        <Image
-                            src="/placeholder.svg?height=300&width=300"
-                            alt="Chofer profesional"
-                            width={300}
-                            height={300}
-                            className="rounded-2xl w-full h-full object-cover"
-                        />
-                        <Image
-                            src="/placeholder.svg?height=300&width=300"
-                            alt="Auto de lujo"
-                            width={300}
-                            height={300}
-                            className="rounded-2xl w-full h-full object-cover"
-                        />
-                    </motion.div>
+                        <div className="space-y-6">
+                            <div>
+                                <p className="font-medium mb-2">Sobre Mi:</p>
+                                <p className="text-gray-600">Soy una persona Profesional y atento a cada detalle. Me gusta prestar buen servicio</p>
+                            </div>
+                            <div>
+                                <p className="font-medium mb-2">Idiomas:</p>
+                                <div className="flex flex-wrap gap-4">
+                                    <span className="flex items-center gap-1">Ingles <span className="text-lg">🇬🇧</span></span>
+                                    <span className="flex items-center gap-1">Frances <span className="text-lg">🇫🇷</span></span>
+                                    <span className="flex items-center gap-1">Italiano <span className="text-lg">🇮🇹</span></span>
+                                    <span className="flex items-center gap-1">Portugués <span className="text-lg">🇵🇹</span></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Columna Derecha */}
+                <div className="bg-to-r from-cyan-500 to-blue-500">
+                    <FormReserv />
                 </div>
             </div>
         </div>
     )
 }
-
