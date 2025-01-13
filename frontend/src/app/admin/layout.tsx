@@ -6,7 +6,6 @@ import { LayoutDashboard, Car, Calendar, CreditCard, Settings, LogOut } from 'lu
 import Link from "next/link";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { cn } from "@/lib/utils";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
     const [open, setOpen] = useState(false);

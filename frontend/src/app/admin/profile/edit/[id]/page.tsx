@@ -1,7 +1,7 @@
 'use client'
 
+import Image from 'next/image'
 import { useState } from 'react'
-import { motion } from 'framer-motion'
 import { Upload } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -82,10 +82,13 @@ export default function CreateDriver() {
                             <label className="flex flex-col items-center justify-center w-full h-64 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:bg-neutral-800 border-gray-300 dark:border-neutral-600">
                                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
                                     {imagePreview ? (
-                                        <img
+                                        <Image
                                             src={imagePreview}
-                                            alt="Preview"
+                                            alt="Profile preview image"
+                                            width={400}
+                                            height={300}
                                             className="h-full w-full object-cover rounded-lg"
+                                            priority
                                         />
                                     ) : (
                                         <>

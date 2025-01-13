@@ -1,7 +1,7 @@
 'use client'
 
+import Image from 'next/image'
 import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
 import { Upload } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -17,8 +17,7 @@ import {
 import { useParams } from 'next/navigation'
 
 export default function EditBlogPost() {
-    const params = useParams()
-    const [imagePreview, setImagePreview] = useState<string | null>(null)
+    const { id } = useParams()
     const [post, setPost] = useState({
         title: 'Viaje a Rio de Janeiro',
         excerpt: 'Descubre la vibrante metrópolis brasileña con sus rascacielos...',
@@ -26,11 +25,32 @@ export default function EditBlogPost() {
         image: '/placeholder.svg?height=400&width=600',
         status: 'published'
     })
+    const [imagePreview, setImagePreview] = useState<string | null>(null)
 
     useEffect(() => {
-        // Aquí iría la lógica para cargar los datos del post
-        setImagePreview(post.image)
-    }, [post.image])
+        // Simulating API call to fetch post data
+        const fetchPost = async () => {
+            // In a real application, you would fetch the post data using the id
+            // For now, we'll just use the initial state
+            setImagePreview(post.image)
+        }
+        fetchPost()
+    }, [id, post.image])
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target
+        setPost(prevPost => ({
+            ...prevPost,
+            [name]: value
+        }))
+    }
+
+    const handleStatusChange = (value: string) => {
+        setPost(prevPost => ({
+            ...prevPost,
+            status: value
+        }))
+    }
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0]
@@ -38,9 +58,20 @@ export default function EditBlogPost() {
             const reader = new FileReader()
             reader.onloadend = () => {
                 setImagePreview(reader.result as string)
+                setPost(prevPost => ({
+                    ...prevPost,
+                    image: reader.result as string
+                }))
             }
             reader.readAsDataURL(file)
         }
+    }
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        // Here you would typically send the updated post data to your backend
+        console.log('Updated post:', post)
+        // Implement your save logic here
     }
 
     return (
@@ -49,17 +80,19 @@ export default function EditBlogPost() {
                 Editar Post: {post.title}
             </h1>
 
-            <form className="space-y-6">
+            <form className="space-y-6" onSubmit={handleSubmit}>
                 <div>
                     <Label htmlFor="title">Título</Label>
-                    <Input id="title" value={post.title} />
+                    <Input id="title" name="title" value={post.title} onChange={handleInputChange} />
                 </div>
 
                 <div>
                     <Label htmlFor="excerpt">Extracto</Label>
                     <Textarea
                         id="excerpt"
+                        name="excerpt"
                         value={post.excerpt}
+                        onChange={handleInputChange}
                         className="h-20"
                     />
                 </div>
@@ -68,7 +101,9 @@ export default function EditBlogPost() {
                     <Label htmlFor="content">Contenido</Label>
                     <Textarea
                         id="content"
+                        name="content"
                         value={post.content}
+                        onChange={handleInputChange}
                         className="h-64"
                     />
                 </div>
@@ -80,10 +115,13 @@ export default function EditBlogPost() {
                             <label className="flex flex-col items-center justify-center w-full h-64 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:bg-neutral-800 border-gray-300 dark:border-neutral-600">
                                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
                                     {imagePreview ? (
-                                        <img
+                                        <Image
                                             src={imagePreview}
-                                            alt="Preview"
+                                            alt="Preview image"
+                                            width={400}
+                                            height={300}
                                             className="h-full w-full object-cover rounded-lg"
+                                            priority
                                         />
                                     ) : (
                                         <>
@@ -107,7 +145,7 @@ export default function EditBlogPost() {
 
                 <div>
                     <Label htmlFor="status">Estado</Label>
-                    <Select defaultValue={post.status}>
+                    <Select defaultValue={post.status} onValueChange={handleStatusChange}>
                         <SelectTrigger>
                             <SelectValue placeholder="Seleccione el estado" />
                         </SelectTrigger>
@@ -119,8 +157,8 @@ export default function EditBlogPost() {
                 </div>
 
                 <div className="flex justify-end gap-4">
-                    <Button variant="outline">Cancelar</Button>
-                    <Button>Guardar Cambios</Button>
+                    <Button type="button" variant="outline">Cancelar</Button>
+                    <Button type="submit">Guardar Cambios</Button>
                 </div>
             </form>
         </div>

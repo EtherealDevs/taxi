@@ -11,9 +11,24 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 
+// Define the booking type interface
+interface Booking {
+    id: string;
+    user: string;
+    driver: string;
+    origin: string;
+    destination: string;
+    date: string;
+    time: string;
+    status: string;
+    price: string;
+    paymentStatus: string;
+}
+
 export default function BookingsPage() {
-    const [selectedBooking, setSelectedBooking] = useState(null)
-    const bookings = [
+    const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null)
+
+    const bookings: Booking[] = [
         {
             id: '1234',
             user: 'Ana Martínez',
