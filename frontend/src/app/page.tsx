@@ -16,7 +16,6 @@ export default function Home() {
         <HowItWorks />
         {/* <ReservationSection />
         <DriverCarousel />
-       
          */}
       </main>
     </div>
