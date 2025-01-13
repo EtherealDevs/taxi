@@ -124,7 +124,7 @@ export default function BookingsPage() {
                                           y, al hacer click en Ver detalles, 
                                           seteamos la reserva seleccionada y abrimos el modal.
                                         */}
-                                        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                                        <Dialog>
                                             <DialogTrigger asChild>
                                                 <Button
                                                     variant="outline"
