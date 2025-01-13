@@ -116,19 +116,19 @@ export default function Navbar() {
                                             onClick={() => changeLanguage('en')}
                                             className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
                                         >
-                                            <span className="mr-2">🇺🇸</span> {t('English')}
+                                            <span className="mr-2">🇺🇸</span> {t('navbar.english')}
                                         </button>
                                         <button
                                             onClick={() => changeLanguage('es')}
                                             className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
                                         >
-                                            <span className="mr-2">es</span> {t('Spanish')}
+                                            <span className="mr-2">es</span> {t('navbar.spanish')}
                                         </button>
                                         <button
                                             onClick={() => changeLanguage('pt')}
                                             className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
                                         >
-                                            <span className="mr-2">🇧🇷</span> {t('Portuguese')}
+                                            <span className="mr-2">🇧🇷</span> {t('navbar.portuguese')}
                                         </button>
                                     </motion.div>
                                 )}
