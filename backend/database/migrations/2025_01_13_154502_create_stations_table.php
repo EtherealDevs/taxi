@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('country');
             $table->string('latitude');
             $table->string('longitude');
+            $table->foreignId('reservation_id')->constrained('reservations')->onDelete('cascade');
             $table->timestamps();
         });
     }

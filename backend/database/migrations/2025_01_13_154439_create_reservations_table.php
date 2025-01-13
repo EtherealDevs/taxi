@@ -17,7 +17,7 @@ return new class extends Migration
             $table->time('time_start');
             $table->string('code');
             $table->string('name');
-            $table->foreignId('drivers_id')->constrained('drivers');
+            $table->foreignId('user_id')->constrained('users');
             $table->timestamps();
         });
     }
