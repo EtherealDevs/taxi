@@ -19,8 +19,15 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             ),
         },
         {
-            label: "Choferes",
-            href: "/admin/drivers",
+            label: "Vehiculos",
+            href: "/admin/cars",
+            icon: (
+                <Car className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+            ),
+        },
+        {
+            label: "Chofer Perfil",
+            href: "/admin/profile",
             icon: (
                 <Car className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
             ),
@@ -33,8 +40,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             ),
         },
         {
-            label: "Pagos",
-            href: "/admin/payments",
+            label: "Posteos",
+            href: "/admin/posts",
             icon: (
                 <CreditCard className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
             ),
@@ -56,7 +63,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     ];
 
     return (
-        <div className="min-h-screen flex">
+        <div className="h-screen w-full flex">
             <Sidebar open={open} setOpen={setOpen}>
                 <SidebarBody className="justify-between gap-10">
                     <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden">

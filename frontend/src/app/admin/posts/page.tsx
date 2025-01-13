@@ -29,10 +29,10 @@ export default function BlogPage() {
     ]
 
     return (
-        <div>
+        <div className='overflow-hidden'>
             <div className="flex justify-between items-center mb-8">
                 <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Blog Posts</h1>
-                <Link href="/admin/blog/create">
+                <Link href="/admin/posts/create">
                     <Button>
                         <Plus className="w-4 h-4 mr-2" />
                         Nuevo Post
@@ -69,7 +69,7 @@ export default function BlogPage() {
                                     {post.status}
                                 </span>
                                 <div className="flex gap-2">
-                                    <Link href={`/admin/blog/edit/${post.id}`}>
+                                    <Link href={`/admin/posts/edit/${post.id}`}>
                                         <Button variant="outline" size="sm">
                                             <Pencil className="w-4 h-4" />
                                         </Button>

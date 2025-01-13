@@ -34,7 +34,7 @@ export default function DriversPage() {
         <div>
             <div className="flex justify-between items-center mb-8">
                 <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Choferes</h1>
-                <Link href="/admin/drivers/create">
+                <Link href="/admin/profile/create">
                     <Button>
                         <Plus className="w-4 h-4 mr-2" />
                         Nuevo Chofer
@@ -85,7 +85,7 @@ export default function DriversPage() {
                                 </span>
                             </div>
                             <div className="flex gap-2">
-                                <Link href={`/admin/drivers/edit/${driver.id}`} className="flex-1">
+                                <Link href={`/admin/profile/edit/${driver.id}`} className="flex-1">
                                     <Button variant="outline" className="w-full">
                                         <Pencil className="w-4 h-4 mr-2" />
                                         Editar
