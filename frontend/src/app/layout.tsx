@@ -1,5 +1,6 @@
 "use client";
 import "../styles/globals.css";
+import '../config/i18n';
 /* import { genos } from "@/config/fonts";
  */
 

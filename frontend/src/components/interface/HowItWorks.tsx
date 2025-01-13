@@ -2,28 +2,31 @@
 
 import { motion } from 'framer-motion'
 import { Camera, CreditCard, Car, MapPin } from 'lucide-react'
+import { useTranslation } from 'react-i18next';
 
 export default function HowItWorks() {
+    const { t } = useTranslation();
+
     const steps = [
         {
             icon: <Camera className="w-8 h-8 text-[#6944ff]" />,
-            title: "Reserva del Viaje",
-            description: "Viajes internacionales al precio ideal. Ofreciendo viajes Seguros desde 2004"
+            title: t('howItWorks.steps.booking'),
+            description: t('howItWorks.steps.description')
         },
         {
             icon: <CreditCard className="w-8 h-8 text-[#6944ff]" />,
-            title: "Cotización",
-            description: "Viajes internacionales al precio ideal. Ofreciendo viajes Seguros desde 2004"
+            title: t('howItWorks.steps.quotation'),
+            description: t('howItWorks.steps.description')
         },
         {
             icon: <MapPin className="w-8 h-8 text-[#6944ff]" />,
-            title: "Pago",
-            description: "Viajes internacionales al precio ideal. Ofreciendo viajes Seguros desde 2004"
+            title: t('howItWorks.steps.payment'),
+            description: t('howItWorks.steps.description')
         },
         {
             icon: <Car className="w-8 h-8 text-[#6944ff]" />,
-            title: "Llegada",
-            description: "Viajes internacionales al precio ideal. Ofreciendo viajes Seguros desde 2004"
+            title: t('howItWorks.steps.arrival'),
+            description: t('howItWorks.steps.description')
         }
     ]
 
@@ -36,7 +39,7 @@ export default function HowItWorks() {
                     transition={{ duration: 0.6 }}
                     className="text-center mb-12"
                 >
-                    <h2 className="text-2xl font-bold mb-4">¿Cómo Funcionan las reservas?</h2>
+                    <h2 className="text-2xl font-bold mb-4">{t('howItWorks.title')}</h2>
                 </motion.div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -60,4 +63,3 @@ export default function HowItWorks() {
         </div>
     )
 }
-

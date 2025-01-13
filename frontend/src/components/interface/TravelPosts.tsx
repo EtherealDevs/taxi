@@ -5,8 +5,10 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 import useEmblaCarousel from 'embla-carousel-react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { useTranslation } from 'react-i18next';
 
 export default function TravelPosts() {
+    const { t } = useTranslation();
     const [emblaRef, emblaApi] = useEmblaCarousel({
         align: 'start',
         loop: true,
@@ -25,8 +27,8 @@ export default function TravelPosts() {
     const posts = [
         {
             id: 1,
-            title: "Viaje a Sao Pablo",
-            description: "Descubre la vibrante metrópolis brasileña con sus rascacielos, parques y rica cultura.",
+            title: t('travelPosts.saoPaulo.title'),
+            description: t('travelPosts.saoPaulo.description'),
             mainImage: "/placeholder.svg?height=400&width=600",
             gallery: [
                 "/placeholder.svg?height=200&width=200",
@@ -37,8 +39,8 @@ export default function TravelPosts() {
         },
         {
             id: 2,
-            title: "Aventura en Rio de Janeiro",
-            description: "Explora las famosas playas, el Pan de Azúcar y el Cristo Redentor en esta ciudad maravillosa.",
+            title: t('travelPosts.rioDeJaneiro.title'),
+            description: t('travelPosts.rioDeJaneiro.description'),
             mainImage: "/placeholder.svg?height=400&width=600",
             gallery: [
                 "/placeholder.svg?height=200&width=200",
@@ -49,8 +51,8 @@ export default function TravelPosts() {
         },
         {
             id: 3,
-            title: "Recorrido por Buenos Aires",
-            description: "Sumérgete en el tango, la arquitectura y la gastronomía de la capital argentina.",
+            title: t('travelPosts.buenosAires.title'),
+            description: t('travelPosts.buenosAires.description'),
             mainImage: "/placeholder.svg?height=400&width=600",
             gallery: [
                 "/placeholder.svg?height=200&width=200",
@@ -61,8 +63,8 @@ export default function TravelPosts() {
         },
         {
             id: 4,
-            title: "Machu Picchu y Cusco",
-            description: "Visita la antigua ciudad inca y explora la fascinante historia del Imperio Inca.",
+            title: t('travelPosts.machuPicchu.title'),
+            description: t('travelPosts.machuPicchu.description'),
             mainImage: "/placeholder.svg?height=400&width=600",
             gallery: [
                 "/placeholder.svg?height=200&width=200",
@@ -73,8 +75,8 @@ export default function TravelPosts() {
         },
         {
             id: 5,
-            title: "Cartagena de Indias",
-            description: "Disfruta de las playas del Caribe y la arquitectura colonial de esta joya colombiana.",
+            title: t('travelPosts.cartagena.title'),
+            description: t('travelPosts.cartagena.description'),
             mainImage: "/placeholder.svg?height=400&width=600",
             gallery: [
                 "/placeholder.svg?height=200&width=200",
@@ -95,7 +97,7 @@ export default function TravelPosts() {
                     className="mb-8"
                 >
                     <h2 className="text-2xl font-bold text-[#272727]">
-                        Aquí puedes realizar cotizaciones, ver la experiencia de otros usuarios y a los choferes de nuestra agencia
+                        {t('travelPosts.intro')}
                     </h2>
                 </motion.div>
 
@@ -139,7 +141,7 @@ export default function TravelPosts() {
                                                 whileTap={{ scale: 0.98 }}
                                                 className="w-full bg-[#6944ff] text-white py-2 rounded-xl font-medium hover:bg-[#5933ff] transition-colors"
                                             >
-                                                Ver más
+                                                {t('travelPosts.seeMore')}
                                             </motion.button>
                                         </div>
                                     </motion.div>

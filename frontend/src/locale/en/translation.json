@@ -1,0 +1,99 @@
+{
+  "navbar": {
+    "home": "Home",
+    "bookTrip": "Book Trip",
+    "ourTrips": "Our Trips",
+    "howItWorks": "How It Works?",
+    "contact": "Contact",
+    "profileSettings": "Profile Settings",
+    "adminPanel": "Admin Panel",
+    "logout": "Log Out",
+    "login": "Log In",
+    "english": "English",
+    "portuguese": "Portuguese"
+  },
+  "hero": {
+    "name": "Jorge Gomez",
+    "internationalTrips": "International Trips at the Ideal Price.",
+    "safeTrips": "Offering Safe Trips Since 2004",
+    "aboutMe": "About Me",
+    "aboutMeDescription": "I am a professional and attentive to every detail. I like to provide good service",
+    "languages": "Languages",
+    "english": "English",
+    "french": "French",
+    "italian": "Italian",
+    "portuguese": "Portuguese",
+    "imageAlt": "Travel Agent"
+  },
+  "reserv": {
+    "countries": "Argentina, Paraguay, Brazil, Chile",
+    "bookYourTrip": "Book Your Trip",
+    "departurePlace": "Departure Place",
+    "addExtraStop": "Add Extra Stop",
+    "destination": "Destination",
+    "startTrip": "Start Trip",
+    "contact": "Contact"
+  },
+  "footer": {
+    "brand": "ChoferConnect",
+    "slogan": "Connecting passengers and quality drivers",
+    "rightsReserved": "All rights reserved."
+  },
+  "howItWorks": {
+    "title": "How Do Reservations Work?",
+    "steps": {
+      "booking": "Trip Booking",
+      "quotation": "Quotation",
+      "payment": "Payment",
+      "arrival": "Arrival",
+      "description": "International trips at the ideal price. Offering safe trips since 2004"
+    }
+  },
+  "travelPosts": {
+    "saoPaulo": {
+      "title": "Trip to Sao Paulo",
+      "description": "Discover the vibrant Brazilian metropolis with its skyscrapers, parks, and rich culture."
+    },
+    "rioDeJaneiro": {
+      "title": "Adventure in Rio de Janeiro",
+      "description": "Explore the famous beaches, Sugarloaf Mountain, and Christ the Redeemer in this wonderful city."
+    },
+    "buenosAires": {
+      "title": "Tour of Buenos Aires",
+      "description": "Immerse yourself in the tango, architecture, and gastronomy of the Argentine capital."
+    },
+    "machuPicchu": {
+      "title": "Machu Picchu and Cusco",
+      "description": "Visit the ancient Inca city and explore the fascinating history of the Inca Empire."
+    },
+    "cartagena": {
+      "title": "Cartagena de Indias",
+      "description": "Enjoy the Caribbean beaches and colonial architecture of this Colombian gem."
+    },
+    "intro": "Here you can get quotes, see other users' experiences, and meet the drivers of our agency",
+    "seeMore": "See more"
+  },
+  "trustInUs": {
+    "title": "Why Trust Chofer Connect?",
+    "security": {
+      "title": "Safety",
+      "description": "Our drivers are highly trained and adhere to strict safety protocols, ensuring reliable and safe transfers at all times."
+    },
+    "experience": {
+      "title": "Years of Experience",
+      "description": "We have over 10 years of experience providing quality service, adapting to the needs of each client."
+    },
+    "attentionToDetail": {
+      "title": "Attention to Detail",
+      "description": "We offer a personalized service, taking care of every aspect of the trip to ensure comfort, punctuality, and total satisfaction."
+    },
+    "comfort": {
+      "title": "Comfort",
+      "description": "High-end vehicles equipped with the best amenities for a pleasant and worry-free journey."
+    },
+    "professionalism": {
+      "title": "Professionalism",
+      "description": "Our team of drivers is discreet, punctual, and always committed to offering excellent service."
+    }
+  }
+}

@@ -1,0 +1,99 @@
+{
+  "navbar": {
+    "home": "Início",
+    "bookTrip": "Reservar Viagem",
+    "ourTrips": "Nossas Viagens",
+    "howItWorks": "Como Funciona?",
+    "contact": "Contato",
+    "profileSettings": "Configurar perfil",
+    "adminPanel": "Painel de administração",
+    "logout": "Sair",
+    "login": "Entrar",
+    "english": "Inglês",
+    "portuguese": "Português"
+  },
+  "hero": {
+    "name": "Jorge Gomez",
+    "internationalTrips": "Viagens Internacionais ao preço Ideal.",
+    "safeTrips": "Oferecendo viagens Seguras desde 2004",
+    "aboutMe": "Sobre Mim",
+    "aboutMeDescription": "Sou uma pessoa Profissional e atento a cada detalhe. Gosto de prestar um bom serviço",
+    "languages": "Idiomas",
+    "english": "Inglês",
+    "french": "Francês",
+    "italian": "Italiano",
+    "portuguese": "Português",
+    "imageAlt": "Agente de Viagens"
+  },
+  "reserv": {
+    "countries": "Argentina, Paraguai, Brasil, Chile",
+    "bookYourTrip": "Reserve sua Viagem",
+    "departurePlace": "Local de Partida",
+    "addExtraStop": "Adicionar Parada Extra",
+    "destination": "Destino",
+    "startTrip": "Iniciar Viagem",
+    "contact": "Contatar"
+  },
+  "footer": {
+    "brand": "ChoferConnect",
+    "slogan": "Conectando passageiros e motoristas de qualidade",
+    "rightsReserved": "Todos os direitos reservados."
+  },
+  "howItWorks": {
+    "title": "Como Funcionam as Reservas?",
+    "steps": {
+      "booking": "Reserva de Viagem",
+      "quotation": "Cotação",
+      "payment": "Pagamento",
+      "arrival": "Chegada",
+      "description": "Viagens internacionais ao preço ideal. Oferecendo viagens seguras desde 2004"
+    }
+  },
+  "travelPosts": {
+    "saoPaulo": {
+      "title": "Viagem a São Paulo",
+      "description": "Descubra a vibrante metrópole brasileira com seus arranha-céus, parques e rica cultura."
+    },
+    "rioDeJaneiro": {
+      "title": "Aventura no Rio de Janeiro",
+      "description": "Explore as famosas praias, o Pão de Açúcar e o Cristo Redentor nesta cidade maravilhosa."
+    },
+    "buenosAires": {
+      "title": "Tour por Buenos Aires",
+      "description": "Mergulhe no tango, na arquitetura e na gastronomia da capital argentina."
+    },
+    "machuPicchu": {
+      "title": "Machu Picchu e Cusco",
+      "description": "Visite a antiga cidade inca e explore a fascinante história do Império Inca."
+    },
+    "cartagena": {
+      "title": "Cartagena das Índias",
+      "description": "Desfrute das praias do Caribe e da arquitetura colonial desta joia colombiana."
+    },
+    "intro": "Aqui você pode obter cotações, ver a experiência de outros usuários e conhecer os motoristas de nossa agência",
+    "seeMore": "Ver mais"
+  },
+  "trustInUs": {
+    "title": "Por Que Confiar na Chofer Connect?",
+    "security": {
+      "title": "Segurança",
+      "description": "Nossos motoristas são altamente treinados e seguem protocolos de segurança rigorosos, garantindo transferências confiáveis e seguras o tempo todo."
+    },
+    "experience": {
+      "title": "Anos de Experiência",
+      "description": "Temos mais de 10 anos de experiência oferecendo um serviço de qualidade, adaptando-se às necessidades de cada cliente."
+    },
+    "attentionToDetail": {
+      "title": "Atenção aos Detalhes",
+      "description": "Oferecemos um serviço personalizado, cuidando de todos os aspectos da viagem para garantir conforto, pontualidade e satisfação total."
+    },
+    "comfort": {
+      "title": "Conforto",
+      "description": "Veículos de alta gama equipados com as melhores comodidades para que você desfrute de uma viagem agradável e sem preocupações."
+    },
+    "professionalism": {
+      "title": "Profissionalismo",
+      "description": "Nossa equipe de motoristas é discreta, pontual e sempre comprometida em oferecer um serviço de excelência."
+    }
+  }
+}

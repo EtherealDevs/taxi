@@ -3,12 +3,16 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, User, Settings, LayoutDashboard, LogOut } from 'lucide-react'
+import { Menu, X, User, Settings, LayoutDashboard, LogOut, Globe } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 export default function Navbar() {
+    const { t, i18n } = useTranslation()
     const [isOpen, setIsOpen] = useState(false)
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     const [isProfileOpen, setIsProfileOpen] = useState(false)
+    const [isLanguageOpen, setIsLanguageOpen] = useState(false)
+    const [selectedLanguage, setSelectedLanguage] = useState('es')
 
     const navItems = [
         { name: 'Inicio', href: '/' },
@@ -25,6 +29,10 @@ export default function Navbar() {
     const handleLogout = () => {
         setIsLoggedIn(false)
         setIsProfileOpen(false)
+    }
+
+    const changeLanguage = (language: string) => {
+        i18n.changeLanguage(language)
     }
 
     return (
@@ -87,6 +95,45 @@ export default function Navbar() {
                                 Iniciar Sesión
                             </motion.button>
                         )}
+                        <div className="relative">
+                            <motion.button
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                className="bg-[#6944ff] text-white p-2 rounded-full"
+                                onClick={() => setIsLanguageOpen(!isLanguageOpen)}
+                            >
+                                <Globe size={20} />
+                            </motion.button>
+                            <AnimatePresence>
+                                {isLanguageOpen && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: -10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: -10 }}
+                                        className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50"
+                                    >
+                                        <button
+                                            onClick={() => changeLanguage('en')}
+                                            className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
+                                        >
+                                            <span className="mr-2">🇺🇸</span> {t('English')}
+                                        </button>
+                                        <button
+                                            onClick={() => changeLanguage('es')}
+                                            className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
+                                        >
+                                            <span className="mr-2">es</span> {t('Spanish')}
+                                        </button>
+                                        <button
+                                            onClick={() => changeLanguage('pt')}
+                                            className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
+                                        >
+                                            <span className="mr-2">🇧🇷</span> {t('Portuguese')}
+                                        </button>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </div>
                     </div>
                     <div className="md:hidden flex items-center">
                         <button
