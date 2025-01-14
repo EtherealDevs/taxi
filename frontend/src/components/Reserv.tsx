@@ -1,5 +1,6 @@
 import { Clock, MapPin, Plus } from "lucide-react";
 import { useTranslation } from 'react-i18next';
+import { useState } from 'react';
 
 interface FormReservProps {
   onOpenModal: (inputName: 'departure' | 'destination' | 'extraStop') => void;
@@ -8,6 +9,17 @@ interface FormReservProps {
 
 export default function FormReserv({ onOpenModal, location }: FormReservProps) {
   const { t } = useTranslation();
+  const [extraStops, setExtraStops] = useState<string[]>(['']);
+
+  const handleAddExtraStop = () => {
+    setExtraStops([...extraStops, '']);
+  };
+
+  const handleExtraStopChange = (index: number, value: string) => {
+    const newExtraStops = [...extraStops];
+    newExtraStops[index] = value;
+    setExtraStops(newExtraStops);
+  };
 
   return (
     <div className="flex-none w-full md:w-[400px] md:ml-auto sticky translate-x-9 top-0">
@@ -30,8 +42,22 @@ export default function FormReserv({ onOpenModal, location }: FormReservProps) {
               />
             </div>
 
+            {extraStops.map((stop, index) => (
+              <div className="relative" key={index}>
+                <Plus className="absolute left-4 top-3.5 h-5 w-5 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder={t('reserv.addExtraStop')}
+                  className="w-full pl-12 py-3 rounded-2xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#4263EB] focus:border-transparent"
+                  value={stop}
+                  onChange={(e) => handleExtraStopChange(index, e.target.value)}
+                  onClick={() => onOpenModal('extraStop')}
+                />
+              </div>
+            ))}
+
             <div className="relative">
-              <Plus className="absolute left-4 top-3.5 h-5 w-5 text-gray-400" />
+              <Plus className="absolute left-4 top-3.5 h-5 w-5 text-gray-400 cursor-pointer" onClick={handleAddExtraStop} />
               <input
                 type="text"
                 placeholder={t('reserv.addExtraStop')}

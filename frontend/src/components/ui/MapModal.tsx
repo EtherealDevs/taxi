@@ -3,8 +3,7 @@ import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-// Asegúrate de que los iconos de Leaflet se cargan correctamente
-delete L.Icon.Default.prototype._getIconUrl;
+// Configura los iconos de Leaflet correctamente
 L.Icon.Default.mergeOptions({
     iconRetinaUrl: import('leaflet/dist/images/marker-icon-2x.png'),
     iconUrl: import('leaflet/dist/images/marker-icon.png'),
@@ -21,7 +20,7 @@ const MapModal: React.FC<MapModalProps> = ({ onClose, onSelectLocation }) => {
 
     const LocationMarker = () => {
         useMapEvents({
-            click(e: { latlng: { lat: number; lng: number } }) {
+            click(e) {
                 setPosition([e.latlng.lat, e.latlng.lng]);
                 onSelectLocation(e.latlng.lat, e.latlng.lng);
             },
