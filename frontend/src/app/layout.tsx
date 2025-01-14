@@ -1,6 +1,7 @@
 "use client";
 import "../styles/globals.css";
 import '../config/i18n';
+import Stars from "../components/Stars";/*
 /* import { genos } from "@/config/fonts";
  */
 
@@ -17,10 +18,11 @@ export default function RootLayout({
         <div
           className="fixed inset-0 -z-10"
           style={{
-            backgroundColor: "black",
+            backgroundColor: "white",
             overflow: "hidden",
           }}
         >
+          <Stars />
         </div>
 
 

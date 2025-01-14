@@ -7,8 +7,8 @@ import Image from "next/image"
 export default function Hero() {
     const { t } = useTranslation();
     return (
-        <div className="w-full min-h-screen bg-white p-4 md:p-8 flex items-center">
-            <div className="w-full max-w-6xl mx-auto flex flex-col md:flex-row gap-8 items-start">
+        <div className="w-full min-h-screen bg-transparent p-4 md:p-8 flex items-center">
+            <div className="w-full max-w-6xl bg-transparent mx-auto flex flex-col md:flex-row gap-8 items-start">
                 {/* Columna Izquierda */}
                 <div className="flex-1 space-y-6 p-8">
                     <div>
