@@ -65,6 +65,24 @@ export default function Hero() {
                             </div>
                         </div>
                     </div>
+                    <div className="flex justify-between mt-8">
+                        <div className="text-center">
+                            <p className="text-3xl font-bold text-gray-900">100%</p>
+                            <p className="text-gray-600">{t('hero.security')}</p>
+                        </div>
+                        <div className="text-center">
+                            <p className="text-3xl font-bold text-gray-900">+200</p>
+                            <p className="text-gray-600">{t('hero.trayectory')}</p>
+                        </div>
+                        <div className="text-center">
+                            <p className="text-3xl font-bold text-gray-900">4.5</p>
+                            <p className="text-gray-600">{t('hero.quality')}</p>
+                        </div>
+                        <div className="text-center">
+                            <p className="text-3xl font-bold text-gray-900">5 {t('hero.years')}</p>
+                            <p className="text-gray-600">{t('hero.experience')}</p>
+                        </div>
+                    </div>
                 </div>
 
                 {/* Columna Derecha */}
