@@ -4,6 +4,7 @@ import HowItWorks from "../components/interface/HowItWorks";
 import Navbar from "@/components/Navbar";
 import TrustInUs from "@/components/interface/TrustInUs";
 import Footer from "@/components/Footer";
+import Contact from "@/components/interface/Contact";
 /* import ReservationSection from './components/ReservationSection'
 import DriverCarousel from './components/DriverCarousel'
 import TravelPosts from './components/TravelPosts'
@@ -19,6 +20,7 @@ export default function Home() {
         <TravelPosts />
         <TrustInUs />
         <HowItWorks />
+        <Contact />
         {/* <ReservationSection />
         <DriverCarousel />
          */}
