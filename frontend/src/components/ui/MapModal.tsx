@@ -1,0 +1,54 @@
+import React, { useState } from 'react';
+import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+
+// Asegúrate de que los iconos de Leaflet se cargan correctamente
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+    iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
+    iconUrl: require('leaflet/dist/images/marker-icon.png'),
+    shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
+});
+
+interface MapModalProps {
+    onClose: () => void;
+    onSelectLocation: (lat: number, lng: number) => void;
+}
+
+const MapModal: React.FC<MapModalProps> = ({ onClose, onSelectLocation }) => {
+    const [position, setPosition] = useState<[number, number] | null>(null);
+
+    const LocationMarker = () => {
+        useMapEvents({
+            click(e: { latlng: { lat: number; lng: number } }) {
+                setPosition([e.latlng.lat, e.latlng.lng]);
+                onSelectLocation(e.latlng.lat, e.latlng.lng);
+            },
+        });
+
+        return position === null ? null : (
+            <Marker position={position}></Marker>
+        );
+    };
+
+    return (
+        <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex justify-center items-center z-50">
+            <div className="bg-white rounded-lg shadow-lg overflow-hidden w-11/12 md:w-3/4 lg:w-1/2">
+                <div className="flex justify-end p-2">
+                    <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
+                        &times;
+                    </button>
+                </div>
+                <MapContainer center={[51.505, -0.09]} zoom={13} style={{ height: '400px', width: '100%' }}>
+                    <TileLayer
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    />
+                    <LocationMarker />
+                </MapContainer>
+            </div>
+        </div>
+    );
+};
+
+export default MapModal;

@@ -1,8 +1,30 @@
+import React, { useState } from 'react';
 import { Clock, MapPin, Plus } from "lucide-react";
 import { useTranslation } from 'react-i18next';
+import MapModal from './ui/MapModal';
 
 export default function FormReserv() {
   const { t } = useTranslation();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [activeInput, setActiveInput] = useState<'departure' | 'destination' | 'extraStop' | null>(null);
+  const [location, setLocation] = useState({ departure: '', destination: '', extraStop: '' });
+
+  const handleOpenModal = (inputName: 'departure' | 'destination' | 'extraStop') => {
+    setActiveInput(inputName);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setActiveInput(null);
+  };
+
+  const handleSelectLocation = (lat: number, lng: number) => {
+    if (activeInput) {
+      setLocation({ ...location, [activeInput]: `${lat}, ${lng}` });
+    }
+    handleCloseModal();
+  };
 
   return (
     <div className="flex-none w-full md:w-[400px] md:ml-auto sticky translate-x-9 top-0">
@@ -19,6 +41,9 @@ export default function FormReserv() {
                 type="text"
                 placeholder={t('reserv.departurePlace')}
                 className="w-full pl-12 py-3 rounded-2xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#4263EB] focus:border-transparent"
+                value={location.departure}
+                onClick={() => handleOpenModal('departure')}
+                readOnly
               />
             </div>
 
@@ -28,6 +53,9 @@ export default function FormReserv() {
                 type="text"
                 placeholder={t('reserv.addExtraStop')}
                 className="w-full pl-12 py-3 rounded-2xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#4263EB] focus:border-transparent"
+                value={location.extraStop}
+                onClick={() => handleOpenModal('extraStop')}
+                readOnly
               />
             </div>
 
@@ -37,6 +65,9 @@ export default function FormReserv() {
                 type="text"
                 placeholder={t('reserv.destination')}
                 className="w-full pl-12 py-3 rounded-2xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#4263EB] focus:border-transparent"
+                value={location.destination}
+                onClick={() => handleOpenModal('destination')}
+                readOnly
               />
             </div>
 
@@ -73,6 +104,7 @@ export default function FormReserv() {
           </div>
         </form>
       </div>
+      {isModalOpen && <MapModal onClose={handleCloseModal} onSelectLocation={handleSelectLocation} />}
     </div>
   );
 }
