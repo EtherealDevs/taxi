@@ -33,14 +33,14 @@ const MapModal: React.FC<MapModalProps> = ({ onClose, onSelectLocation }) => {
     };
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex justify-center items-center z-50">
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden w-11/12 md:w-3/4 lg:w-1/2">
+        <div className="fixed inset-0 bg-opacity-50 backdrop-blur-sm flex justify-center items-center z-50">
+            <div className="bg-white rounded-lg shadow-lg overflow-hidden w-1/2 h-1/2">
                 <div className="flex justify-end p-2">
                     <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
                         &times;
                     </button>
                 </div>
-                <MapContainer center={[51.505, -0.09]} zoom={13} style={{ height: '400px', width: '100%' }}>
+                <MapContainer center={[51.505, -0.09]} zoom={13} style={{ height: 'calc(60vh - 4rem)', width: '50%' }}>
                     <TileLayer
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
