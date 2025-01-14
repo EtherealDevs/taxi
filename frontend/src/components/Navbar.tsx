@@ -3,195 +3,214 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, User, Settings, LayoutDashboard, LogOut, Globe } from 'lucide-react'
+import { Menu, X, User, Settings, LayoutDashboard, LogOut, Globe, ChevronDown } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
 
 export default function Navbar() {
     const { t, i18n } = useTranslation()
     const [isOpen, setIsOpen] = useState(false)
     const [isLoggedIn, setIsLoggedIn] = useState(false)
-    const [isProfileOpen, setIsProfileOpen] = useState(false)
-    const [isLanguageOpen, setIsLanguageOpen] = useState(false)
-    const [selectedLanguage, setSelectedLanguage] = useState('es')
 
     const navItems = [
-        { name: 'Inicio', href: '/' },
-        { name: 'Realizar Viaje', href: '/realizar-viaje' },
-        { name: 'Nuestros Viajes', href: '/nuestros-viajes' },
-        { name: 'Cómo Funciona?', href: '/como-funciona' },
-        { name: 'Contacto', href: '/contacto' },
+        { name: 'Bienvenido', href: '/' },
+        { name: 'Reservar Viaje', href: '/realizar-viaje' },
+        { name: 'Confia en Nosotros', href: '/nuestros-viajes' },
+        { name: '¿Cómo Funciona?', href: '/como-funciona' },
+        { name: 'Contactanos', href: '/contacto' },
     ]
 
-    const handleLogin = () => {
-        setIsLoggedIn(true)
-    }
+    const languages = [
+        { code: 'en', label: 'English', flag: '🇺🇸' },
+        { code: 'es', label: 'Español', flag: '🇪🇸' },
+        { code: 'pt', label: 'Português', flag: '🇧🇷' },
+    ]
 
-    const handleLogout = () => {
-        setIsLoggedIn(false)
-        setIsProfileOpen(false)
-    }
-
-    const changeLanguage = (language: string) => {
-        i18n.changeLanguage(language)
-    }
+    const handleLogin = () => setIsLoggedIn(true)
+    const handleLogout = () => setIsLoggedIn(false)
 
     return (
-        <nav className="bg-white shadow-md">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-between h-16">
-                    <div className="flex-shrink-0 flex items-center">
-                        <Link href="/" className="text-2xl font-bold text-[#6944ff]">
-                            Chofer Connect
+        <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+            <div className="container mx-auto px-4">
+                <div className="flex h-16 items-center justify-between">
+                    <div className="flex items-center gap-8">
+                        <Link
+                            href="/"
+                            className="text-2xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent"
+                        >
+                            Nelson Olivera
                         </Link>
-                    </div>
-                    <div className="hidden md:flex items-center space-x-4">
-                        {navItems.map((item) => (
-                            <NavLink key={item.name} href={item.href}>
-                                {item.name}
-                            </NavLink>
-                        ))}
-                        {isLoggedIn ? (
-                            <div className="relative">
-                                <motion.button
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.95 }}
-                                    className="bg-[#6944ff] text-white p-2 rounded-full"
-                                    onClick={() => setIsProfileOpen(!isProfileOpen)}
-                                >
-                                    <User size={20} />
-                                </motion.button>
-                                <AnimatePresence>
-                                    {isProfileOpen && (
-                                        <motion.div
-                                            initial={{ opacity: 0, y: -10 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            exit={{ opacity: 0, y: -10 }}
-                                            className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50"
-                                        >
-                                            <ProfileMenuItem href="/profile" icon={<Settings size={16} />}>
-                                                Configurar perfil
-                                            </ProfileMenuItem>
-                                            <ProfileMenuItem href="/admin" icon={<LayoutDashboard size={16} />}>
-                                                Panel de administración
-                                            </ProfileMenuItem>
-                                            <button
-                                                onClick={handleLogout}
-                                                className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
-                                            >
-                                                <LogOut size={16} className="mr-2" />
-                                                Cerrar sesión
-                                            </button>
-                                        </motion.div>
-                                    )}
-                                </AnimatePresence>
-                            </div>
-                        ) : (
-                            <motion.button
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                className="bg-[#6944ff] text-white px-4 py-2 rounded-full font-medium hover:bg-[#5933ff] transition-colors"
-                                onClick={handleLogin}
-                            >
-                                Iniciar Sesión
-                            </motion.button>
-                        )}
-                        <div className="relative">
-                            <motion.button
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                className="bg-[#6944ff] text-white p-2 rounded-full"
-                                onClick={() => setIsLanguageOpen(!isLanguageOpen)}
-                            >
-                                <Globe size={20} />
-                            </motion.button>
-                            <AnimatePresence>
-                                {isLanguageOpen && (
-                                    <motion.div
-                                        initial={{ opacity: 0, y: -10 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        exit={{ opacity: 0, y: -10 }}
-                                        className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50"
-                                    >
-                                        <button
-                                            onClick={() => changeLanguage('en')}
-                                            className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
-                                        >
-                                            <span className="mr-2">🇺🇸</span> {t('navbar.english')}
-                                        </button>
-                                        <button
-                                            onClick={() => changeLanguage('es')}
-                                            className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
-                                        >
-                                            <span className="mr-2">es</span> {t('navbar.spanish')}
-                                        </button>
-                                        <button
-                                            onClick={() => changeLanguage('pt')}
-                                            className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center"
-                                        >
-                                            <span className="mr-2">🇧🇷</span> {t('navbar.portuguese')}
-                                        </button>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
+
+                        <div className="hidden md:flex items-center gap-6">
+                            {navItems.map((item) => (
+                                <NavLink key={item.name} href={item.href}>
+                                    {item.name}
+                                </NavLink>
+                            ))}
                         </div>
                     </div>
-                    <div className="md:hidden flex items-center">
-                        <button
+
+                    <div className="flex items-center gap-4"></div>
+
+                    <div className="flex items-center gap-4">
+                        <div className="hidden md:flex items-center gap-4">
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <Button variant="ghost" size="sm" className="gap-2">
+                                        <Globe className="h-4 w-4" />
+                                        <span className="hidden sm:inline-block">
+                                            {languages.find(lang => lang.code === i18n.language)?.flag}
+                                        </span>
+                                        <ChevronDown className="h-3 w-3 opacity-50" />
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end">
+                                    {languages.map((lang) => (
+                                        <DropdownMenuItem
+                                            key={lang.code}
+                                            onClick={() => i18n.changeLanguage(lang.code)}
+                                        >
+                                            <span className="mr-2">{lang.flag}</span>
+                                            {lang.label}
+                                        </DropdownMenuItem>
+                                    ))}
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+
+                            {isLoggedIn ? (
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger asChild>
+                                        <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            className="relative h-9 w-9 rounded-full"
+                                        >
+                                            <User className="h-5 w-5" />
+                                        </Button>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent align="end" className="w-56">
+                                        <DropdownMenuItem asChild>
+                                            <Link href="/profile" className="flex items-center">
+                                                <Settings className="mr-2 h-4 w-4" />
+                                                <span>Configurar perfil</span>
+                                            </Link>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem asChild>
+                                            <Link href="/admin" className="flex items-center">
+                                                <LayoutDashboard className="mr-2 h-4 w-4" />
+                                                <span>Panel de administración</span>
+                                            </Link>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuItem onClick={handleLogout}>
+                                            <LogOut className="mr-2 h-4 w-4" />
+                                            <span>Cerrar sesión</span>
+                                        </DropdownMenuItem>
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
+                            ) : (
+                                <Button onClick={handleLogin}>
+                                    Iniciar Sesión
+                                </Button>
+                            )}
+                        </div>
+
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            className="md:hidden"
                             onClick={() => setIsOpen(!isOpen)}
-                            className="text-[#272727] hover:text-[#6944ff] focus:outline-none"
                         >
                             {isOpen ? (
-                                <X className="h-6 w-6" />
+                                <X className="h-5 w-5" />
                             ) : (
-                                <Menu className="h-6 w-6" />
+                                <Menu className="h-5 w-5" />
                             )}
-                        </button>
+                            <span className="sr-only">Toggle menu</span>
+                        </Button>
                     </div>
                 </div>
             </div>
 
-            {/* Mobile menu */}
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.3 }}
-                        className="md:hidden z-50"
+                        className="md:hidden border-t"
                     >
-                        <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                            {navItems.map((item) => (
-                                <NavLink key={item.name} href={item.href} mobile>
-                                    {item.name}
-                                </NavLink>
-                            ))}
-                            {isLoggedIn ? (
-                                <>
-                                    <ProfileMenuItem href="/profile" icon={<Settings size={16} />} mobile>
-                                        Configurar perfil
-                                    </ProfileMenuItem>
-                                    <ProfileMenuItem href="/admin" icon={<LayoutDashboard size={16} />} mobile>
-                                        Panel de administración
-                                    </ProfileMenuItem>
-                                    <button
-                                        onClick={handleLogout}
-                                        className="w-full text-left px-3 py-2 rounded-md text-base font-medium text-[#272727] hover:text-[#6944ff] hover:bg-gray-100 flex items-center"
+                        <div className="container mx-auto px-4 py-4 space-y-4">
+                            <div className="grid gap-3">
+                                {navItems.map((item) => (
+                                    <NavLink key={item.name} href={item.href} mobile>
+                                        {item.name}
+                                    </NavLink>
+                                ))}
+                            </div>
+
+                            <div className="grid gap-4 pt-4 border-t">
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger asChild>
+                                        <Button variant="outline" size="sm" className="w-full justify-start gap-2">
+                                            <Globe className="h-4 w-4" />
+                                            {languages.find(lang => lang.code === i18n.language)?.label}
+                                            <ChevronDown className="ml-auto h-4 w-4" />
+                                        </Button>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent align="end" className="w-full">
+                                        {languages.map((lang) => (
+                                            <DropdownMenuItem
+                                                key={lang.code}
+                                                onClick={() => i18n.changeLanguage(lang.code)}
+                                            >
+                                                <span className="mr-2">{lang.flag}</span>
+                                                {lang.label}
+                                            </DropdownMenuItem>
+                                        ))}
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
+
+                                {isLoggedIn ? (
+                                    <div className="grid gap-2">
+                                        <Link href="/profile">
+                                            <Button variant="outline" size="sm" className="w-full justify-start">
+                                                <Settings className="mr-2 h-4 w-4" />
+                                                Configurar perfil
+                                            </Button>
+                                        </Link>
+                                        <Link href="/admin">
+                                            <Button variant="outline" size="sm" className="w-full justify-start">
+                                                <LayoutDashboard className="mr-2 h-4 w-4" />
+                                                Panel de administración
+                                            </Button>
+                                        </Link>
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            className="w-full justify-start"
+                                            onClick={handleLogout}
+                                        >
+                                            <LogOut className="mr-2 h-4 w-4" />
+                                            Cerrar sesión
+                                        </Button>
+                                    </div>
+                                ) : (
+                                    <Button
+                                        className="w-full"
+                                        size="sm"
+                                        onClick={handleLogin}
                                     >
-                                        <LogOut size={16} className="mr-2" />
-                                        Cerrar sesión
-                                    </button>
-                                </>
-                            ) : (
-                                <motion.button
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.95 }}
-                                    className="w-full bg-[#6944ff] text-white px-4 py-2 rounded-full font-medium hover:bg-[#5933ff] transition-colors mt-4"
-                                    onClick={handleLogin}
-                                >
-                                    Iniciar Sesión
-                                </motion.button>
-                            )}
+                                        Iniciar Sesión
+                                    </Button>
+                                )}
+                            </div>
                         </div>
                     </motion.div>
                 )}
@@ -200,33 +219,24 @@ export default function Navbar() {
     )
 }
 
-function NavLink({ href, children, mobile = false }: { href: string; children: React.ReactNode; mobile?: boolean }) {
+function NavLink({
+    href,
+    children,
+    mobile
+}: {
+    href: string
+    children: React.ReactNode
+    mobile?: boolean
+}) {
     return (
-        <Link href={href}>
-            <motion.span
-                className={`${mobile ? 'block' : 'inline-block'
-                    } px-3 py-2 rounded-md text-base font-medium text-[#272727] hover:text-[#6944ff] hover:bg-gray-100`}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-            >
-                {children}
-            </motion.span>
-        </Link>
-    )
-}
-
-function ProfileMenuItem({ href, icon, children, mobile = false }: { href: string; icon: React.ReactNode; children: React.ReactNode; mobile?: boolean }) {
-    return (
-        <Link href={href}>
-            <motion.span
-                className={`${mobile ? 'block' : 'inline-block'
-                    } px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full flex items-center`}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-            >
-                {icon && <span className="mr-2">{icon}</span>}
-                {children}
-            </motion.span>
+        <Link
+            href={href}
+            className={cn(
+                "text-sm font-medium transition-colors hover:text-primary",
+                mobile && "flex w-full items-center"
+            )}
+        >
+            {children}
         </Link>
     )
 }
