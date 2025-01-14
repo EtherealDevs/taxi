@@ -4,11 +4,11 @@ import { useTranslation } from 'react-i18next';
 
 interface FormReservProps {
   onOpenModal: (inputName: 'departure' | 'destination' | 'extraStop') => void;
+  location: { departure: string; destination: string; extraStop: string };
 }
 
-export default function FormReserv({ onOpenModal }: FormReservProps) {
+export default function FormReserv({ onOpenModal, location }: FormReservProps) {
   const { t } = useTranslation();
-  const [location, setLocation] = useState({ departure: '', destination: '', extraStop: '' });
 
   return (
     <div className="flex-none w-full md:w-[400px] md:ml-auto sticky translate-x-9 top-0">

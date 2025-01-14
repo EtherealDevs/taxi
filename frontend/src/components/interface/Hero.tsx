@@ -75,7 +75,7 @@ export default function Hero() {
 
                 {/* Columna Derecha */}
                 <div className="bg-to-r from-cyan-500 to-blue-500">
-                    <FormReserv onOpenModal={handleOpenModal} />
+                    <FormReserv onOpenModal={handleOpenModal} location={location} />
                 </div>
             </div>
             {isModalOpen && <MapModal onClose={handleCloseModal} onSelectLocation={handleSelectLocation} />}
