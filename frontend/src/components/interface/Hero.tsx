@@ -40,12 +40,6 @@ export default function Hero() {
                         <p className="text-gray-600">{t('hero.safeTrips')}</p>
                     </div>
 
-                    <div>
-                        <p>Departure: {location.departure}</p>
-                        <p>Destination: {location.destination}</p>
-                        <p>Extra Stop: {location.extraStop}</p>
-                    </div>
-
                     <div className="flex flex-col md:flex-row gap-6 mt-8">
                         <div className="relative w-[180px] h-[180px]">
                             <Image
