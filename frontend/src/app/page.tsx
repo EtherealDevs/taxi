@@ -3,6 +3,7 @@ import TravelPosts from "../components/interface/TravelPosts";
 import HowItWorks from "../components/interface/HowItWorks";
 import Navbar from "@/components/Navbar";
 import TrustInUs from "@/components/interface/TrustInUs";
+import Footer from "@/components/Footer";
 /* import ReservationSection from './components/ReservationSection'
 import DriverCarousel from './components/DriverCarousel'
 import TravelPosts from './components/TravelPosts'
@@ -22,6 +23,7 @@ export default function Home() {
         <DriverCarousel />
          */}
       </main>
+      <Footer />
     </div>
   );
 }
