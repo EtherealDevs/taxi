@@ -11,9 +11,9 @@ import Footer from './components/Footer' */
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex flex-col min-h-screen bg-transparent">
       <Navbar />
-      <main className="flex-grow">
+      <main className="flex-grow bg-transparent">
         <Hero />
         <TravelPosts />
         <TrustInUs />
