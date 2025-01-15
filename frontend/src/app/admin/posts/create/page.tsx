@@ -51,7 +51,7 @@ export default function CreateBlogPost() {
             <CardContent className="p-6">
                 <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">Crear Nuevo Post</h1>
 
-                <Tabs defaultValue="content" className="w-full">
+                <Tabs defaultTab="content">
                     <TabsList className="grid w-full grid-cols-3 mb-8">
                         <TabsTrigger value="content">Contenido</TabsTrigger>
                         <TabsTrigger value="media">Multimedia</TabsTrigger>
@@ -214,4 +214,3 @@ export default function CreateBlogPost() {
         </Card>
     )
 }
-

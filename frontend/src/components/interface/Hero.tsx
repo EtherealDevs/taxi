@@ -4,7 +4,9 @@ import { useState } from 'react';
 
 import FormReserv from "../Reserv"
 import Image from "next/image"
-import MapModal from '../ui/MapModal';
+/* import MapModal from '../ui/MapModal'; */
+
+import { Globe } from '../anim/globe';
 
 export default function Hero() {
     const { t } = useTranslation();
@@ -87,6 +89,7 @@ export default function Hero() {
                         </div>
                     </div>
                 </div>
+                
 
                 {/* Columna Derecha */}
                 <div className="bg-to-r from-cyan-500 to-blue-500">
@@ -94,6 +97,9 @@ export default function Hero() {
                 </div>
             </div>
             {isMapModalOpen && <MapModal onClose={handleCloseMapModal} onSelectLocation={handleSelectLocation} />}
+            <div className="flex-1 absolute bottom-1 left-1/2 -translate-x-1/2">
+                    <Globe />
+                </div>
         </div>
     )
 }

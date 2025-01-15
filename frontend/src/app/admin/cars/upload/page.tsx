@@ -17,8 +17,20 @@ import {
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 
+interface CarInfo {
+    make: string
+    model: string
+    year: string
+    type: string
+    seats: string
+    transmission: string
+    fuelType: string
+    description: string
+    features: string[]
+}
+
 export default function UploadCarInfo() {
-    const [carInfo, setCarInfo] = useState({
+    const [carInfo, setCarInfo] = useState<CarInfo>({
         make: '',
         model: '',
         year: '',
@@ -239,4 +251,3 @@ export default function UploadCarInfo() {
         </Card>
     )
 }
-
