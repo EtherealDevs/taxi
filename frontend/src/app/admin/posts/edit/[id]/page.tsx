@@ -269,7 +269,7 @@ export default function EditBlogPost() {
                                     <Switch
                                         id="allowComments"
                                         checked={post.allowComments}
-                                        onCheckedChange={() => handleSwitchChange('allowComments')}
+                                        onChange={() => handleSwitchChange('allowComments')}
                                     />
                                 </div>
 
@@ -280,7 +280,7 @@ export default function EditBlogPost() {
                                     <Switch
                                         id="isFeatured"
                                         checked={post.isFeatured}
-                                        onCheckedChange={() => handleSwitchChange('isFeatured')}
+                                        onChange={() => handleSwitchChange('isFeatured')}
                                     />
                                 </div>
                             </div>

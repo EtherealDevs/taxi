@@ -27,7 +27,6 @@ interface Booking {
 
 export default function BookingsPage() {
     const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null)
-    const [isDialogOpen, setIsDialogOpen] = useState(false)
 
     const bookings: Booking[] = [
         {
@@ -119,20 +118,12 @@ export default function BookingsPage() {
                                         {booking.price}
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        {/*
-                                          El componente Dialog maneja la apertura del modal
-                                          y, al hacer click en Ver detalles, 
-                                          seteamos la reserva seleccionada y abrimos el modal.
-                                        */}
                                         <Dialog>
                                             <DialogTrigger asChild>
                                                 <Button
                                                     variant="outline"
                                                     size="sm"
-                                                    onClick={() => {
-                                                        setSelectedBooking(booking)
-                                                        setIsDialogOpen(true)
-                                                    }}
+                                                    onClick={() => setSelectedBooking(booking)}
                                                 >
                                                     <Eye className="w-4 h-4 mr-2" />
                                                     Ver detalles
@@ -146,15 +137,10 @@ export default function BookingsPage() {
                                                             Detalles de la Reserva #{selectedBooking.id}
                                                         </DialogTitle>
 
-                                                        {/*
-                                                        Aquí tienes el botón que cierra el modal
-                                                        con el ícono X de lucide-react.
-                                                        */}
                                                         <Button
                                                             variant="ghost"
                                                             size="icon"
                                                             className="absolute right-4 top-4"
-                                                            onClick={() => setIsDialogOpen(false)}
                                                         >
                                                             <X className="h-4 w-4" />
                                                         </Button>
@@ -241,4 +227,3 @@ export default function BookingsPage() {
         </div>
     )
 }
-

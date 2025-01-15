@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
 export default function Navbar() {
-    const { t, i18n } = useTranslation()
+    const {  i18n } = useTranslation()
     const [isOpen, setIsOpen] = useState(false)
     const [isLoggedIn, setIsLoggedIn] = useState(false)
 
