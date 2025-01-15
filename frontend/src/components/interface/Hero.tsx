@@ -8,25 +8,28 @@ import MapModal from '../ui/MapModal';
 
 export default function Hero() {
     const { t } = useTranslation();
-    const [isModalOpen, setIsModalOpen] = useState(false);
     const [activeInput, setActiveInput] = useState<'departure' | 'destination' | 'extraStop' | null>(null);
     const [location, setLocation] = useState({ departure: '', destination: '', extraStop: '' });
+    const [isMapModalOpen, setIsMapModalOpen] = useState(false);
 
     const handleOpenModal = (inputName: 'departure' | 'destination' | 'extraStop') => {
         setActiveInput(inputName);
-        setIsModalOpen(true);
+        setIsMapModalOpen(true);
     };
 
-    const handleCloseModal = () => {
-        setIsModalOpen(false);
+    const handleCloseMapModal = () => {
+        setIsMapModalOpen(false);
         setActiveInput(null);
     };
 
     const handleSelectLocation = (lat: number, lng: number) => {
         if (activeInput) {
-            setLocation({ ...location, [activeInput]: `${lat}, ${lng}` });
+            setLocation(prevLocation => ({
+                ...prevLocation,
+                [activeInput]: `${lat}, ${lng}`
+            }));
         }
-        handleCloseModal();
+        handleCloseMapModal();
     };
 
     return (
@@ -65,6 +68,24 @@ export default function Hero() {
                             </div>
                         </div>
                     </div>
+                    <div className="flex justify-between mt-8">
+                        <div className="text-center">
+                            <p className="text-3xl font-bold text-gray-900">100%</p>
+                            <p className="text-gray-600">{t('hero.security')}</p>
+                        </div>
+                        <div className="text-center">
+                            <p className="text-3xl font-bold text-gray-900">+200</p>
+                            <p className="text-gray-600">{t('hero.trayectory')}</p>
+                        </div>
+                        <div className="text-center">
+                            <p className="text-3xl font-bold text-gray-900">4.5</p>
+                            <p className="text-gray-600">{t('hero.quality')}</p>
+                        </div>
+                        <div className="text-center">
+                            <p className="text-3xl font-bold text-gray-900">5 {t('hero.years')}</p>
+                            <p className="text-gray-600">{t('hero.experience')}</p>
+                        </div>
+                    </div>
                 </div>
 
                 {/* Columna Derecha */}
@@ -72,7 +93,7 @@ export default function Hero() {
                     <FormReserv onOpenModal={handleOpenModal} location={location} />
                 </div>
             </div>
-            {isModalOpen && <MapModal onClose={handleCloseModal} onSelectLocation={handleSelectLocation} />}
+            {isMapModalOpen && <MapModal onClose={handleCloseMapModal} onSelectLocation={handleSelectLocation} />}
         </div>
     )
 }
