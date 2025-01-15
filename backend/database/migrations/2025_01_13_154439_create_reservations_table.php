@@ -15,9 +15,12 @@ return new class extends Migration
             $table->id();
             $table->date('date_start');
             $table->time('time_start');
-            $table->string('code');
+            $table->string('code')->nullable();
+            $table->enum('status', ['waiting', 'accept', 'complete', 'cancel']);
             $table->string('name');
-            $table->foreignId('user_id')->constrained('users');
+            $table->string('phone');
+            $table->foreignId('user_id')->nullable()->constrained('users');
+            $table->foreignId('driver_id')->constrained('drivers');
             $table->timestamps();
         });
     }
