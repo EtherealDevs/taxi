@@ -4,6 +4,7 @@ import '../config/i18n';
 import Stars from "../components/Stars";/*
 /* import { genos } from "@/config/fonts";
  */
+import SocialMediaLinks from "@/components/ui/socialMedia";
 
 export default function RootLayout({
   children,
@@ -28,6 +29,7 @@ export default function RootLayout({
 
         <main className="relative z-10 min-h-screen bg-transparent">
           {children}
+          <SocialMediaLinks />
         </main>
       </body>
     </html>
