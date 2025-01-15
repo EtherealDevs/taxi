@@ -32,7 +32,7 @@ class DriverController extends Controller
             'phone_number' => 'required|string',
             'lenguages' => 'required|string',
             'rating' => 'numeric',
-            'user_id' => 'exists:users,id'
+            'user_id' => 'exists:users,id|nullable'
         ]);
         if ($validator->fails()) {
             $data = [

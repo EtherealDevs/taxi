@@ -30,7 +30,7 @@ class PostController extends Controller
             'title' => 'required|string',
             'content' => 'required|string',
             'extract' => 'required|string',
-            // 'image' => 'required|mimes:jpg,jpeg,png,gif',
+            'image' => 'required',
             'slug' => 'required|unique,string'
         ]);
         if ($validator->fails()) {
@@ -41,7 +41,11 @@ class PostController extends Controller
             return response()->json($data, 422);
         }
         $post = Post::create($request->only(['title', 'content', 'extract', 'slug']));
-        // $post->image()->create(['image' => $request->file('image')->store()]);
+        if ($request->image) {
+            foreach ($request->image as $image) {
+                $post->images()->create(['url' => $image]);
+            }
+        }
         $data = [
             'status' => 201,
             'message' => 'Post created successfully',
@@ -80,7 +84,6 @@ class PostController extends Controller
             'title' => 'string',
             'content' => 'string',
             'extract' => 'string',
-            // 'image' => 'mimes:jpg,jpeg,png,gif',
             'slug' => 'unique:string,post_id,' . $id
         ]);
         if ($validator->fails()) {
@@ -101,10 +104,11 @@ class PostController extends Controller
         $post->update(
             $request->only(['title', 'content', 'extract', 'slug'])
         );
-        // if ($request->hasFile('image')) {
-        //     $post->image()->delete();
-        //     $post->image()->save($request->file('image'));
-        // }
+        if ($request->image) {
+            foreach ($request->image as $image) {
+                $post->images()->create(['url' => $image]);
+            }
+        }
         $data = [
             'message' => 'Post updated successfully',
             'status' => 200,
@@ -126,7 +130,9 @@ class PostController extends Controller
             ];
             return response()->json($data, 404);
         }
-        // logica para borrar imagen
+        foreach ($post->images() as $image) {
+            $image->delete();
+        }
         $post->delete();
         $data = [
             'message' => 'Post deleted successfully',

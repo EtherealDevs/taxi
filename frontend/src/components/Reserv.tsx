@@ -10,6 +10,8 @@ interface FormReservProps {
 export default function FormReserv({ onOpenModal, location }: FormReservProps) {
   const { t } = useTranslation();
   const [extraStops, setExtraStops] = useState<string[]>(['']);
+  const [date, setDate] = useState('');
+  const [time, setTime] = useState('');
 
   const handleAddExtraStop = () => {
     setExtraStops([...extraStops, '']);
@@ -21,6 +23,22 @@ export default function FormReserv({ onOpenModal, location }: FormReservProps) {
     setExtraStops(newExtraStops);
   };
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    let message = `Hola, me gustaría reservar un viaje desde ${location.departure} hasta ${location.destination}.`;
+
+    const extraStopsMessage = extraStops.filter(stop => stop.trim() !== '').join(', ');
+    if (extraStopsMessage) {
+      message += ` Paradas extra: ${extraStopsMessage}.`;
+    }
+
+    message += ` Fecha: ${date}. Hora: ${time}.`;
+
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappLink = `https://wa.me/34123456789?text=${encodedMessage}`;
+    window.open(whatsappLink, '_blank');
+  };
+
   return (
     <div className="flex-none w-full md:w-[400px] md:ml-auto sticky translate-x-9 top-0">
       <div className="w-full border-[#4263EB] border-2 rounded-[2rem] p-8 bg-white shadow-lg">
@@ -28,7 +46,7 @@ export default function FormReserv({ onOpenModal, location }: FormReservProps) {
           {t('reserv.countries')}
         </div>
         <h2 className="text-2xl font-bold mb-8">{t('reserv.bookYourTrip')}</h2>
-        <form className="space-y-6">
+        <form className="space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-6">
             <div className="relative">
               <MapPin className="absolute left-4 top-3.5 h-5 w-5 text-gray-400" />
@@ -51,7 +69,6 @@ export default function FormReserv({ onOpenModal, location }: FormReservProps) {
                   className="w-full pl-12 py-3 rounded-2xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#4263EB] focus:border-transparent"
                   value={stop}
                   onChange={(e) => handleExtraStopChange(index, e.target.value)}
-                  onClick={() => onOpenModal('extraStop')}
                 />
               </div>
             ))}
@@ -85,6 +102,8 @@ export default function FormReserv({ onOpenModal, location }: FormReservProps) {
                 <input
                   type="date"
                   className="w-full py-3 px-4 rounded-2xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#4263EB] focus:border-transparent"
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
                 />
               </div>
               <div className="relative">
@@ -92,6 +111,8 @@ export default function FormReserv({ onOpenModal, location }: FormReservProps) {
                 <input
                   type="time"
                   className="w-full pl-12 py-3 rounded-2xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#4263EB] focus:border-transparent"
+                  value={time}
+                  onChange={(e) => setTime(e.target.value)}
                 />
               </div>
             </div>
@@ -102,7 +123,7 @@ export default function FormReserv({ onOpenModal, location }: FormReservProps) {
               type="submit"
               className="w-full py-3 bg-[#4263EB] hover:bg-[#3651c9] text-white rounded-2xl font-medium"
             >
-              {t('reserv.startTrip')}
+              Enviar a WhatsApp
             </button>
             <button
               type="button"

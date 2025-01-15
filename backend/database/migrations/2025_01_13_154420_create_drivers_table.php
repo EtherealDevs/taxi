@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('lastname');
             $table->string('phone_number');
             $table->string('lenguages');
-            $table->decimal('rating');
-            $table->foreignId('user_id')->constrained('users')->nullable();
+            $table->decimal('rating')->nullable();
+            $table->foreignId('user_id')->nullable()->constrained('users');
             $table->timestamps();
         });
     }
