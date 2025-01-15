@@ -1,14 +1,12 @@
-import React, { useState } from 'react';
+'use client'
+
+import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-
-// Configura los iconos de Leaflet correctamente
-L.Icon.Default.mergeOptions({
-    iconRetinaUrl: import('leaflet/dist/images/marker-icon-2x.png'),
-    iconUrl: import('leaflet/dist/images/marker-icon.png'),
-    shadowUrl: import('leaflet/dist/images/marker-shadow.png'),
-});
+import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
+import markerIcon from 'leaflet/dist/images/marker-icon.png';
+import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 
 interface MapModalProps {
     onClose: () => void;
@@ -17,6 +15,14 @@ interface MapModalProps {
 
 const MapModal: React.FC<MapModalProps> = ({ onClose, onSelectLocation }) => {
     const [position, setPosition] = useState<[number, number] | null>(null);
+    
+    useEffect(() => {
+        L.Icon.Default.mergeOptions({
+            iconRetinaUrl: markerIcon2x.src,
+            iconUrl: markerIcon.src,
+            shadowUrl: markerShadow.src,
+        });
+    }, []);
 
     const LocationMarker = () => {
         useMapEvents({

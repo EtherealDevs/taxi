@@ -18,7 +18,7 @@ const Stars: React.FC = () => {
 
   const generateStars = useCallback(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas || typeof window === 'undefined') return;
 
     const numStars = 100;
     const stars: Star[] = [];
@@ -39,7 +39,7 @@ const Stars: React.FC = () => {
 
   const handleResize = useCallback(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas || typeof window === 'undefined') return;
 
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -65,6 +65,8 @@ const Stars: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+
     handleResize();
     window.addEventListener('resize', handleResize);
 
