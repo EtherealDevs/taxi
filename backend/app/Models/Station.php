@@ -14,10 +14,12 @@ class Station extends Model
         'country',
         'latitude',
         'longitude',
-        'reservation_id'
+        'reservation_id',
+        'observations'
     ];
 
-    public function reservation():BelongsTo{
+    public function reservation(): BelongsTo
+    {
         return $this->belongsTo(Reservation::class);
     }
 }

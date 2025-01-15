@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Reservation;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -16,6 +17,22 @@ class ReservationController extends Controller
         //
     }
 
+    public function generateRandomCode()
+    {
+        // Configuración del código aleatorio
+        $length = 4; // Longitud del código
+        $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'; // Caracteres permitidos
+        $randomCode = '';
+
+        // Generar el código aleatorio
+        for ($i = 0; $i < $length; $i++) {
+            $index = rand(0, strlen($characters) - 1);
+            $randomCode .= $characters[$index];
+        }
+
+        return $randomCode;
+    }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -25,7 +42,9 @@ class ReservationController extends Controller
             'date_start' => 'required|date',
             'time_start' => 'required',
             'name' => 'string',
-            'user_id' => 'exists:users,id'
+            'phone' => 'required|string',
+            'user_id' => 'exists:users,id',
+            'driver_id' => 'required|exists:drivers,id'
         ]);
         if ($validator->fails()) {
             $date = [
@@ -35,8 +54,22 @@ class ReservationController extends Controller
             ];
             return response()->json($date, 422);
         }
-        //logica de generador de codigo
-        $reservation = Reservation::create($request->all());
+        $user = User::find($request->user_id);
+        if ($user) {
+            $request['name'] = $user->name;
+        }
+        $reservation = Reservation::create([
+            'date_start' => $request->date_start,
+            'time_start' => $request->time_start,
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'user_id' => $request->user_id,
+            'driver_id' => $request->driver_id,
+            'status' => 1,
+        ]);
+        $code = $this->generateRandomCode();
+        $code = $reservation->id . '-' . $code;
+        $reservation->update(['code' => $code]);
         //logica de station
         $date = [
             'status' => 200,
@@ -75,7 +108,9 @@ class ReservationController extends Controller
         $validator = Validator::make($request->all(), [
             'date_start' => 'date',
             'name' => 'string',
-            'user_id' => 'exists:users,id'
+            'phone' => 'string',
+            'user_id' => 'exists:users,id',
+            'driver_id' => 'exists:drivers,id'
         ]);
         if ($validator->fails()) {
             $date = [

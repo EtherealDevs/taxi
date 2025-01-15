@@ -6,8 +6,12 @@ import FormReserv from "../Reserv"
 import Image from "next/image"
 /* import MapModal from '../ui/MapModal'; */
 
-import { Globe } from '../anim/globe';
+/* const Globe = dynamic(
+    () => import('../anim/globe').then((mod) => mod.Globe),
+    { ssr: false } // Disable server-side rendering for this component
+); */
 import MapModal from '../ui/MapModal';
+/* import dynamic from 'next/dynamic'; */
 
 export default function Hero() {
     const { t } = useTranslation();
@@ -97,9 +101,9 @@ export default function Hero() {
                 </div>
             </div>
             {isMapModalOpen && <MapModal onClose={handleCloseMapModal} onSelectLocation={handleSelectLocation} />}
-            <div className="flex-1 absolute bottom-1 left-1/2 -translate-x-1/2">
+            {/* <div className="flex-1 absolute bottom-1 left-1/2 -translate-x-1/2">
                 <Globe />
-            </div>
+            </div> */}
         </div>
     )
 }

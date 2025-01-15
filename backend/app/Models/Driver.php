@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Driver extends Model
@@ -16,7 +17,13 @@ class Driver extends Model
         'user_id'
     ];
 
-    public function cars(): BelongsToMany{
+    public function cars(): BelongsToMany
+    {
         return $this->belongsToMany(Car::class);
+    }
+
+    public function reservation(): BelongsTo
+    {
+        return $this->belongsTo(Reservation::class);
     }
 }
