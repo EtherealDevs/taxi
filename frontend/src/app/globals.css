@@ -70,3 +70,62 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+
+
+:root {
+--primary: #6944ff;
+--primary-hover: #5933ff;
+--background: #ffffff;
+--foreground: #000000;
+--muted: #f0f0f0;
+--muted-foreground: #272727;
+}
+
+.dark {
+--background: #1a1a1a;
+--foreground: #ffffff;
+--muted: #2a2a2a;
+--muted-foreground: #a0a0a0;
+}
+
+html,
+body {
+height: 100%;
+background-color: var(--background);
+color: var(--foreground);
+}
+
+@layer base {
+body {
+  @apply antialiased;
+}
+}
+
+@keyframes collapsible-down {
+from {
+  height: 0;
+}
+to {
+  height: var(--radix-collapsible-content-height);
+}
+}
+
+@keyframes collapsible-up {
+from {
+  height: var(--radix-collapsible-content-height);
+}
+to {
+  height: 0;
+}
+}
+
+.animate-collapsible-down {
+animation: collapsible-down 0.2s ease-out;
+}
+
+.animate-collapsible-up {
+animation: collapsible-up 0.2s ease-out;
+}
+
+

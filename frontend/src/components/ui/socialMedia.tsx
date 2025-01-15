@@ -9,7 +9,7 @@ export default function SocialMediaLinks() {
     const toggleOpen = () => setIsOpen(!isOpen)
 
     return (
-        <div className="fixed bottom-4 right-1 z-50">
+        <div className="absolute bg-red-500 h-screen bottom-4 right-1 z-50">
             <button
                 onClick={toggleOpen}
                 className="bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition duration-300"

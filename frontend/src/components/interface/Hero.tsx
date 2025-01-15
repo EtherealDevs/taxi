@@ -1,18 +1,14 @@
 'use client'
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
+import dynamic from 'next/dynamic';
 
 import FormReserv from "../Reserv"
 import Image from "next/image"
-/* import MapModal from '../ui/MapModal'; */
 
-/* const Globe = dynamic(
-    () => import('../anim/globe').then((mod) => mod.Globe),
-    { ssr: false } // Disable server-side rendering for this component
-); */
-import MapModal from '../ui/MapModal';
-/* import dynamic from 'next/dynamic'; */
-
+const MapModal = dynamic(() => import('../ui/MapModal'), {
+    ssr: false,
+});
 export default function Hero() {
     const { t } = useTranslation();
     const [activeInput, setActiveInput] = useState<'departure' | 'destination' | 'extraStop' | null>(null);
@@ -101,9 +97,6 @@ export default function Hero() {
                 </div>
             </div>
             {isMapModalOpen && <MapModal onClose={handleCloseMapModal} onSelectLocation={handleSelectLocation} />}
-            {/* <div className="flex-1 absolute bottom-1 left-1/2 -translate-x-1/2">
-                <Globe />
-            </div> */}
         </div>
     )
 }

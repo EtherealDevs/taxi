@@ -108,6 +108,12 @@ export default function Navbar() {
                                                 <span>Panel de administración</span>
                                             </Link>
                                         </DropdownMenuItem>
+                                        <DropdownMenuItem asChild>
+                                            <Link href="/my-reservations" className="flex items-center">
+                                                <LayoutDashboard className="mr-2 h-4 w-4" />
+                                                <span>Mis Reservas</span>
+                                            </Link>
+                                        </DropdownMenuItem>
                                         <DropdownMenuItem onClick={handleLogout}>
                                             <LogOut className="mr-2 h-4 w-4" />
                                             <span>Cerrar sesión</span>
@@ -189,6 +195,12 @@ export default function Navbar() {
                                             <Button variant="outline" size="sm" className="w-full justify-start">
                                                 <LayoutDashboard className="mr-2 h-4 w-4" />
                                                 Panel de administración
+                                            </Button>
+                                        </Link>
+                                        <Link href="/my-reservations">
+                                            <Button variant="outline" size="sm" className="w-full justify-start">
+                                                <LayoutDashboard className="mr-2 h-4 w-4" />
+                                                Mis Reservas
                                             </Button>
                                         </Link>
                                         <Button
