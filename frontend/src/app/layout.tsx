@@ -1,9 +1,7 @@
 "use client";
 import "../styles/globals.css";
 import '../config/i18n';
-import Stars from "../components/Stars";/*
-/* import { genos } from "@/config/fonts";
- */
+import Stars from "../components/Stars";
 import SocialMediaLinks from "@/components/ui/socialMedia";
 
 export default function RootLayout({
@@ -25,7 +23,6 @@ export default function RootLayout({
         >
           <Stars />
         </div>
-
 
         <main className="relative z-10 min-h-screen bg-transparent">
           {children}

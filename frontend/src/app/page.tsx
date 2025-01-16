@@ -5,11 +5,7 @@ import Navbar from "@/components/Navbar";
 import TrustInUs from "@/components/interface/TrustInUs";
 import Footer from "@/components/Footer";
 import Contact from "@/components/interface/Contact";
-/* import ReservationSection from './components/ReservationSection'
-import DriverCarousel from './components/DriverCarousel'
-import TravelPosts from './components/TravelPosts'
-import HowItWorks from './components/HowItWorks'
-import Footer from './components/Footer' */
+import Reviews from "@/components/interface/Reviews";
 
 export default function Home() {
   return (
@@ -17,16 +13,17 @@ export default function Home() {
       <Navbar />
       <main className="flex-grow bg-transparent">
         <Hero />
-        <div className="h-screen snap-center grid grid-cols-2">
-
+        <div className="h-screen snap-center grid grid-cols-5">
+          <div className="col-span-2">
+            <TravelPosts />
+          </div>
+          <div className="col-span-3">
+            <Reviews />
+          </div>
         </div>
-        <TravelPosts />
         <TrustInUs />
         <HowItWorks />
         <Contact />
-        {/* <ReservationSection />
-        <DriverCarousel />
-         */}
       </main>
       <Footer />
     </div>
