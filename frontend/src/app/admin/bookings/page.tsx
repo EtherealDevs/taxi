@@ -1,5 +1,6 @@
 'use client'
 
+import dynamic from 'next/dynamic'
 import { useState } from 'react'
 import { Eye, MapPin, Calendar, Clock, User, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -18,12 +19,20 @@ interface Booking {
     driver: string
     origin: string
     destination: string
+    originCoords: [number, number]
+    destinationCoords: [number, number]
     date: string
     time: string
     status: string
     price: string
     paymentStatus: string
 }
+
+// Dynamic import of BookingMap to avoid SSR issues with Leaflet
+const BookingMap = dynamic(() => import('@/components/BookingMap'), {
+    ssr: false,
+    loading: () => <div className="h-[400px] w-full bg-gray-100 dark:bg-neutral-700 rounded-lg animate-pulse" />
+})
 
 export default function BookingsPage() {
     const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null)
@@ -35,6 +44,8 @@ export default function BookingsPage() {
             driver: 'Juan Pérez',
             origin: 'Buenos Aires, Argentina',
             destination: 'Montevideo, Uruguay',
+            originCoords: [-34.6037, -58.3816],
+            destinationCoords: [-34.9011, -56.1645],
             date: '2023-05-15',
             time: '09:00',
             status: 'Completado',
@@ -47,6 +58,8 @@ export default function BookingsPage() {
             driver: 'María García',
             origin: 'Santiago, Chile',
             destination: 'Mendoza, Argentina',
+            originCoords: [-33.4489, -70.6693],
+            destinationCoords: [-32.8908, -68.8272],
             date: '2023-05-16',
             time: '14:30',
             status: 'En progreso',
@@ -59,6 +72,8 @@ export default function BookingsPage() {
             driver: 'Carlos Rodríguez',
             origin: 'Lima, Perú',
             destination: 'Cusco, Perú',
+            originCoords: [-12.0464, -77.0428],
+            destinationCoords: [-13.5319, -71.9675],
             date: '2023-05-17',
             time: '08:00',
             status: 'Pendiente',
@@ -131,7 +146,7 @@ export default function BookingsPage() {
                                             </DialogTrigger>
 
                                             {selectedBooking && (
-                                                <DialogContent>
+                                                <DialogContent className="max-w-3xl">
                                                     <DialogHeader>
                                                         <DialogTitle>
                                                             Detalles de la Reserva #{selectedBooking.id}
@@ -146,70 +161,48 @@ export default function BookingsPage() {
                                                         </Button>
                                                     </DialogHeader>
 
-                                                    <div className="space-y-4">
-                                                        <div>
-                                                            <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">
-                                                                Información del Viaje
-                                                            </h4>
-                                                            <div className="space-y-2">
-                                                                <div className="flex items-center">
-                                                                    <MapPin className="w-4 h-4 mr-2 text-gray-400" />
-                                                                    <span className="text-sm">
-                                                                        Origen: {selectedBooking.origin}
-                                                                    </span>
-                                                                </div>
-                                                                <div className="flex items-center">
-                                                                    <MapPin className="w-4 h-4 mr-2 text-gray-400" />
-                                                                    <span className="text-sm">
-                                                                        Destino: {selectedBooking.destination}
-                                                                    </span>
-                                                                </div>
-                                                                <div className="flex items-center">
-                                                                    <Calendar className="w-4 h-4 mr-2 text-gray-400" />
-                                                                    <span className="text-sm">
-                                                                        Fecha: {selectedBooking.date}
-                                                                    </span>
-                                                                </div>
-                                                                <div className="flex items-center">
-                                                                    <Clock className="w-4 h-4 mr-2 text-gray-400" />
-                                                                    <span className="text-sm">
-                                                                        Hora: {selectedBooking.time}
-                                                                    </span>
-                                                                </div>
+                                                    <div className="grid gap-6 py-4">
+                                                        <div className="grid gap-2">
+                                                            <div className="flex items-center gap-2 text-sm">
+                                                                <User className="w-4 h-4" />
+                                                                <span className="font-medium">Usuario:</span>
+                                                                {selectedBooking.user}
+                                                            </div>
+                                                            <div className="flex items-center gap-2 text-sm">
+                                                                <User className="w-4 h-4" />
+                                                                <span className="font-medium">Chofer:</span>
+                                                                {selectedBooking.driver}
+                                                            </div>
+                                                            <div className="flex items-center gap-2 text-sm">
+                                                                <Calendar className="w-4 h-4" />
+                                                                <span className="font-medium">Fecha:</span>
+                                                                {selectedBooking.date}
+                                                            </div>
+                                                            <div className="flex items-center gap-2 text-sm">
+                                                                <Clock className="w-4 h-4" />
+                                                                <span className="font-medium">Hora:</span>
+                                                                {selectedBooking.time}
                                                             </div>
                                                         </div>
-                                                        <div>
-                                                            <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">
-                                                                Información del Usuario
-                                                            </h4>
-                                                            <div className="flex items-center">
-                                                                <User className="w-4 h-4 mr-2 text-gray-400" />
-                                                                <span className="text-sm">
-                                                                    {selectedBooking.user}
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                        <div>
-                                                            <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">
-                                                                Información de Pago
-                                                            </h4>
-                                                            <div className="space-y-2">
-                                                                <div className="flex justify-between">
-                                                                    <span className="text-sm">Precio:</span>
-                                                                    <span className="text-sm font-medium">
-                                                                        {selectedBooking.price}
-                                                                    </span>
+
+                                                        <div className="space-y-4">
+                                                            <h3 className="text-lg font-semibold">Ubicaciones</h3>
+                                                            <BookingMap
+                                                                originCoords={selectedBooking.originCoords}
+                                                                destinationCoords={selectedBooking.destinationCoords}
+                                                                originName={selectedBooking.origin}
+                                                                destinationName={selectedBooking.destination}
+                                                            />
+                                                            <div className="grid gap-2 mt-2">
+                                                                <div className="flex items-center gap-2 text-sm">
+                                                                    <MapPin className="w-4 h-4 text-green-500" />
+                                                                    <span className="font-medium">Origen:</span>
+                                                                    {selectedBooking.origin}
                                                                 </div>
-                                                                <div className="flex justify-between">
-                                                                    <span className="text-sm">Estado del pago:</span>
-                                                                    <span
-                                                                        className={`text-sm font-medium ${selectedBooking.paymentStatus === 'Pagado'
-                                                                            ? 'text-green-600 dark:text-green-400'
-                                                                            : 'text-yellow-600 dark:text-yellow-400'
-                                                                            }`}
-                                                                    >
-                                                                        {selectedBooking.paymentStatus}
-                                                                    </span>
+                                                                <div className="flex items-center gap-2 text-sm">
+                                                                    <MapPin className="w-4 h-4 text-red-500" />
+                                                                    <span className="font-medium">Destino:</span>
+                                                                    {selectedBooking.destination}
                                                                 </div>
                                                             </div>
                                                         </div>
