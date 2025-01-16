@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
@@ -31,7 +32,7 @@ class PostController extends Controller
             'content' => 'required|string',
             'extract' => 'required|string',
             'image' => 'required',
-            'slug' => 'required|unique,string'
+            'slug' => 'required|unique:posts,slug|string'
         ]);
         if ($validator->fails()) {
             $data = [
@@ -43,7 +44,8 @@ class PostController extends Controller
         $post = Post::create($request->only(['title', 'content', 'extract', 'slug']));
         if ($request->image) {
             foreach ($request->image as $image) {
-                $post->images()->create(['url' => $image]);
+                $path = $image->store('images');
+                $post->images()->create(['url' => $path]);
             }
         }
         $data = [

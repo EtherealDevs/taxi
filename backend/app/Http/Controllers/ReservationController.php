@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Reservation;
+use App\Models\Station;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -14,7 +15,12 @@ class ReservationController extends Controller
      */
     public function index()
     {
-        //
+        $reservations = Reservation::all();
+        $date = [
+            'reservations' => $reservations,
+            'status' => 200
+        ];
+        return response()->json($date, 200);
     }
 
     public function generateRandomCode()
@@ -70,7 +76,21 @@ class ReservationController extends Controller
         $code = $this->generateRandomCode();
         $code = $reservation->id . '-' . $code;
         $reservation->update(['code' => $code]);
-        //logica de station
+
+        foreach ($request->stations as $station) {
+            Station::create(
+                [
+                    'reservation_id' => $reservation->id,
+                    'name' => $reservation->name,
+                    'address' => $station['address'],
+                    'city' => $station['city'],
+                    'country' => $station['country'],
+                    'latitude' => $station['latitude'],
+                    'longitude' => $station['longitude'],
+                    'observations' => $station['observations']
+                ]
+            );
+        }
         $date = [
             'status' => 200,
             'message' => 'reservation created',
