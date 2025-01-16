@@ -22,7 +22,7 @@ export default function Contacto() {
     }
 
     return (
-        <div className="bg-gray-100 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+        <div className="bg-transparent min-h-screen py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-5xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
                 <div className="lg:flex">
                     <div className="lg:w-1/2 bg-gray-900 text-white p-8 lg:p-12">

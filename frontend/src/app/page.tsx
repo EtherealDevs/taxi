@@ -13,7 +13,7 @@ export default function Home() {
       <Navbar />
       <main className="flex-grow bg-transparent">
         <Hero />
-        <div className="h-screen snap-center grid grid-cols-5">
+        <div className="h-screen snap-center grid grid-cols-5 gap-2">
           <div className="col-span-2">
             <TravelPosts />
           </div>
