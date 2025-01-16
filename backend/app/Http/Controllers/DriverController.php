@@ -30,7 +30,7 @@ class DriverController extends Controller
             'name' => 'required|string',
             'lastname' => 'required|string',
             'phone_number' => 'required|string',
-            'lenguages' => 'required|string',
+            'languages' => 'required|string',
             'rating' => 'numeric',
             'user_id' => 'exists:users,id|nullable'
         ]);

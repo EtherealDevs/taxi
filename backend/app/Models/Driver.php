@@ -2,17 +2,19 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Driver extends Model
 {
+    use HasFactory;
     protected $fillable = [
         'name',
         'lastname',
         'phone_number',
-        'lenguages',
+        'languages',
         'rating',
         'user_id'
     ];
