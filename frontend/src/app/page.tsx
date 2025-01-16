@@ -15,10 +15,10 @@ export default function Home() {
         <Hero />
         <div className="h-screen snap-center grid grid-cols-5 gap-2">
           <div className="col-span-2">
-            <TravelPosts />
+          <Reviews />
           </div>
           <div className="col-span-3">
-            <Reviews />
+          <TravelPosts />
           </div>
         </div>
         <TrustInUs />
