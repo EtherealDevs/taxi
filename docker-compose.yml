@@ -1,0 +1,81 @@
+version: "3.8"
+
+services:
+  # Servicio para Laravel
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: laravel_app
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - ./backend:/var/www
+    networks:
+      - app-network
+    depends_on:
+      - mysql
+    environment:
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_DATABASE=laravel
+      - DB_USERNAME=root
+      - DB_PASSWORD=root
+
+  # Servicio para Next.js
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: nextjs_app
+    restart: unless-stopped
+    volumes:
+      - ./frontend:/app
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+    depends_on:
+      - backend
+
+  # Servicio para MySQL
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - app-network
+
+  # Servicio para Nginx
+  nginx:
+    image: nginx:alpine
+    container_name: nginx_server
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./backend:/var/www
+    networks:
+      - app-network
+    depends_on:
+      - backend
+      - frontend
+
+# Volúmenes
+volumes:
+  mysql_data:
+
+# Red
+networks:
+  app-network:
+    driver: bridge

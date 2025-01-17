@@ -146,7 +146,7 @@ export default function BookingsPage() {
                                             </DialogTrigger>
 
                                             {selectedBooking && (
-                                                <DialogContent className="max-w-3xl">
+                                                <DialogContent>
                                                     <DialogHeader>
                                                         <DialogTitle>
                                                             Detalles de la Reserva #{selectedBooking.id}

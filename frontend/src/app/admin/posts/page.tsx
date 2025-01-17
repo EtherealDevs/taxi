@@ -7,14 +7,24 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import axios from "axios";
+
+interface Post {
+  id: string;
+  title: string;
+  image: string;
+  extract: string;
+  created_at: string;
+  // Agrega otras propiedades que sean necesarias
+}
+
 export default function BlogPage() {
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState<Post[]>([]);
 
   useEffect(() => {
     fetchData();
   }, []);
-  const formatDate = (date) => {
-    const options = {
+  const formatDate = (date: Date) => {
+    const options: Intl.DateTimeFormatOptions = {
       year: "numeric",
       month: "long",
       day: "numeric",
@@ -70,18 +80,9 @@ export default function BlogPage() {
                 {post.extract}
               </p>
               <div className="flex justify-between items-center text-sm text-gray-500 dark:text-gray-400">
-                <span>{formatDate(post.created_at)}</span>
+                <span>{formatDate(new Date(post.created_at))}</span>
               </div>
               <div className="mt-4 flex justify-between items-center">
-                {/* <span
-                  className={`px-3 py-1 rounded-full text-xs ${
-                    post.status === "Publicado"
-                      ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
-                      : "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
-                  }`}
-                >
-                  {post.status}
-                </span> */}
                 <div className="flex gap-2">
                   <Link href={`/admin/posts/edit/${post.id}`}>
                     <Button variant="outline" size="sm">

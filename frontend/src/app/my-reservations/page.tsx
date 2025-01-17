@@ -111,118 +111,111 @@ export default function MyReservations() {
                                 <span>{reservation.origin} → {reservation.destination}</span>
                             </div>
                         </div>
-                        <Dialog open={isDialogOpen && selectedReservation?.id === reservation.id}>
-                            <DialogTrigger asChild>
-                                <Button
-                                    variant="outline"
-                                    onClick={() => {
-                                        setSelectedReservation(reservation)
-                                        setIsDialogOpen(true)
-                                    }}
-                                >
-                                    Ver detalles
-                                </Button>
-                            </DialogTrigger>
-                            <DialogContent className="sm:max-w-[500px]">
-                                <div className="absolute right-4 top-4">
-                                    <Button
-                                        variant="ghost"
-                                        size="icon"
-                                        onClick={() => setIsDialogOpen(false)}
-                                    >
-                                        <X className="h-4 w-4" />
-                                    </Button>
-                                </div>
-
-                                <div className="flex flex-col items-center pt-6 pb-4">
-                                    <div className="h-16 w-16 rounded-full bg-gray-100 flex items-center justify-center mb-4">
-                                        <Calendar className="h-8 w-8 text-gray-600" />
+                        <Dialog>
+                            {isDialogOpen && selectedReservation?.id === reservation.id && (
+                                <DialogContent>
+                                    <div className="absolute right-4 top-4 ">
+                                        <Button
+                                            variant="ghost"
+                                            size="icon"
+                                            onClick={() => setIsDialogOpen(false)}
+                                        >
+                                            <X className="h-4 w-4" />
+                                        </Button>
                                     </div>
-                                    <DialogTitle className="text-xl font-semibold mb-2">
-                                        Detalles de la Reserva
-                                    </DialogTitle>
-                                    <p className="text-sm text-gray-500">
-                                        Reserva #{reservation.id}
-                                    </p>
-                                </div>
 
-                                <div className="bg-gray-50 rounded-lg p-4 mb-4">
-                                    <div className="space-y-3">
-                                        <div className="flex justify-between">
-                                            <span className="text-sm text-gray-500">Estado:</span>
-                                            <Select
-                                                defaultValue={reservation.status}
-                                                onValueChange={(value) => handleStatusChange(reservation.id, value as Reservation['status'])}
-                                            >
-                                                <SelectTrigger className="w-[180px]">
-                                                    <SelectValue />
-                                                </SelectTrigger>
-                                                <SelectContent>
-                                                    <SelectItem value="confirmed">Confirmado</SelectItem>
-                                                    <SelectItem value="in progress">En progreso</SelectItem>
-                                                    <SelectItem value="completed">Completado</SelectItem>
-                                                    <SelectItem value="cancelled">Cancelado</SelectItem>
-                                                </SelectContent>
-                                            </Select>
+                                    <div className="flex flex-col items-center pt-6 pb-4">
+                                        <div className="h-16 w-16 rounded-full bg-gray-100 flex items-center justify-center mb-4">
+                                            <Calendar className="h-8 w-8 text-gray-600" />
                                         </div>
-                                        <div className="flex justify-between">
-                                            <span className="text-sm text-gray-500">Precio:</span>
-                                            <span className="font-medium">{reservation.price}</span>
-                                        </div>
-                                        <div className="flex justify-between">
-                                            <span className="text-sm text-gray-500">Estado del pago:</span>
-                                            <span className="font-medium">{reservation.paymentStatus}</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <Collapsible
-                                    open={isGuideOpen}
-                                    onOpenChange={setIsGuideOpen}
-                                    className="w-full"
-                                >
-                                    <CollapsibleTrigger className="flex w-full items-center justify-between rounded-lg border p-4">
-                                        <span>Información adicional</span>
-                                        <ChevronDown
-                                            className={`h-4 w-4 transition-transform ${isGuideOpen ? "transform rotate-180" : ""
-                                                }`}
-                                        />
-                                    </CollapsibleTrigger>
-                                    <CollapsibleContent className="space-y-4 px-4 py-3">
-                                        <div>
-                                            <h3 className="font-medium mb-2">Chofer asignado</h3>
-                                            <p className="text-sm text-gray-600">{reservation.driverName}</p>
-                                        </div>
-                                        <div>
-                                            <h3 className="font-medium mb-2">Ruta</h3>
-                                            <p className="text-sm text-gray-600">
-                                                {reservation.origin} → {reservation.destination}
+                                        <DialogTitle>
+                                            <p className="text-xl font-semibold mb-2">
+                                                Detalles de la Reserva
                                             </p>
-                                        </div>
-                                    </CollapsibleContent>
-                                </Collapsible>
+                                        </DialogTitle>
+                                        <p className="text-sm text-gray-500">
+                                            Reserva #{reservation.id}
+                                        </p>
+                                    </div>
 
-                                <div className="flex justify-between gap-4 mt-6">
-                                    <Button
-                                        variant="outline"
-                                        className="flex-1"
-                                        onClick={() => window.open(`https://wa.me/${reservation.driverPhone}`, '_blank')}
+                                    <div className="bg-gray-50 rounded-lg p-4 mb-4">
+                                        <div className="space-y-3">
+                                            <div className="flex justify-between">
+                                                <span className="text-sm text-gray-500">Estado:</span>
+                                                <Select
+                                                    defaultValue={reservation.status}
+                                                    onValueChange={(value) => handleStatusChange(reservation.id, value as Reservation['status'])}
+                                                >
+                                                    <SelectTrigger className="w-[180px]">
+                                                        <SelectValue />
+                                                    </SelectTrigger>
+                                                    <SelectContent>
+                                                        <SelectItem value="confirmed">Confirmado</SelectItem>
+                                                        <SelectItem value="in progress">En progreso</SelectItem>
+                                                        <SelectItem value="completed">Completado</SelectItem>
+                                                        <SelectItem value="cancelled">Cancelado</SelectItem>
+                                                    </SelectContent>
+                                                </Select>
+                                            </div>
+                                            <div className="flex justify-between">
+                                                <span className="text-sm text-gray-500">Precio:</span>
+                                                <span className="font-medium">{reservation.price}</span>
+                                            </div>
+                                            <div className="flex justify-between">
+                                                <span className="text-sm text-gray-500">Estado del pago:</span>
+                                                <span className="font-medium">{reservation.paymentStatus}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <Collapsible
+                                        open={isGuideOpen}
+                                        onOpenChange={setIsGuideOpen}
+                                        className="w-full"
                                     >
-                                        <Phone className="w-4 h-4 mr-2" />
-                                        Contactar por WhatsApp
-                                    </Button>
-                                    <Button
-                                        variant="destructive"
-                                        className="flex-1"
-                                        onClick={() => {
-                                            handleStatusChange(reservation.id, 'cancelled')
-                                            setIsDialogOpen(false)
-                                        }}
-                                    >
-                                        Cancelar Reserva
-                                    </Button>
-                                </div>
-                            </DialogContent>
+                                        <CollapsibleTrigger className="flex w-full items-center justify-between rounded-lg border p-4">
+                                            <span>Información adicional</span>
+                                            <ChevronDown
+                                                className={`h-4 w-4 transition-transform ${isGuideOpen ? "transform rotate-180" : ""
+                                                    }`}
+                                            />
+                                        </CollapsibleTrigger>
+                                        <CollapsibleContent className="space-y-4 px-4 py-3">
+                                            <div>
+                                                <h3 className="font-medium mb-2">Chofer asignado</h3>
+                                                <p className="text-sm text-gray-600">{reservation.driverName}</p>
+                                            </div>
+                                            <div>
+                                                <h3 className="font-medium mb-2">Ruta</h3>
+                                                <p className="text-sm text-gray-600">
+                                                    {reservation.origin} → {reservation.destination}
+                                                </p>
+                                            </div>
+                                        </CollapsibleContent>
+                                    </Collapsible>
+
+                                    <div className="flex justify-between gap-4 mt-6">
+                                        <Button
+                                            variant="outline"
+                                            className="flex-1"
+                                            onClick={() => window.open(`https://wa.me/${reservation.driverPhone}`, '_blank')}
+                                        >
+                                            <Phone className="w-4 h-4 mr-2" />
+                                            Contactar por WhatsApp
+                                        </Button>
+                                        <Button
+                                            variant="destructive"
+                                            className="flex-1"
+                                            onClick={() => {
+                                                handleStatusChange(reservation.id, 'cancelled')
+                                                setIsDialogOpen(false)
+                                            }}
+                                        >
+                                            Cancelar Reserva
+                                        </Button>
+                                    </div>
+                                </DialogContent>
+                            )}
                         </Dialog>
                     </motion.div>
                 ))}

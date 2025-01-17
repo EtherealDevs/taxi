@@ -139,7 +139,6 @@ export default function Reviews() {
 
                 <div className="relative">
                     <div className="absolute left-0 top-0 text-gray-100 text-[200px] font-serif leading-none select-none">
-                        
                     </div>
 
                     <div className="relative">
