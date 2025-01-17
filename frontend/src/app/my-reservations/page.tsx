@@ -111,7 +111,7 @@ export default function MyReservations() {
                                 <span>{reservation.origin} → {reservation.destination}</span>
                             </div>
                         </div>
-                        <Dialog open={isDialogOpen && selectedReservation?.id === reservation.id}>
+                        <Dialog>
                             <DialogTrigger asChild>
                                 <Button
                                     variant="outline"
@@ -123,7 +123,7 @@ export default function MyReservations() {
                                     Ver detalles
                                 </Button>
                             </DialogTrigger>
-                            <DialogContent className="sm:max-w-[500px]">
+                            <DialogContent>
                                 <div className="absolute right-4 top-4">
                                     <Button
                                         variant="ghost"
@@ -138,7 +138,7 @@ export default function MyReservations() {
                                     <div className="h-16 w-16 rounded-full bg-gray-100 flex items-center justify-center mb-4">
                                         <Calendar className="h-8 w-8 text-gray-600" />
                                     </div>
-                                    <DialogTitle className="text-xl font-semibold mb-2">
+                                    <DialogTitle>
                                         Detalles de la Reserva
                                     </DialogTitle>
                                     <p className="text-sm text-gray-500">

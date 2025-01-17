@@ -6,7 +6,6 @@ import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { useEffect, useState } from "react"
-import axios from "axios"
 import { Badge } from "@/components/ui/badge"
 
 interface Post {
