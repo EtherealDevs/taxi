@@ -15,11 +15,30 @@ export default function Contacto() {
         setFormData({ ...formData, [e.target.name]: e.target.value })
     }
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
-        // Handle form submission logic here
-        console.log(formData)
+
+        try {
+            const res = await fetch('/api/contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData),
+            })
+
+            const data = await res.json()
+
+            if (res.ok) {
+                alert('Mensaje enviado correctamente')
+                setFormData({ name: '', email: '', phone: '', message: '' })
+            } else {
+                alert(data.error || 'Error al enviar el mensaje')
+            }
+        } catch (error) {
+            console.error('Error en el servidor', error)
+            alert('Error en el servidor')
+        }
     }
+
 
     return (
         <div className="bg-transparent min-h-screen py-12 px-4 sm:px-6 lg:px-8">
