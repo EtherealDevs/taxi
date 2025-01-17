@@ -269,6 +269,28 @@ export default function BookingsPage() {
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <Button
+                                                            onClick={() => {
+                                                                if (
+                                                                    selectedBooking?.originCoords &&
+                                                                    selectedBooking?.destinationCoords
+                                                                ) {
+                                                                    const origin = selectedBooking.originCoords.join(',');
+                                                                    const destination = selectedBooking.destinationCoords.join(',');
+                                                                    window.open(
+                                                                        `https://www.google.com/maps/dir/${origin}/${destination}`,
+                                                                        '_blank'
+                                                                    );
+                                                                } else {
+                                                                    console.error('Coordenadas no válidas');
+                                                                    alert('Las coordenadas de origen o destino no están definidas.');
+                                                                }
+                                                            }}
+                                                            className="w-full mt-4"
+                                                        >
+                                                            <MapPin className="w-4 h-4 mr-2" />
+                                                            Abrir en Google Maps
+                                                        </Button>
                                                     </div>
                                                 </DialogContent>
                                             )}
