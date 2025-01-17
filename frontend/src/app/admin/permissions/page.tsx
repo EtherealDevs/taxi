@@ -115,12 +115,6 @@ export default function PermissionsPage() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  useEffect(() => {
-    if (isNearBottom && hasMore) {
-      loadMoreUsers()
-    }
-  }, [isNearBottom, hasMore])
-
   const loadMoreUsers = () => {
     // Simulating API call to load more users
     const newUsers = Array.from({ length: 20 }, (_, i) => ({
@@ -138,8 +132,14 @@ export default function PermissionsPage() {
   }
 
   useEffect(() => {
+    if (isNearBottom && hasMore) {
+        loadMoreUsers()
+    }
+  }, [isNearBottom, hasMore, loadMoreUsers])
+
+  useEffect(() => {
     loadMoreUsers() // Load initial users
-  }, [])
+  }, [loadMoreUsers])
 
   const filteredUsers = users.filter(user => {
     const matchesSearch = searchTerm === '' || 

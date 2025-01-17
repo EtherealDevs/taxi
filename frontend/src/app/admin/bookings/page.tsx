@@ -48,22 +48,8 @@ export default function BookingsPage() {
     const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null)
     const [isDialogOpen, setIsDialogOpen] = useState(false)
 
-    const [filters, setFilters] = useState({
-        passenger: '',
-        date: '',
-        status: '',
-        secureCode: '',
-        reservationId: '',
-    })
 
-    const handleFilterChange = (key: string, value: string) => {
-        setFilters(prev => ({ ...prev, [key]: value }))
-    }
 
-    const applyFilters = () => {
-        // Here you would typically call an API or filter the data
-        console.log('Applying filters:', filters)
-    }
 
     const bookings: Booking[] = [
         {
