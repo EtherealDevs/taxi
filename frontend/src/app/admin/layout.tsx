@@ -54,6 +54,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             ),
         },
         {
+            label: "Permisos",
+            href: "/admin/permissions",
+            icon: (
+                <Settings className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+            ),
+        },
+        {
             label: "Configuración",
             href: "/admin/settings",
             icon: (
