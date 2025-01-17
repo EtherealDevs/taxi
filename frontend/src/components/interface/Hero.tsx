@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic';
 
 import FormReserv from "../Reserv"
 import Image from "next/image"
+import { SparklesPreview } from "@/components/anim/Sparkless";
 
 const MapModal = dynamic(() => import('../ui/MapModal'), {
     ssr: false,
@@ -41,7 +42,10 @@ export default function Hero() {
                 {/* Columna Izquierda */}
                 <div className="flex-1 space-y-6 p-8">
                     <div>
-                        <h1 className="text-3xl font-bold text-gray-900">{t('hero.name')}</h1>
+                        <SparklesPreview />
+                    </div>
+
+                    <div>
                         <p className="text-gray-600">{t('hero.internationalTrips')}</p>
                         <p className="text-gray-600">{t('hero.safeTrips')}</p>
                     </div>
@@ -88,6 +92,9 @@ export default function Hero() {
                             <p className="text-3xl font-bold text-gray-900">5 {t('hero.years')}</p>
                             <p className="text-gray-600">{t('hero.experience')}</p>
                         </div>
+                    </div>
+                    <div>
+                        
                     </div>
                 </div>
 
