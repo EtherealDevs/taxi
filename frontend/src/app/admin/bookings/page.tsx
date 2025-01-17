@@ -1,9 +1,9 @@
 'use client'
 
-import dynamic from 'next/dynamic'
 import { useState } from 'react'
 import { Eye, MapPin, Calendar, Clock, User, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import dynamic from 'next/dynamic'
 import {
     Dialog,
     DialogContent,
@@ -11,6 +11,15 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
 
 // Define the booking type interface
 interface Booking {
@@ -34,8 +43,27 @@ const BookingMap = dynamic(() => import('@/components/BookingMap'), {
     loading: () => <div className="h-[400px] w-full bg-gray-100 dark:bg-neutral-700 rounded-lg animate-pulse" />
 })
 
+
 export default function BookingsPage() {
     const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null)
+    const [isDialogOpen, setIsDialogOpen] = useState(false)
+
+    const [filters, setFilters] = useState({
+        passenger: '',
+        date: '',
+        status: '',
+        secureCode: '',
+        reservationId: '',
+    })
+
+    const handleFilterChange = (key: string, value: string) => {
+        setFilters(prev => ({ ...prev, [key]: value }))
+    }
+
+    const applyFilters = () => {
+        // Here you would typically call an API or filter the data
+        console.log('Applying filters:', filters)
+    }
 
     const bookings: Booking[] = [
         {
@@ -85,6 +113,53 @@ export default function BookingsPage() {
     return (
         <div>
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">Reservas</h1>
+            {/* Componente de Filtrado para reservas */}
+            <div className="flex flex-wrap gap-4 mb-8 p-4 bg-white dark:bg-neutral-800 rounded-lg shadow">
+                <div className="w-full">
+                    <h2 className="text-lg font-semibold mb-4">Filtros</h2>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
+                    <div>
+                        <Label htmlFor="dateRange">Rango de Fechas</Label>
+                        <div className="flex gap-2">
+                            <Input
+                                type="date"
+                                id="dateFrom"
+                                className="flex-1"
+                            />
+                            <Input
+                                type="date"
+                                id="dateTo"
+                                className="flex-1"
+                            />
+                        </div>
+                    </div>
+                    <div>
+                        <Label htmlFor="passenger">Pasajero</Label>
+                        <Input
+                            id="passenger"
+                            placeholder="Nombre del pasajero"
+                        />
+                    </div>
+                    <div>
+                        <Label htmlFor="status">Estado</Label>
+                        <Select>
+                            <SelectTrigger>
+                                <SelectValue placeholder="Seleccionar estado" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="completado">Completado</SelectItem>
+                                <SelectItem value="en-progreso">En progreso</SelectItem>
+                                <SelectItem value="pendiente">Pendiente</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </div>
+                </div>
+                <div className="flex gap-2 w-full justify-end">
+                    <Button variant="outline">Limpiar</Button>
+                    <Button>Aplicar</Button>
+                </div>
+            </div>
             <div className="bg-white dark:bg-neutral-800 rounded-lg shadow overflow-hidden">
                 <div className="overflow-x-auto">
                     <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
@@ -105,46 +180,34 @@ export default function BookingsPage() {
                                     key={booking.id}
                                     className="hover:bg-gray-50 dark:hover:bg-neutral-700"
                                 >
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
-                                        {booking.id}
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                        {booking.user}
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                        {booking.driver}
-                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">{booking.id}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">{booking.user}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">{booking.driver}</td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
                                         {booking.date} {booking.time}
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap">
-                                        <span
-                                            className={`px-2 py-1 text-xs rounded-full ${booking.status === 'Completado'
-                                                ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                                                : booking.status === 'En progreso'
-                                                    ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
-                                                    : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
-                                                }`}
-                                        >
+                                        <span className={`px-2 py-1 text-xs rounded-full ${booking.status === 'Completado'
+                                            ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+                                            : booking.status === 'En progreso'
+                                                ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
+                                                : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
+                                            }`}>
                                             {booking.status}
                                         </span>
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                        {booking.price}
-                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">{booking.price}</td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        <Dialog>
+                                        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                                             <DialogTrigger asChild>
-                                                <Button
-                                                    variant="outline"
-                                                    size="sm"
-                                                    onClick={() => setSelectedBooking(booking)}
-                                                >
+                                                <Button variant="outline" size="sm" onClick={() => {
+                                                    setSelectedBooking(booking)
+                                                    setIsDialogOpen(true)
+                                                }}>
                                                     <Eye className="w-4 h-4 mr-2" />
                                                     Ver detalles
                                                 </Button>
                                             </DialogTrigger>
-
                                             {selectedBooking && (
                                                 <DialogContent className="max-w-3xl">
                                                     <DialogHeader>
@@ -220,3 +283,4 @@ export default function BookingsPage() {
         </div>
     )
 }
+
