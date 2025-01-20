@@ -1,57 +1,67 @@
 "use client"
 import { useTranslation } from 'react-i18next';
+import { motion } from 'framer-motion'
+import { ShieldCheck, Handshake, CircleFadingPlus, Car, BookUser } from 'lucide-react'
 
 export default function TrustInUs() {
   const { t } = useTranslation();
 
+  const items = [
+    {
+      icon: <ShieldCheck className="w-8 h-8 text-[#6944ff]" />,
+      title: t('trustInUs.security.title'),
+      description: t('trustInUs.security.description')
+    },
+    {
+      icon: <CircleFadingPlus className="w-8 h-8 text-[#6944ff]" />,
+      title: t('trustInUs.experience.title'),
+      description: t('trustInUs.experience.description')
+    },
+    {
+      icon: <BookUser className="w-8 h-8 text-[#6944ff]" />,
+      title: t('trustInUs.attentionToDetail.title'),
+      description: t('trustInUs.attentionToDetail.description')
+    },
+    {
+      icon: <Car className="w-8 h-8 text-[#6944ff]" />,
+      title: t('trustInUs.comfort.title'),
+      description: t('trustInUs.comfort.description')
+    },
+    {
+      icon: <Handshake className="w-8 h-8 text-[#6944ff]" />,
+      title: t('trustInUs.professionalism.title'),
+      description: t('trustInUs.professionalism.description')
+    }
+  ];
+
   return (
-    <div className="w-full bg-white py-16 px-4 md:px-8">
-      <div className="max-w-6xl mx-auto text-center space-y-8">
-        <h2 className="text-3xl font-bold text-gray-900">
-          {t('trustInUs.title')}
-        </h2>
-        <div className="underline-bar absolute bg-black"></div>
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
-          <div>
-            <h3 className="text-lg font-semibold text-gray-900">{t('trustInUs.security.title')}</h3>
-            <div className="border border-gray-300 rounded-xl p-6 space-y-4">
-              <p className="text-gray-600">
-                {t('trustInUs.security.description')}
-              </p>
-            </div>
-          </div>
-          <div>
-            <h3 className="text-lg font-semibold text-gray-900">{t('trustInUs.experience.title')}</h3>
-            <div className="border border-gray-300 rounded-xl p-6 space-y-4">
-              <p className="text-gray-600">
-                {t('trustInUs.experience.description')}
-              </p>
-            </div>
-          </div>
-          <div>
-            <h3 className="text-lg font-semibold text-gray-900">{t('trustInUs.attentionToDetail.title')}</h3>
-            <div className="border border-gray-300 rounded-xl p-6 space-y-4">
-              <p className="text-gray-600">
-                {t('trustInUs.attentionToDetail.description')}
-              </p>
-            </div>
-          </div>
-          <div>
-            <h3 className="text-lg font-semibold text-gray-900">{t('trustInUs.comfort.title')}</h3>
-            <div className="border border-gray-300 rounded-xl p-6 space-y-4">
-              <p className="text-gray-600">
-                {t('trustInUs.comfort.description')}
-              </p>
-            </div>
-          </div>
-          <div>
-            <h3 className="text-lg font-semibold text-gray-900">{t('trustInUs.professionalism.title')}</h3>
-            <div className="border border-gray-300 rounded-xl p-6 space-y-4">
-              <p className="text-gray-600">
-                {t('trustInUs.professionalism.description')}
-              </p>
-            </div>
-          </div>
+    <div className="bg-gray-100/50 py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-12"
+        >
+          <h2 className="text-2xl font-bold mb-4">{t('trustInUs.title')}</h2>
+        </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+          {items.map((item, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: index * 0.1 }}
+              className="bg-[#ececec] rounded-2xl p-6"
+            >
+              <div className="bg-white w-16 h-16 rounded-full flex items-center justify-center mb-4 mx-auto">
+                {item.icon}
+              </div>
+              <h3 className="text-lg font-bold text-center mb-2">{item.title}</h3>
+              <p className="text-sm text-[#272727] text-center">{item.description}</p>
+            </motion.div>
+          ))}
         </div>
       </div>
     </div>
