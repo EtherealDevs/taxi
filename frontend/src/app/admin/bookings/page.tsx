@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { Eye, MapPin, Calendar, Clock, User, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import dynamic from 'next/dynamic'
@@ -48,10 +48,17 @@ export default function BookingsPage() {
     const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null)
     const [isDialogOpen, setIsDialogOpen] = useState(false)
 
+    // Estados para los filtros
+    const [dateFrom, setDateFrom] = useState<string>('')
+    const [dateTo, setDateTo] = useState<string>('')
+    const [passenger, setPassenger] = useState<string>('')
+    const [status, setStatus] = useState<string>('')
 
+    // Estado para las reservas filtradas
+    const [filteredBookings, setFilteredBookings] = useState<Booking[]>([])
 
-
-    const bookings: Booking[] = [
+    // Define las reservas como un estado constante usando useMemo
+    const bookings: Booking[] = useMemo(() => [
         {
             id: '1234',
             user: 'Ana Martínez',
@@ -94,7 +101,21 @@ export default function BookingsPage() {
             price: '$180',
             paymentStatus: 'Pendiente'
         }
-    ]
+    ], []);
+
+    // useEffect para aplicar los filtros
+    useEffect(() => {
+        const filtered = bookings.filter((booking) => {
+            const isWithinDateRange = (!dateFrom || new Date(booking.date) >= new Date(dateFrom)) &&
+                (!dateTo || new Date(booking.date) <= new Date(dateTo))
+            const matchesPassenger = !passenger || booking.user.toLowerCase().includes(passenger.toLowerCase())
+            const matchesStatus = !status || (status === 'todos' || booking.status.toLowerCase() === status.toLowerCase())
+
+            return isWithinDateRange && matchesPassenger && matchesStatus
+        })
+
+        setFilteredBookings(filtered)
+    }, [dateFrom, dateTo, passenger, status, bookings])
 
     return (
         <div>
@@ -112,11 +133,15 @@ export default function BookingsPage() {
                                 type="date"
                                 id="dateFrom"
                                 className="flex-1"
+                                value={dateFrom}
+                                onChange={(e) => setDateFrom(e.target.value)}
                             />
                             <Input
                                 type="date"
                                 id="dateTo"
                                 className="flex-1"
+                                value={dateTo}
+                                onChange={(e) => setDateTo(e.target.value)}
                             />
                         </div>
                     </div>
@@ -125,25 +150,35 @@ export default function BookingsPage() {
                         <Input
                             id="passenger"
                             placeholder="Nombre del pasajero"
+                            value={passenger}
+                            onChange={(e) => setPassenger(e.target.value)}
                         />
                     </div>
                     <div>
                         <Label htmlFor="status">Estado</Label>
-                        <Select>
+                        <Select value={status} onValueChange={setStatus}>
                             <SelectTrigger>
                                 <SelectValue placeholder="Seleccionar estado" />
                             </SelectTrigger>
                             <SelectContent>
+                                <SelectItem value="todos">Todos</SelectItem>
                                 <SelectItem value="completado">Completado</SelectItem>
-                                <SelectItem value="en-progreso">En progreso</SelectItem>
+                                <SelectItem value="en progreso">En progreso</SelectItem>
                                 <SelectItem value="pendiente">Pendiente</SelectItem>
                             </SelectContent>
                         </Select>
                     </div>
                 </div>
                 <div className="flex gap-2 w-full justify-end">
-                    <Button variant="outline">Limpiar</Button>
-                    <Button>Aplicar</Button>
+                    <Button variant="outline" onClick={() => {
+                        setDateFrom('')
+                        setDateTo('')
+                        setPassenger('')
+                        setStatus('todos')
+                    }}>Limpiar</Button>
+                    <Button onClick={() => {
+                        // La lógica de filtrado ya está en el useEffect
+                    }}>Aplicar</Button>
                 </div>
             </div>
             <div className="bg-white dark:bg-neutral-800 rounded-lg shadow overflow-hidden">
@@ -161,129 +196,137 @@ export default function BookingsPage() {
                             </tr>
                         </thead>
                         <tbody className="bg-white dark:bg-neutral-800 divide-y divide-gray-200 dark:divide-gray-700">
-                            {bookings.map((booking) => (
-                                <tr
-                                    key={booking.id}
-                                    className="hover:bg-gray-50 dark:hover:bg-neutral-700"
-                                >
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">{booking.id}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">{booking.user}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">{booking.driver}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                        {booking.date} {booking.time}
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-nowrap">
-                                        <span className={`px-2 py-1 text-xs rounded-full ${booking.status === 'Completado'
-                                            ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                                            : booking.status === 'En progreso'
-                                                ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
-                                                : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
-                                            }`}>
-                                            {booking.status}
-                                        </span>
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">{booking.price}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                                            <DialogTrigger asChild>
-                                                <Button variant="outline" size="sm" onClick={() => {
-                                                    setSelectedBooking(booking)
-                                                    setIsDialogOpen(true)
-                                                }}>
-                                                    <Eye className="w-4 h-4 mr-2" />
-                                                    Ver detalles
-                                                </Button>
-                                            </DialogTrigger>
-                                            {selectedBooking && (
-                                                <DialogContent className="max-w-3xl">
-                                                    <DialogHeader>
-                                                        <DialogTitle>
-                                                            Detalles de la Reserva #{selectedBooking.id}
-                                                        </DialogTitle>
-
-                                                        <Button
-                                                            variant="ghost"
-                                                            size="icon"
-                                                            className="absolute right-4 top-4"
-                                                        >
-                                                            <X className="h-4 w-4" />
-                                                        </Button>
-                                                    </DialogHeader>
-
-                                                    <div className="grid gap-6 py-4">
-                                                        <div className="grid gap-2">
-                                                            <div className="flex items-center gap-2 text-sm">
-                                                                <User className="w-4 h-4" />
-                                                                <span className="font-medium">Usuario:</span>
-                                                                {selectedBooking.user}
-                                                            </div>
-                                                            <div className="flex items-center gap-2 text-sm">
-                                                                <User className="w-4 h-4" />
-                                                                <span className="font-medium">Chofer:</span>
-                                                                {selectedBooking.driver}
-                                                            </div>
-                                                            <div className="flex items-center gap-2 text-sm">
-                                                                <Calendar className="w-4 h-4" />
-                                                                <span className="font-medium">Fecha:</span>
-                                                                {selectedBooking.date}
-                                                            </div>
-                                                            <div className="flex items-center gap-2 text-sm">
-                                                                <Clock className="w-4 h-4" />
-                                                                <span className="font-medium">Hora:</span>
-                                                                {selectedBooking.time}
-                                                            </div>
-                                                        </div>
-
-                                                        <div className="space-y-4">
-                                                            <h3 className="text-lg font-semibold">Ubicaciones</h3>
-                                                            <BookingMap
-                                                                originCoords={selectedBooking.originCoords}
-                                                                destinationCoords={selectedBooking.destinationCoords}
-                                                                originName={selectedBooking.origin}
-                                                                destinationName={selectedBooking.destination}
-                                                            />
-                                                            <div className="grid gap-2 mt-2">
-                                                                <div className="flex items-center gap-2 text-sm">
-                                                                    <MapPin className="w-4 h-4 text-green-500" />
-                                                                    <span className="font-medium">Origen:</span>
-                                                                    {selectedBooking.origin}
-                                                                </div>
-                                                                <div className="flex items-center gap-2 text-sm">
-                                                                    <MapPin className="w-4 h-4 text-red-500" />
-                                                                    <span className="font-medium">Destino:</span>
-                                                                    {selectedBooking.destination}
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <Button
-                                                            onClick={() => {
-                                                                if (
-                                                                    selectedBooking?.originCoords &&
-                                                                    selectedBooking?.destinationCoords
-                                                                ) {
-                                                                    const origin = selectedBooking.originCoords.join(',');
-                                                                    const destination = selectedBooking.destinationCoords.join(',');
-                                                                    window.open(
-                                                                        `https://www.google.com/maps/dir/${origin}/${destination}`,
-                                                                        '_blank'
-                                                                    );
-                                                                } else {
-                                                                    console.error('Coordenadas no válidas');
-                                                                    alert('Las coordenadas de origen o destino no están definidas.');
-                                                                }
-                                                            }}
-                                                            className="w-full mt-4"
-                                                        >
-                                                            <MapPin className="w-4 h-4 mr-2" />
-                                                            Abrir en Google Maps
-                                                        </Button>
-                                                    </div>
-                                                </DialogContent>
-                                            )}
-                                        </Dialog>
+                            {filteredBookings.length === 0 ? (
+                                <tr>
+                                    <td colSpan={7} className="px-6 py-4 text-center text-sm text-gray-500 dark:text-gray-300">
+                                        No se encontraron resultados que coincidan con los parámetros de búsqueda.
                                     </td>
                                 </tr>
-                            ))}
+                            ) : (
+                                filteredBookings.map((booking) => (
+                                    <tr
+                                        key={booking.id}
+                                        className="hover:bg-gray-50 dark:hover:bg-neutral-700"
+                                    >
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">{booking.id}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">{booking.user}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">{booking.driver}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                                            {booking.date} {booking.time}
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <span className={`px-2 py-1 text-xs rounded-full ${booking.status === 'Completado'
+                                                ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+                                                : booking.status === 'En progreso'
+                                                    ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
+                                                    : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
+                                                }`}>
+                                                {booking.status}
+                                            </span>
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">{booking.price}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                                                <DialogTrigger asChild>
+                                                    <Button variant="outline" size="sm" onClick={() => {
+                                                        setSelectedBooking(booking)
+                                                        setIsDialogOpen(true)
+                                                    }}>
+                                                        <Eye className="w-4 h-4 mr-2" />
+                                                        Ver detalles
+                                                    </Button>
+                                                </DialogTrigger>
+                                                {selectedBooking && (
+                                                    <DialogContent className="max-w-3xl">
+                                                        <DialogHeader>
+                                                            <DialogTitle>
+                                                                Detalles de la Reserva #{selectedBooking.id}
+                                                            </DialogTitle>
+
+                                                            <Button
+                                                                variant="ghost"
+                                                                size="icon"
+                                                                className="absolute right-4 top-4"
+                                                            >
+                                                                <X className="h-4 w-4" />
+                                                            </Button>
+                                                        </DialogHeader>
+
+                                                        <div className="grid gap-6 py-4">
+                                                            <div className="grid gap-2">
+                                                                <div className="flex items-center gap-2 text-sm">
+                                                                    <User className="w-4 h-4" />
+                                                                    <span className="font-medium">Usuario:</span>
+                                                                    {selectedBooking.user}
+                                                                </div>
+                                                                <div className="flex items-center gap-2 text-sm">
+                                                                    <User className="w-4 h-4" />
+                                                                    <span className="font-medium">Chofer:</span>
+                                                                    {selectedBooking.driver}
+                                                                </div>
+                                                                <div className="flex items-center gap-2 text-sm">
+                                                                    <Calendar className="w-4 h-4" />
+                                                                    <span className="font-medium">Fecha:</span>
+                                                                    {selectedBooking.date}
+                                                                </div>
+                                                                <div className="flex items-center gap-2 text-sm">
+                                                                    <Clock className="w-4 h-4" />
+                                                                    <span className="font-medium">Hora:</span>
+                                                                    {selectedBooking.time}
+                                                                </div>
+                                                            </div>
+
+                                                            <div className="space-y-4">
+                                                                <h3 className="text-lg font-semibold">Ubicaciones</h3>
+                                                                <BookingMap
+                                                                    originCoords={selectedBooking.originCoords}
+                                                                    destinationCoords={selectedBooking.destinationCoords}
+                                                                    originName={selectedBooking.origin}
+                                                                    destinationName={selectedBooking.destination}
+                                                                />
+                                                                <div className="grid gap-2 mt-2">
+                                                                    <div className="flex items-center gap-2 text-sm">
+                                                                        <MapPin className="w-4 h-4 text-green-500" />
+                                                                        <span className="font-medium">Origen:</span>
+                                                                        {selectedBooking.origin}
+                                                                    </div>
+                                                                    <div className="flex items-center gap-2 text-sm">
+                                                                        <MapPin className="w-4 h-4 text-red-500" />
+                                                                        <span className="font-medium">Destino:</span>
+                                                                        {selectedBooking.destination}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <Button
+                                                                onClick={() => {
+                                                                    if (
+                                                                        selectedBooking?.originCoords &&
+                                                                        selectedBooking?.destinationCoords
+                                                                    ) {
+                                                                        const origin = selectedBooking.originCoords.join(',');
+                                                                        const destination = selectedBooking.destinationCoords.join(',');
+                                                                        window.open(
+                                                                            `https://www.google.com/maps/dir/${origin}/${destination}`,
+                                                                            '_blank'
+                                                                        );
+                                                                    } else {
+                                                                        console.error('Coordenadas no válidas');
+                                                                        alert('Las coordenadas de origen o destino no están definidas.');
+                                                                    }
+                                                                }}
+                                                                className="w-full mt-4"
+                                                            >
+                                                                <MapPin className="w-4 h-4 mr-2" />
+                                                                Abrir en Google Maps
+                                                            </Button>
+                                                        </div>
+                                                    </DialogContent>
+                                                )}
+                                            </Dialog>
+                                        </td>
+                                    </tr>
+                                ))
+                            )}
                         </tbody>
                     </table>
                 </div>
