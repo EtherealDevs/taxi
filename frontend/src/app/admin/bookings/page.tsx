@@ -215,14 +215,32 @@ export default function BookingsPage() {
                                             {booking.date} {booking.time}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            <span className={`px-2 py-1 text-xs rounded-full ${booking.status === 'Completado'
-                                                ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                                                : booking.status === 'En progreso'
-                                                    ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
-                                                    : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
-                                                }`}>
-                                                {booking.status}
-                                            </span>
+                                            <Select value={booking.status} onValueChange={(newStatus) => {
+                                                // Actualiza el estado localmente
+                                                const updatedBookings = filteredBookings.map(b =>
+                                                    b.id === booking.id ? { ...b, status: newStatus } : b
+                                                );
+                                                setFilteredBookings(updatedBookings); // Asegúrate de tener setFilteredBookings disponible
+
+                                                // Lógica para enviar al backend
+                                                console.log(`Estado actualizado para ${booking.id}: ${newStatus}`);
+                                                // fetch('/api/update-status', {
+                                                //     method: 'POST',
+                                                //     body: JSON.stringify({ id: booking.id, status: newStatus }),
+                                                //     headers: {
+                                                //         'Content-Type': 'application/json',
+                                                //     },
+                                                // });
+                                            }}>
+                                                <SelectTrigger>
+                                                    <SelectValue placeholder={booking.status} />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    <SelectItem value="Completado">Completado</SelectItem>
+                                                    <SelectItem value="En progreso">En progreso</SelectItem>
+                                                    <SelectItem value="Pendiente">Pendiente</SelectItem>
+                                                </SelectContent>
+                                            </Select>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">{booking.price}</td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
@@ -273,6 +291,10 @@ export default function BookingsPage() {
                                                                     <Clock className="w-4 h-4" />
                                                                     <span className="font-medium">Hora:</span>
                                                                     {selectedBooking.time}
+                                                                </div>
+                                                                <div className="flex items-center gap-2 text-sm">
+                                                                    <span className="font-medium">Estado:</span>
+                                                                    <span>{selectedBooking.status}</span>
                                                                 </div>
                                                             </div>
 
