@@ -12,18 +12,26 @@ export default function Home() {
     <div className="flex flex-col min-h-screen bg-transparent">
       <Navbar />
       <main className="flex-grow bg-transparent">
-        <Hero />
-        <div className="h-screen snap-center grid grid-cols-5 gap-2">
+        <section id="hero">
+          <Hero />
+        </section>
+        <section id="reviews" className="h-screen snap-center grid grid-cols-5 gap-2">
           <div className="col-span-2">
-          <Reviews />
+            <Reviews />
           </div>
           <div className="col-span-3">
-          <TravelPosts />
+            <TravelPosts />
           </div>
-        </div>
-        <TrustInUs />
-        <HowItWorks />
-        <Contact />
+        </section>
+        <section id="trust-in-us">
+          <TrustInUs />
+        </section>
+        <section id="how-it-works">
+          <HowItWorks />
+        </section>
+        <section id="contact">
+          <Contact />
+        </section>
       </main>
       <Footer />
     </div>

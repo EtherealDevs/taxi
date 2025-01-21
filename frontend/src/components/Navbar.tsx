@@ -15,16 +15,16 @@ import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
 export default function Navbar() {
-    const {  i18n } = useTranslation()
+    const { i18n } = useTranslation()
     const [isOpen, setIsOpen] = useState(false)
     const [isLoggedIn, setIsLoggedIn] = useState(false)
 
     const navItems = [
-        { name: 'Bienvenido', href: '/' },
-        { name: 'Reservar Viaje', href: '/realizar-viaje' },
-        { name: 'Confia en Nosotros', href: '/nuestros-viajes' },
-        { name: '¿Cómo Funciona?', href: '/como-funciona' },
-        { name: 'Contactanos', href: '/contacto' },
+        { name: 'Bienvenido', href: '#hero' },
+        { name: 'Reservar Viaje', href: '#reviews' },
+        { name: 'Confia en Nosotros', href: '#trust-in-us' },
+        { name: '¿Cómo Funciona?', href: '#how-it-works' },
+        { name: 'Contactanos', href: '#contact' },
     ]
 
     const languages = [
