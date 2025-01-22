@@ -18,7 +18,7 @@ export default function Footer() {
           <div className="flex space-x-4">
             <SocialLink href="#" icon={<Facebook />} />
             <SocialLink href="#" icon={<Twitter />} />
-            <SocialLink href="#" icon={<Instagram />} />
+            <SocialLink href="https://www.instagram.com/nelsonolivera.viajes/" icon={<Instagram />} />
           </div>
         </div>
         <div className="mt-8 text-center text-sm text-gray-600">
