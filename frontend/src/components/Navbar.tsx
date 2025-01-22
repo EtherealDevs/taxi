@@ -240,9 +240,18 @@ function NavLink({
     children: React.ReactNode
     mobile?: boolean
 }) {
+    const handleClick = (e: React.MouseEvent) => {
+        e.preventDefault();
+        const target = document.querySelector(href);
+        if (target) {
+            target.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
+
     return (
         <Link
             href={href}
+            onClick={handleClick}
             className={cn(
                 "text-sm font-medium transition-colors hover:text-primary",
                 mobile && "flex w-full items-center"
