@@ -12,7 +12,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
     const links = [
         {
-            label: "Dashboard",
+            label: "Inicio",
             href: "/admin",
             icon: (
                 <LayoutDashboard className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
@@ -40,7 +40,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             ),
         },
         {
-            label: "Posteos",
+            label: "Novedades",
             href: "/admin/posts",
             icon: (
                 <CreditCard className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
@@ -54,7 +54,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             ),
         },
         {
-            label: "Permisos",
+            label: "Roles y Permisos",
             href: "/admin/permissions",
             icon: (
                 <Settings className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
@@ -91,7 +91,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                     <div>
                         <SidebarLink
                             link={{
-                                label: "Admin User",
+                                label: "USUARIO",
                                 href: "#",
                                 icon: (
                                     <Image
@@ -126,7 +126,7 @@ const Logo = () => {
                 animate={{ opacity: 1 }}
                 className="font-medium whitespace-pre"
             >
-                Chofer Connect
+                Nelson Olivera
             </motion.span>
         </Link>
     );

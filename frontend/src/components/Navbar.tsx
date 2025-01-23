@@ -43,7 +43,7 @@ export default function Navbar() {
                     <div className="flex items-center gap-8">
                         <Link
                             href="/"
-                            className="text-2xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent"
+                            className="text-2xl font-bold text-black"
                         >
                             Nelson Olivera
                         </Link>
@@ -57,8 +57,6 @@ export default function Navbar() {
                         </div>
                     </div>
 
-                    <div className="flex items-center gap-4"></div>
-
                     <div className="flex items-center gap-4">
                         <div className="hidden md:flex items-center gap-4">
                             <DropdownMenu>
@@ -71,7 +69,7 @@ export default function Navbar() {
                                         <ChevronDown className="h-3 w-3 opacity-50" />
                                     </Button>
                                 </DropdownMenuTrigger>
-                                <DropdownMenuContent align="end">
+                                <DropdownMenuContent align="end" className='bg-white'>
                                     {languages.map((lang) => (
                                         <DropdownMenuItem
                                             key={lang.code}
@@ -95,7 +93,7 @@ export default function Navbar() {
                                             <User className="h-5 w-5" />
                                         </Button>
                                     </DropdownMenuTrigger>
-                                    <DropdownMenuContent align="end" className="w-56">
+                                    <DropdownMenuContent align="end" className="w-56 bg-white">
                                         <DropdownMenuItem asChild>
                                             <Link href="/profile" className="flex items-center">
                                                 <Settings className="mr-2 h-4 w-4" />
