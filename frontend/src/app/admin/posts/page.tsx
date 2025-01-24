@@ -1,31 +1,40 @@
-'use client'
+"use client";
 
-import { motion } from "framer-motion"
-import { Plus, Pencil, Trash2, Eye, Calendar, User, ThumbsUp } from 'lucide-react'
-import Link from "next/link"
-import Image from "next/image"
-import { Button } from "@/components/ui/button"
-import { useEffect, useState } from "react"
-import { Badge } from "@/components/ui/badge"
+import { motion } from "framer-motion";
+import {
+  Plus,
+  Pencil,
+  Trash2,
+  Eye,
+  Calendar,
+  User,
+  ThumbsUp,
+} from "lucide-react";
+import Link from "next/link";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { useEffect, useState } from "react";
+import { Badge } from "@/components/ui/badge";
+import axios from "@/lib/axios";
 
 interface Post {
-  id: number
-  title: string
-  extract: string
-  content: string
-  image: string
-  created_at: string
-  author: string
-  likes: number
-  status: 'Publicado' | 'Borrador'
+  id: number;
+  title: string;
+  extract: string;
+  content: string;
+  image: string;
+  created_at: string;
+  author: string;
+  likes: number;
+  status: "Publicado" | "Borrador";
 }
 
 export default function BlogPage() {
-  const [posts, setPosts] = useState<Post[]>([])
+  const [posts, setPosts] = useState<Post[]>([]);
 
   useEffect(() => {
-    fetchData()
-  }, [])
+    fetchData();
+  }, []);
 
   const formatDate = (date: string) => {
     const options: Intl.DateTimeFormatOptions = {
@@ -34,53 +43,63 @@ export default function BlogPage() {
       day: "numeric",
       hour: "2-digit",
       minute: "2-digit",
-    }
-    return new Date(date).toLocaleDateString("es-ES", options)
-  }
+    };
+    return new Date(date).toLocaleDateString("es-ES", options);
+  };
 
   const fetchData = async () => {
     try {
       // Simulating API call with test data
-      const testPosts: Post[] = [
+      let testPosts: Post[] = [
         {
           id: 1,
           title: "Descubriendo los secretos de la Patagonia",
-          extract: "Un viaje inolvidable por los paisajes más impresionantes del sur de Argentina y Chile.",
-          content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          extract:
+            "Un viaje inolvidable por los paisajes más impresionantes del sur de Argentina y Chile.",
+          content:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
           image: "/placeholder.svg?height=400&width=600",
           created_at: "2023-05-15T10:30:00",
           author: "María González",
           likes: 156,
-          status: "Publicado"
+          status: "Publicado",
         },
         {
           id: 2,
           title: "Gastronomía peruana: Un festín para los sentidos",
-          extract: "Explorando los sabores y aromas de la cocina peruana, desde el ceviche hasta el pisco sour.",
-          content: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+          extract:
+            "Explorando los sabores y aromas de la cocina peruana, desde el ceviche hasta el pisco sour.",
+          content:
+            "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
           image: "/placeholder.svg?height=400&width=600",
           created_at: "2023-05-10T14:45:00",
           author: "Carlos Rodríguez",
           likes: 89,
-          status: "Borrador"
+          status: "Borrador",
         },
         {
           id: 3,
           title: "Carnaval de Río: La fiesta más grande del mundo",
-          extract: "Viviendo la experiencia del famoso carnaval brasileño, sus colores, música y alegría.",
-          content: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+          extract:
+            "Viviendo la experiencia del famoso carnaval brasileño, sus colores, música y alegría.",
+          content:
+            "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
           image: "/placeholder.svg?height=400&width=600",
           created_at: "2023-05-05T09:15:00",
           author: "Ana Silva",
           likes: 234,
-          status: "Publicado"
-        }
-      ]
-      setPosts(testPosts)
+          status: "Publicado",
+        },
+      ];
+      //peticion de posts a la api
+      const response = await axios.get("/api/posts/");
+      console.log(response.data.posts);
+
+      setPosts(testPosts);
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }
+  };
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -162,6 +181,5 @@ export default function BlogPage() {
         ))}
       </div>
     </div>
-  )
+  );
 }
-
