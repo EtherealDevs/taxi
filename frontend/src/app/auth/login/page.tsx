@@ -1,12 +1,12 @@
 "use client"
-
-import { useState } from "react"
+import { useActionState, useEffect, useState } from "react"
 import { motion } from "framer-motion"
 import Link from "next/link"
 import Image from "next/image"
 import { Eye, EyeOff } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { LogIn } from "@/app/server/auth"
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
@@ -15,10 +15,9 @@ export default function LoginPage() {
     password: "",
   })
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Handle form submission
-    console.log("Form submitted:", formData)
+    await LogIn(formData);
   }
 
   return (
@@ -238,4 +237,3 @@ export default function LoginPage() {
     </div>
   )
 }
-
