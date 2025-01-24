@@ -4,10 +4,7 @@ import { SparklesCore } from "@/components/ui/sparkles"
 
 export function SparklesPreview() {
   return (
-    <div className="h-[20rem] w-full bg-transparent flex flex-col items-center justify-center overflow-hidden rounded-md">
-      <h1 className="text-3xl font-bold text-center text-black relative z-20">
-        Nelson Olivera
-      </h1>
+    <div className="h-[20rem] w-full bg-transparent flex flex-col items-center justify-center overflow-hidden rounded-md absolute inset-0 z-0">
       <div className="w-[40rem] h-40 relative">
         {/* Gradients */}
         <div className="absolute inset-x-20 top-0 bg-gradient-to-r from-transparent via-indigo-500 to-transparent h-[2px] w-3/4 blur-sm" />
