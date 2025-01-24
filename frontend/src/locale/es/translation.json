@@ -101,5 +101,18 @@
       "title": "Profesionalismo",
       "description": "Nuestro equipo de choferes es discreto, puntual y siempre está comprometido con ofrecer un servicio de excelencia."
     }
+  },
+  "contact": {
+    "title": "Servicios de Conductor Profesional",
+    "description": "Con experiencia en viajes internacionales, nuestro conductor profesional ofrece servicios de transporte confiables y cómodos. Ya sea que necesite un presupuesto para su próximo viaje o esté interesado en una colaboración a largo plazo, estamos aquí para ayudarle.",
+    "getInTouch": "Póngase en Contacto",
+    "name": "Nombre",
+    "email": "Correo Electrónico",
+    "phone": "Teléfono",
+    "message": "Mensaje",
+    "sendMessage": "Enviar Mensaje",
+    "messageSent": "Mensaje enviado correctamente",
+    "errorSending": "Error al enviar el mensaje",
+    "serverError": "Error en el servidor"
   }
 }

@@ -1,9 +1,11 @@
 'use client'
 import { useState } from 'react'
 import { Mail, Phone, MapPin, Send } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 
 export default function Contacto() {
+    const { t } = useTranslation()
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -45,9 +47,9 @@ export default function Contacto() {
             <div className="max-w-5xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
                 <div className="lg:flex">
                     <div className="lg:w-1/2 bg-gray-900 text-white p-8 lg:p-12">
-                        <h2 className="text-3xl font-bold mb-4">Professional Driver Services</h2>
+                        <h2 className="text-3xl font-bold mb-4">{t('contact.title')}</h2>
                         <p className="text-gray-300 mb-6">
-                            Experienced in international travel, our professional driver offers reliable and comfortable transportation services. Whether you need a quote for your next trip or are interested in long-term collaboration, were here to assist you.
+                            {t('contact.description')}
                         </p>
                         <div className="space-y-4">
                             <div className="flex items-center">
@@ -65,10 +67,10 @@ export default function Contacto() {
                         </div>
                     </div>
                     <div className="lg:w-1/2 p-8 lg:p-12">
-                        <h3 className="text-2xl font-semibold text-gray-800 mb-6">Get in Touch</h3>
+                        <h3 className="text-2xl font-semibold text-gray-800 mb-6">{t('contact.getInTouch')}</h3>
                         <form onSubmit={handleSubmit} className="space-y-4">
                             <div>
-                                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">{t('contact.name')}</label>
                                 <input
                                     type="text"
                                     id="name"
@@ -80,7 +82,7 @@ export default function Contacto() {
                                 />
                             </div>
                             <div>
-                                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">{t('contact.email')}</label>
                                 <input
                                     type="email"
                                     id="email"
@@ -92,7 +94,7 @@ export default function Contacto() {
                                 />
                             </div>
                             <div>
-                                <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                                <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">{t('contact.phone')}</label>
                                 <input
                                     type="tel"
                                     id="phone"
@@ -103,7 +105,7 @@ export default function Contacto() {
                                 />
                             </div>
                             <div>
-                                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">Message</label>
+                                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">{t('contact.message')}</label>
                                 <textarea
                                     id="message"
                                     name="message"
@@ -119,7 +121,7 @@ export default function Contacto() {
                                 className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-300 flex items-center justify-center"
                             >
                                 <Send className="w-5 h-5 mr-2" />
-                                Send Message
+                                {t('contact.sendMessage')}
                             </button>
                         </form>
                     </div>

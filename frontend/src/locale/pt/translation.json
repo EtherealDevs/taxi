@@ -101,5 +101,18 @@
       "title": "Profissionalismo",
       "description": "Nossa equipe de motoristas é discreta, pontual e sempre comprometida em oferecer um serviço de excelência."
     }
+  },
+  "contact": {
+    "title": "Serviços de Motorista Profissional",
+    "description": "Com experiência em viagens internacionais, nosso motorista profissional oferece serviços de transporte confiáveis e confortáveis. Se você precisar de um orçamento para sua próxima viagem ou estiver interessado em uma colaboração de longo prazo, estamos aqui para ajudar.",
+    "getInTouch": "Entre em Contato",
+    "name": "Nome",
+    "email": "Email",
+    "phone": "Telefone",
+    "message": "Mensagem",
+    "sendMessage": "Enviar Mensagem",
+    "messageSent": "Mensagem enviada com sucesso",
+    "errorSending": "Erro ao enviar a mensagem",
+    "serverError": "Erro no servidor"
   }
 }

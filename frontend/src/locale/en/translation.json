@@ -101,5 +101,18 @@
       "title": "Professionalism",
       "description": "Our team of drivers is discreet, punctual, and always committed to offering excellent service."
     }
+  },
+  "contact": {
+    "title": "Professional Driver Services",
+    "description": "Experienced in international travel, our professional driver offers reliable and comfortable transportation services. Whether you need a quote for your next trip or are interested in long-term collaboration, we are here to assist you.",
+    "getInTouch": "Get in Touch",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "message": "Message",
+    "sendMessage": "Send Message",
+    "messageSent": "Message sent successfully",
+    "errorSending": "Error sending message",
+    "serverError": "Server error"
   }
 }
