@@ -15,7 +15,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
-import axios from "@/lib/axios";
+import { usePost } from "@/hooks/posts";
 
 interface Post {
   id: number;
@@ -34,8 +34,8 @@ export default function BlogPage() {
 
   useEffect(() => {
     fetchData();
-  }, []);
-
+  });
+  const { getPosts } = usePost("guest");
   const formatDate = (date: string) => {
     const options: Intl.DateTimeFormatOptions = {
       year: "numeric",
@@ -47,58 +47,63 @@ export default function BlogPage() {
     return new Date(date).toLocaleDateString("es-ES", options);
   };
 
-  const fetchData = async () => {
-    try {
-      // Simulating API call with test data
-      let testPosts: Post[] = [
-        {
-          id: 1,
-          title: "Descubriendo los secretos de la Patagonia",
-          extract:
-            "Un viaje inolvidable por los paisajes más impresionantes del sur de Argentina y Chile.",
-          content:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-          image: "/placeholder.svg?height=400&width=600",
-          created_at: "2023-05-15T10:30:00",
-          author: "María González",
-          likes: 156,
-          status: "Publicado",
-        },
-        {
-          id: 2,
-          title: "Gastronomía peruana: Un festín para los sentidos",
-          extract:
-            "Explorando los sabores y aromas de la cocina peruana, desde el ceviche hasta el pisco sour.",
-          content:
-            "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-          image: "/placeholder.svg?height=400&width=600",
-          created_at: "2023-05-10T14:45:00",
-          author: "Carlos Rodríguez",
-          likes: 89,
-          status: "Borrador",
-        },
-        {
-          id: 3,
-          title: "Carnaval de Río: La fiesta más grande del mundo",
-          extract:
-            "Viviendo la experiencia del famoso carnaval brasileño, sus colores, música y alegría.",
-          content:
-            "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-          image: "/placeholder.svg?height=400&width=600",
-          created_at: "2023-05-05T09:15:00",
-          author: "Ana Silva",
-          likes: 234,
-          status: "Publicado",
-        },
-      ];
-      //peticion de posts a la api
-      const response = await axios.get("/api/posts/");
-      console.log(response.data.posts);
+  // const fetchData = async () => {
+  //   try {
+  //     // Simulating API call with test data
+  //     let testPosts: Post[] = [
+  //       {
+  //         id: 1,
+  //         title: "Descubriendo los secretos de la Patagonia",
+  //         extract:
+  //           "Un viaje inolvidable por los paisajes más impresionantes del sur de Argentina y Chile.",
+  //         content:
+  //           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+  //         image: "/placeholder.svg?height=400&width=600",
+  //         created_at: "2023-05-15T10:30:00",
+  //         author: "María González",
+  //         likes: 156,
+  //         status: "Publicado",
+  //       },
+  //       {
+  //         id: 2,
+  //         title: "Gastronomía peruana: Un festín para los sentidos",
+  //         extract:
+  //           "Explorando los sabores y aromas de la cocina peruana, desde el ceviche hasta el pisco sour.",
+  //         content:
+  //           "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+  //         image: "/placeholder.svg?height=400&width=600",
+  //         created_at: "2023-05-10T14:45:00",
+  //         author: "Carlos Rodríguez",
+  //         likes: 89,
+  //         status: "Borrador",
+  //       },
+  //       {
+  //         id: 3,
+  //         title: "Carnaval de Río: La fiesta más grande del mundo",
+  //         extract:
+  //           "Viviendo la experiencia del famoso carnaval brasileño, sus colores, música y alegría.",
+  //         content:
+  //           "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+  //         image: "/placeholder.svg?height=400&width=600",
+  //         created_at: "2023-05-05T09:15:00",
+  //         author: "Ana Silva",
+  //         likes: 234,
+  //         status: "Publicado",
+  //       },
+  //     ];
+  //     //peticion de posts a la api
+  //     const response = await axios.get("/api/posts/");
+  //     console.log(response.data.posts);
 
-      setPosts(testPosts);
-    } catch (error) {
-      console.error(error);
-    }
+  //     setPosts(testPosts);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  const fetchData = async () => {
+    const response = await getPosts();
+    setPosts(response.posts);
   };
 
   return (
