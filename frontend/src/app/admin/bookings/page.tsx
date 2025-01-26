@@ -160,7 +160,7 @@ export default function BookingsPage() {
                             <SelectTrigger>
                                 <SelectValue placeholder="Seleccionar estado" />
                             </SelectTrigger>
-                            <SelectContent>
+                            <SelectContent className="bg-white">
                                 <SelectItem value="todos">Todos</SelectItem>
                                 <SelectItem value="completado">Completado</SelectItem>
                                 <SelectItem value="en progreso">En progreso</SelectItem>
@@ -235,7 +235,7 @@ export default function BookingsPage() {
                                                 <SelectTrigger>
                                                     <SelectValue placeholder={booking.status} />
                                                 </SelectTrigger>
-                                                <SelectContent>
+                                                <SelectContent className="bg-white">
                                                     <SelectItem value="Completado">Completado</SelectItem>
                                                     <SelectItem value="En progreso">En progreso</SelectItem>
                                                     <SelectItem value="Pendiente">Pendiente</SelectItem>
