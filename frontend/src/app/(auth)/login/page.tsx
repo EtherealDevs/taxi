@@ -1,24 +1,47 @@
-"use client"
-import { useActionState, useEffect, useState } from "react"
-import { motion } from "framer-motion"
-import Link from "next/link"
-import Image from "next/image"
-import { Eye, EyeOff } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { LogIn } from "@/app/server/auth"
+"use client";
+import { useActionState, useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import Link from "next/link";
+import Image from "next/image";
+import { Eye, EyeOff } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/hooks/auth";
 
 export default function LoginPage() {
-  const [showPassword, setShowPassword] = useState(false)
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  })
+  const router = useRouter();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    await LogIn(formData);
-  }
+  const { login } = useAuth({
+    middleware: "guest",
+    redirectIfAuthenticated: "/",
+  });
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [shouldRemember, setShouldRemember] = useState(false);
+  const [errors, setErrors] = useState([]);
+  const [status, setStatus] = useState(null);
+
+  useEffect(() => {
+    if (router.reset?.length > 0 && errors.length === 0) {
+      setStatus(atob(router.reset));
+    } else {
+      setStatus(null);
+    }
+  });
+
+  const submitForm = async (event: any) => {
+    event.preventDefault();
+
+    login({
+      email,
+      password,
+      remember: shouldRemember,
+      setErrors,
+      setStatus,
+    });
+  };
 
   return (
     <div className="min-h-screen w-full flex">
@@ -40,7 +63,10 @@ export default function LoginPage() {
               className="mt-2 text-sm text-gray-600"
             >
               ¿No tienes una cuenta?{" "}
-              <Link href="/auth/register" className="text-blue-600 hover:text-blue-500 font-medium">
+              <Link
+                href="/auth/register"
+                className="text-blue-600 hover:text-blue-500 font-medium"
+              >
                 Regístrate
               </Link>
             </motion.p>
@@ -85,7 +111,9 @@ export default function LoginPage() {
               <div className="w-full border-t border-gray-300"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">O continuar con email</span>
+              <span className="px-2 bg-white text-gray-500">
+                O continuar con email
+              </span>
             </div>
           </div>
 
@@ -93,11 +121,18 @@ export default function LoginPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            onSubmit={handleSubmit}
+            onSubmit={submitForm}
             className="mt-8 space-y-6"
           >
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+            >
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Correo electrónico
               </label>
               <Input
@@ -108,28 +143,35 @@ export default function LoginPage() {
                 required
                 className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                 placeholder="juan@ejemplo.com"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
               />
             </motion.div>
 
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+            >
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Contraseña
               </label>
               <div className="relative">
                 <Input
                   id="password"
                   name="password"
-                  type={showPassword ? "text" : "password"}
+                  type="password"
                   autoComplete="current-password"
                   required
                   className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                   placeholder="••••••••"
-                  value={formData.password}
-                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
                 />
-                <button
+                {/* <button
                   type="button"
                   className="absolute inset-y-0 right-0 pr-3 flex items-center"
                   onClick={() => setShowPassword(!showPassword)}
@@ -139,7 +181,7 @@ export default function LoginPage() {
                   ) : (
                     <Eye className="h-5 w-5 text-gray-400" />
                   )}
-                </button>
+                </button> */}
               </div>
             </motion.div>
 
@@ -156,20 +198,37 @@ export default function LoginPage() {
                   type="checkbox"
                   className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                 />
-                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
+                <label
+                  htmlFor="remember-me"
+                  className="ml-2 block text-sm text-gray-900"
+                >
                   Recordarme
                 </label>
               </motion.div>
 
-              <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.5 }}>
-                <Link href="/auth/forgot-password" className="text-sm font-medium text-blue-600 hover:text-blue-500">
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.5 }}
+              >
+                <Link
+                  href="/forgot-password"
+                  className="text-sm font-medium text-blue-600 hover:text-blue-500"
+                >
                   ¿Olvidaste tu contraseña?
                 </Link>
               </motion.div>
             </div>
 
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}>
-              <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6 }}
+            >
+              <Button
+                type="submit"
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+              >
                 Iniciar sesión
               </Button>
             </motion.div>
@@ -190,7 +249,11 @@ export default function LoginPage() {
                 d="M0,96L48,112C96,128,192,160,288,186.7C384,213,480,235,576,213.3C672,192,768,128,864,128C960,128,1056,192,1152,208C1248,224,1344,192,1392,176L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
               ></path>
             </svg>
-            <svg className="absolute bottom-0 left-0 w-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+            <svg
+              className="absolute bottom-0 left-0 w-full"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 1440 320"
+            >
               <path
                 fill="#0066FF"
                 fillOpacity="0.05"
@@ -224,7 +287,11 @@ export default function LoginPage() {
               d="M0,96L48,112C96,128,192,160,288,186.7C384,213,480,235,576,213.3C672,192,768,128,864,128C960,128,1056,192,1152,208C1248,224,1344,192,1392,176L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
             ></path>
           </svg>
-          <svg className="absolute bottom-0 left-0 w-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+          <svg
+            className="absolute bottom-0 left-0 w-full"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 1440 320"
+          >
             <path
               fill="#0066FF"
               fillOpacity="0.05"
@@ -235,5 +302,5 @@ export default function LoginPage() {
         <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-blue-600/20" />
       </div>
     </div>
-  )
+  );
 }
