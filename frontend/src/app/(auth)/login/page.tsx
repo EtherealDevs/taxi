@@ -21,7 +21,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [shouldRemember, setShouldRemember] = useState(false);
   const [errors, setErrors] = useState([]);
-  const [status, setStatus] = useState(null);
+  const [status, setStatus] = useState<string | null>(null);
 
   useEffect(() => {
     if (router.reset?.length > 0 && errors.length === 0) {

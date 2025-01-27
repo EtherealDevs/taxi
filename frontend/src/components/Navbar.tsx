@@ -25,10 +25,17 @@ import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/auth";
 
 export default function Navbar() {
+  const { user } = useAuth();
+  function isUser() {
+    if (typeof user == "undefined") {
+      return false;
+    }
+    return true;
+  }
   const { logout } = useAuth();
   const { i18n } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(isUser());
 
   const navItems = [
     { name: "Bienvenido", href: "#hero" },
@@ -46,6 +53,9 @@ export default function Navbar() {
 
   const handleLogin = () => {
     window.location.pathname = "/login";
+  };
+  const handleRegister = () => {
+    window.location.pathname = "/register";
   };
   const handleLogout = () => {
     setIsLoggedIn(false);
@@ -138,9 +148,11 @@ export default function Navbar() {
                   </DropdownMenuContent>
                 </DropdownMenu>
               ) : (
-                <Button onClick={handleLogin}>Iniciar Sesión</Button>
+                <span>
+                  <Button onClick={handleLogin}>Iniciar Sesión</Button>
+                  <Button onClick={handleRegister}>Registrarse</Button>
+                </span>
               )}
-              <Link href={"/register"}>Registrarse</Link>
             </div>
 
             <Button
