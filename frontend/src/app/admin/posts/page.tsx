@@ -34,7 +34,7 @@ export default function BlogPage() {
 
   useEffect(() => {
     fetchData();
-  });
+  }, []);
   const { getPosts } = usePost("guest");
   const formatDate = (date: string) => {
     const options: Intl.DateTimeFormatOptions = {
