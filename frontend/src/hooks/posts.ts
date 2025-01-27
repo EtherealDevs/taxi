@@ -19,20 +19,26 @@ export const usePost = (middleware: any) => {
     const response = axios.get(`/api/posts/${id}`);
     return response;
   };
-  const create = async (...props: any[]) => {
+  const create = async ({ ...props }) => {
     await csrf();
-    const response = axios.post("/api/posts", ...props);
-    return response;
+    axios.post("/api/posts", props).catch((error) => {
+      if (error.response.status !== 422) throw error;
+    });
+    window.location.pathname = "/admin/posts";
   };
-  const update = async (...props: any[]) => {
+  const update = async ({ ...props }) => {
     await csrf();
-    const response = axios.put(`/api/posts/${params.id}`, ...props);
-    return response;
+    axios.put(`/api/posts/${params.id}`, props).catch((error) => {
+      if (error.response.status !== 422) throw error;
+    });
+    window.location.pathname = "/admin/posts";
   };
   const deletePost = async () => {
     await csrf();
-    const response = axios.delete(`/api/posts/${params.id}`);
-    return response;
+    axios.delete(`/api/posts/${params.id}`).catch((error) => {
+      if (error.response.status !== 422) throw error;
+    });
+    window.location.pathname = "/admin/posts";
   };
   return {
     getPosts,

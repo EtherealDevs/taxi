@@ -18,8 +18,14 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Switch } from "@/components/ui/switch";
+import { usePost } from "@/hooks/posts";
 
 export default function CreateBlogPost() {
+  const { create } = usePost("auth:sanctum");
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [extract, setExtract] = useState("");
+  const [slug, setSlug] = useState("");
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [tags, setTags] = useState<string[]>([]);
   const [newTag, setNewTag] = useState("");
@@ -33,6 +39,16 @@ export default function CreateBlogPost() {
       };
       reader.readAsDataURL(file);
     }
+  };
+
+  const submitForm = async (event: any) => {
+    event.preventDefault();
+
+    create({
+      title,
+      content,
+      extract,
+    });
   };
 
   const handleAddTag = () => {
@@ -59,22 +75,29 @@ export default function CreateBlogPost() {
             <TabsTrigger value="media">Multimedia</TabsTrigger>
             <TabsTrigger value="settings">Configuración</TabsTrigger>
           </TabsList>
-          <form className="space-y-6">
+          <form className="space-y-6" onSubmit={submitForm}>
             <TabsContent value="content">
               <div className="space-y-6">
                 <div>
                   <Label htmlFor="title">Título</Label>
                   <Input
                     id="title"
+                    type="text"
+                    name="title"
+                    value={title}
+                    onChange={(event) => setTitle(event.target.value)}
                     placeholder="Ingrese el título del post"
                     className="mt-1"
                   />
                 </div>
 
                 <div>
-                  <Label htmlFor="excerpt">Extracto</Label>
+                  <Label htmlFor="extract">Extracto</Label>
                   <Textarea
-                    id="excerpt"
+                    id="extract"
+                    name="extract"
+                    value={extract}
+                    onChange={(event) => setExtract(event.target.value)}
                     placeholder="Ingrese un breve resumen del post"
                     className="mt-1 h-20"
                   />
@@ -84,6 +107,9 @@ export default function CreateBlogPost() {
                   <Label htmlFor="content">Contenido</Label>
                   <Textarea
                     id="content"
+                    name="content"
+                    value={content}
+                    onChange={(event) => setContent(event.target.value)}
                     placeholder="Escriba el contenido del post"
                     className="mt-1 h-64"
                   />

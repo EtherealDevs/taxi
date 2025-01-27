@@ -31,8 +31,7 @@ class PostController extends Controller
             'title' => 'required|string',
             'content' => 'required|string',
             'extract' => 'required|string',
-            'image' => 'required',
-            'slug' => 'required|unique:posts,slug|string'
+            // 'image' => 'required',
         ]);
         if ($validator->fails()) {
             $data = [
@@ -41,7 +40,7 @@ class PostController extends Controller
             ];
             return response()->json($data, 422);
         }
-        $post = Post::create($request->only(['title', 'content', 'extract', 'slug']));
+        $post = Post::create($request->only(['title', 'content', 'extract']));
         if ($request->image) {
             foreach ($request->image as $image) {
                 $path = $image->store('images');
@@ -86,7 +85,6 @@ class PostController extends Controller
             'title' => 'string',
             'content' => 'string',
             'extract' => 'string',
-            'slug' => 'unique:string,post_id,' . $id
         ]);
         if ($validator->fails()) {
             $data = [
@@ -104,7 +102,7 @@ class PostController extends Controller
             return response()->json($data, 404);
         }
         $post->update(
-            $request->only(['title', 'content', 'extract', 'slug'])
+            $request->only(['title', 'content', 'extract'])
         );
         if ($request->image) {
             foreach ($request->image as $image) {
