@@ -13,22 +13,24 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::group(
-    ['middleware' =>
+    [
+        'middleware' =>
         [
             'auth:sanctum'
         ]
-    ], function (){
+    ],
+    function () {
         Route::apiResources([
             'reservations' => ReservationController::class,
             'stations' => StationController::class
         ]);
     }
 );
-Route::group(['middleware' => 'auth:sanctum'], function (){
-    Route::apiResource('posts', PostController::class)->except('index');
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::apiResource('posts', PostController::class)->except(['index', 'show']);
     Route::apiResource('drivers', DriverController::class)->except('index');
     Route::apiResource('cars', CarController::class)->except('index');
 });
-Route::apiResource('posts', PostController::class)->only('index');
+Route::apiResource('posts', PostController::class)->only(['index', 'show']);
 Route::apiResource('drivers', DriverController::class)->only('index');
 Route::apiResource('cars', CarController::class)->only('index');

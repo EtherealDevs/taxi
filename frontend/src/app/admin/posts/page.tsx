@@ -17,7 +17,7 @@ import { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { usePost } from "@/hooks/posts";
 
-interface Post {
+export interface Post {
   id: number;
   title: string;
   extract: string;

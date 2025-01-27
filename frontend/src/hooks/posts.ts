@@ -16,7 +16,6 @@ export const usePost = (middleware: any) => {
     }
   };
   const getPost = async (id: string) => {
-    await csrf();
     const response = axios.get(`/api/posts/${id}`);
     return response;
   };
