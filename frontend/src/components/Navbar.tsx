@@ -21,16 +21,16 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";/* 
-import { useAuth } from "@/hooks/auth"; */
+import { cn } from "@/lib/utils";
+import { useAuth } from "@/hooks/auth";
 
-export default function Navbar() {/* 
-  const { logout } = useAuth(); */
+export default function Navbar() {
+  const { logout } = useAuth();
   const { i18n } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);/* 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { user } = useAuth({ middleware: "auth" });
- */
+
   const navItems = [
     { name: "Bienvenido", href: "#hero" },
     { name: "Reservar Viaje", href: "#reviews" },

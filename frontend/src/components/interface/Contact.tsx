@@ -3,7 +3,6 @@ import { useState } from 'react'
 import { Mail, Phone, MapPin, Send } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 
-
 export default function Contacto() {
     const { t } = useTranslation()
     const [formData, setFormData] = useState({
