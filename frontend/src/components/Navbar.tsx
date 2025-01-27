@@ -29,7 +29,6 @@ export default function Navbar() {
   const { i18n } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const { user } = useAuth({ middleware: "auth" });
 
   const navItems = [
     { name: "Bienvenido", href: "#hero" },
