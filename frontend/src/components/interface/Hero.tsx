@@ -49,10 +49,11 @@ export default function Hero() {
                             <Image
                                 src="/img/driver.png"
                                 alt={t('hero.imageAlt')}
-                                fill
+                                width={180}
+                                height={180}
                                 className="rounded-[2rem] object-cover"
                             />
-                            <div>
+                            <div className="relative">
                                 <SparklesPreview />
                             </div>
                         </div>

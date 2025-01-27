@@ -15,8 +15,8 @@ const SparklesPreview = () => {
   }, [])
 
   return (
-    <div className="bg-to-t from-white via-white to-transparent p-4 rounded-lg relative h-64">
-      <div className="absolute inset-x-0 bottom-0 h-32">
+    <div className="bg-to-t from-white via-white to-transparent p-4 rounded-lg h-full">
+      <div className="absolute inset-x-0 bottom-[30px] h-32">
         <SparklesCore
           ref={sparklesRef}
           background="transparent"
