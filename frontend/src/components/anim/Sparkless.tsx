@@ -1,80 +1,96 @@
-"use client";
-import React from "react";
+"use client"
+
+import React, { useEffect, useRef } from "react"
 import { SparklesCore } from "@/components/ui/sparkles"
 
-export function SparklesPreview() {
-  return (
-    <div className="h-[20rem] w-full bg-transparent flex flex-col items-center justify-center overflow-hidden rounded-md absolute inset-0 z-0">
-      <div className="w-[40rem] h-40 relative">
-        {/* Gradients */}
-        <div className="absolute inset-x-20 top-0 bg-gradient-to-r from-transparent via-indigo-500 to-transparent h-[2px] w-3/4 blur-sm" />
-        <div className="absolute inset-x-20 top-0 bg-gradient-to-r from-transparent via-indigo-500 to-transparent h-px w-3/4" />
-        <div className="absolute inset-x-60 top-0 bg-gradient-to-r from-transparent via-blue-500 to-transparent h-[5px] w-1/4 blur-sm" />
-        <div className="absolute inset-x-60 top-0 bg-gradient-to-r from-transparent via-blue-500 to-transparent h-px w-1/4" />
+const SparklesPreview = () => {
+  const sparklesRef = useRef(null)
 
-        {/* Core component */}
+  useEffect(() => {
+    return () => {
+      if (sparklesRef.current) {
+        sparklesRef.current.destroy()
+      }
+    }
+  }, [])
+
+  return (
+    <div className="bg-to-t from-white via-white to-transparent p-4 rounded-lg relative h-64">
+      <div className="absolute inset-x-0 bottom-0 h-32">
         <SparklesCore
+          ref={sparklesRef}
           background="transparent"
           minSize={0.4}
           maxSize={1}
           particleDensity={1200}
           className="w-full h-full"
-          particleColor="#000000"
+          particleColor={["#000000", "#4263EB"]}
+          speed={0.2}
         />
-
-        {/* Radial Gradient to prevent sharp edges */}
-        <div className="absolute inset-0 w-full h-full bg-white [mask-image:radial-gradient(350px_200px_at_top,transparent_20%,white)]"></div>
       </div>
     </div>
-  );
+  )
 }
 
-export function SparklesPreviewDark() {
+const SparklesPreviewDark = () => {
+  const sparklesRef = useRef(null)
+
+  useEffect(() => {
+    return () => {
+      if (sparklesRef.current) {
+        sparklesRef.current.destroy()
+      }
+    }
+  }, [])
+
   return (
-    <div className="h-[40rem] relative w-full bg-slate-950 flex flex-col items-center justify-center overflow-hidden rounded-md">
-      <div className="w-full absolute inset-0 h-screen">
+    <div className="bg-gray-100 dark:bg-gray-900 p-4 rounded-lg shadow-md relative h-64">
+      <div className="absolute inset-x-0 bottom-0 h-32">
         <SparklesCore
+          ref={sparklesRef}
           id="tsparticlesfullpage"
           background="transparent"
           minSize={0.6}
           maxSize={1.4}
           particleDensity={100}
           className="w-full h-full"
-          particleColor="#FFFFFF"
-          speed={1}
+          particleColor={["#FFFFFF", "#4263EB"]}
+          speed={0.3}
         />
       </div>
-      <h1 className="md:text-7xl text-3xl lg:text-9xl font-bold text-center text-white relative z-20">
-        Build faster
-      </h1>
     </div>
-  );
+  )
 }
 
-export function SparklesPreviewColorful() {
+const SparklesPreviewColorful = () => {
+  const sparklesRef = useRef(null)
+
+  useEffect(() => {
+    return () => {
+      if (sparklesRef.current) {
+        sparklesRef.current.destroy()
+      }
+    }
+  }, [])
+
   return (
-    <div className="h-[40rem] relative w-full bg-black flex flex-col items-center justify-center overflow-hidden rounded-md">
-      <div className="w-full absolute inset-0 h-screen">
+    <div className="bg-gray-100 dark:bg-gray-900 p-4 rounded-lg shadow-md relative h-64">
+      <div className="absolute inset-x-0 bottom-0 h-32">
         <SparklesCore
+          ref={sparklesRef}
           id="tsparticlescolorful"
           background="transparent"
           minSize={0.6}
           maxSize={1.4}
           particleDensity={100}
           className="w-full h-full"
-          particleColor="#00ff00"
-          speed={0.5}
+          particleColor={["#00ff00", "#4263EB", "#ff00ff"]}
+          speed={0.2}
         />
       </div>
-      <div className="flex flex-col items-center justify-center gap-4 relative z-20">
-        <h1 className="md:text-7xl text-3xl lg:text-9xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400">
-          The Future
-        </h1>
-        <p className="text-neutral-300 cursor-default text-center">
-          is brighter than you think
-        </p>
-      </div>
     </div>
-  );
+  )
 }
+
+export { SparklesPreview, SparklesPreviewDark, SparklesPreviewColorful }
 
