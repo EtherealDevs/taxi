@@ -1,37 +1,56 @@
-"use client"
+"use client";
 
-import { Clock, MapPin, Plus, ArrowRight, ArrowLeft, Edit2, User, Phone, Mail, X } from "lucide-react"
-import { useTranslation } from "react-i18next"
-import { useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import {
+  Clock,
+  MapPin,
+  Plus,
+  ArrowRight,
+  ArrowLeft,
+  Edit2,
+  User,
+  Phone,
+  Mail,
+  X,
+} from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useMap } from "@/hooks/map";
 
 interface FormReservProps {
-  onOpenModal: (inputName: "departure" | "destination" | "extraStop", index?: number) => void
+  onOpenModal: (
+    inputName: "departure" | "destination" | "extraStop",
+    index?: number
+  ) => void;
   location: {
-    departure: string
-    destination: string
-    extraStops: string[]
-  }
+    departure: string;
+    destination: string;
+    extraStops: string[];
+  };
 }
 
 interface FormData {
   // Step 1 data
-  extraStops: string[]
-  date: string
-  time: string
+  extraStops: string[];
+  date: string;
+  time: string;
   // Step 2 data
-  firstName: string
-  lastName: string
-  phone: string
-  email: string
+  firstName: string;
+  lastName: string;
+  phone: string;
+  email: string;
   // Location data is passed via props
+}
+interface Addresses {
+  first: string;
+  last: string;
 }
 
 export default function FormReserv({ onOpenModal, location }: FormReservProps) {
-  const { t } = useTranslation()
-  const [currentStep, setCurrentStep] = useState(1)
+  const { t } = useTranslation();
+  const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<FormData>({
     extraStops: [],
     date: "",
@@ -40,99 +59,130 @@ export default function FormReserv({ onOpenModal, location }: FormReservProps) {
     lastName: "",
     phone: "",
     email: "",
-  })
+  });
+  const [addresses, setAddresses] = useState<Addresses>({
+    first: "",
+    last: "",
+  });
+  const { getAddress } = useMap();
 
+  const changeAddress = async () => {
+    let first = await getAddress(location.departure);
+    let last = await getAddress(location.destination);
+    setAddresses({
+      first: first.display_name,
+      last: last.display_name,
+    });
+  };
   const handleInputChange = (field: keyof FormData, value: any) => {
-    setFormData((prev) => ({ ...prev, [field]: value }))
-  }
+    setFormData((prev) => ({ ...prev, [field]: value }));
+  };
 
   const handleAddExtraStop = () => {
     setFormData((prev) => ({
       ...prev,
       extraStops: [...prev.extraStops, ""],
-    }))
-  }
+    }));
+  };
 
   const handleExtraStopChange = (index: number, value: string) => {
-    const newExtraStops = [...formData.extraStops]
-    newExtraStops[index] = value
-    handleInputChange("extraStops", newExtraStops)
-  }
+    const newExtraStops = [...formData.extraStops];
+    newExtraStops[index] = value;
+    handleInputChange("extraStops", newExtraStops);
+  };
 
   const handleRemoveExtraStop = (index: number) => {
     setFormData((prev) => ({
       ...prev,
       extraStops: prev.extraStops.filter((_, i) => i !== index),
-    }))
-  }
+    }));
+  };
 
   const validateStep = (step: number): boolean => {
     switch (step) {
       case 1:
-        return Boolean(location.departure && location.destination && formData.date && formData.time)
+        return Boolean(
+          location.departure &&
+            location.destination &&
+            formData.date &&
+            formData.time
+        );
       case 2:
-        return Boolean(formData.firstName && formData.lastName && formData.phone && formData.email)
+        return Boolean(
+          formData.firstName &&
+            formData.lastName &&
+            formData.phone &&
+            formData.email
+        );
       default:
-        return true
+        return true;
     }
-  }
+  };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (validateStep(currentStep)) {
-      setCurrentStep((prev) => prev + 1)
+      await changeAddress();
+      setCurrentStep((prev) => prev + 1);
     } else {
       // Show validation error
-      alert(t("reserv.pleaseCompleteAllFields"))
+      alert(t("reserv.pleaseCompleteAllFields"));
     }
-  }
+  };
 
   const handleBack = () => {
-    setCurrentStep((prev) => prev - 1)
-  }
+    setCurrentStep((prev) => prev - 1);
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    let message = `Hola, me gustaría reservar un viaje:\n\n`
-    message += `Desde: ${location.departure}\n`
+    e.preventDefault();
+    let message = `Hola, me gustaría reservar un viaje:\n\n`;
+    message += `Desde: ${addresses.first}\n`;
 
     if (formData.extraStops.length > 0) {
-      message += `Paradas:\n`
+      message += `Paradas:\n`;
       formData.extraStops.forEach((stop, index) => {
-        message += `  ${index + 1}. ${stop}\n`
-      })
+        message += `  ${index + 1}. ${stop}\n`;
+      });
     }
 
-    message += `Hasta: ${location.destination}\n`
-    message += `Fecha: ${formData.date}\n`
-    message += `Hora: ${formData.time}\n\n`
-    message += `Nombre: ${formData.firstName} ${formData.lastName}\n`
-    message += `Teléfono: ${formData.phone}\n`
-    message += `Email: ${formData.email}`
+    message += `Hasta: ${addresses.last}\n`;
+    message += `Fecha: ${formData.date}\n`;
+    message += `Hora: ${formData.time}\n\n`;
+    message += `Nombre: ${formData.firstName} ${formData.lastName}\n`;
+    message += `Teléfono: ${formData.phone}\n`;
+    message += `Email: ${formData.email}`;
 
-    const encodedMessage = encodeURIComponent(message)
-    const whatsappLink = `https://wa.me/34123456789?text=${encodedMessage}`
-    window.open(whatsappLink, "_blank")
-  }
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappLink = `https://wa.me/34123456789?text=${encodedMessage}`;
+    window.open(whatsappLink, "_blank");
+  };
 
   const renderStepIndicator = () => (
     <div className="flex justify-center mb-8">
       {[1, 2, 3].map((step) => (
         <div key={step} className="flex items-center">
           <div
-            className={`w-8 h-8 rounded-full flex items-center justify-center ${step === currentStep
+            className={`w-8 h-8 rounded-full flex items-center justify-center ${
+              step === currentStep
                 ? "bg-[#4263EB] text-white"
                 : step < currentStep
-                  ? "bg-green-500 text-white"
-                  : "bg-gray-200 text-gray-600"
-              }`}
+                ? "bg-green-500 text-white"
+                : "bg-gray-200 text-gray-600"
+            }`}
           >
             {step < currentStep ? "✓" : step}
           </div>
-          {step < 3 && <div className={`w-12 h-1 ${step < currentStep ? "bg-green-500" : "bg-gray-200"}`} />}
+          {step < 3 && (
+            <div
+              className={`w-12 h-1 ${
+                step < currentStep ? "bg-green-500" : "bg-gray-200"
+              }`}
+            />
+          )}
         </div>
       ))}
     </div>
-  )
+  );
 
   const renderStep1 = () => (
     <motion.div
@@ -218,7 +268,7 @@ export default function FormReserv({ onOpenModal, location }: FormReservProps) {
         </div>
       </div>
     </motion.div>
-  )
+  );
 
   const renderStep2 = () => (
     <motion.div
@@ -271,7 +321,7 @@ export default function FormReserv({ onOpenModal, location }: FormReservProps) {
         />
       </div>
     </motion.div>
-  )
+  );
 
   const renderStep3 = () => (
     <motion.div
@@ -283,14 +333,19 @@ export default function FormReserv({ onOpenModal, location }: FormReservProps) {
       <div className="bg-gray-50 p-6 rounded-xl space-y-4">
         <div className="flex justify-between items-center">
           <h3 className="font-semibold">Detalles del Viaje</h3>
-          <Button variant="ghost" size="sm" onClick={() => setCurrentStep(1)} className="text-[#4263EB]">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setCurrentStep(1)}
+            className="text-[#4263EB]"
+          >
             <Edit2 className="w-4 h-4 mr-2" />
             Editar
           </Button>
         </div>
         <div className="space-y-2">
           <p>
-            <span className="font-medium">Desde:</span> {location.departure}
+            <span className="font-medium">Desde:</span> {addresses.first}
           </p>
           {formData.extraStops.map((stop, index) => (
             <p key={index}>
@@ -298,7 +353,7 @@ export default function FormReserv({ onOpenModal, location }: FormReservProps) {
             </p>
           ))}
           <p>
-            <span className="font-medium">Hasta:</span> {location.destination}
+            <span className="font-medium">Hasta:</span> {addresses.last}
           </p>
           <p>
             <span className="font-medium">Fecha:</span> {formData.date}
@@ -312,14 +367,20 @@ export default function FormReserv({ onOpenModal, location }: FormReservProps) {
       <div className="bg-gray-50 p-6 rounded-xl space-y-4">
         <div className="flex justify-between items-center">
           <h3 className="font-semibold">Información Personal</h3>
-          <Button variant="ghost" size="sm" onClick={() => setCurrentStep(2)} className="text-[#4263EB]">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setCurrentStep(2)}
+            className="text-[#4263EB]"
+          >
             <Edit2 className="w-4 h-4 mr-2" />
             Editar
           </Button>
         </div>
         <div className="space-y-2">
           <p>
-            <span className="font-medium">Nombre:</span> {formData.firstName} {formData.lastName}
+            <span className="font-medium">Nombre:</span> {formData.firstName}{" "}
+            {formData.lastName}
           </p>
           <p>
             <span className="font-medium">Teléfono:</span> {formData.phone}
@@ -330,12 +391,14 @@ export default function FormReserv({ onOpenModal, location }: FormReservProps) {
         </div>
       </div>
     </motion.div>
-  )
+  );
 
   return (
     <div className="flex-none w-full md:w-[400px] md:ml-auto sticky translate-x-9 top-0">
       <div className="w-full border-[#4263EB] border-2 rounded-[2rem] p-8 bg-white shadow-lg">
-        <div className="text-sm text-[#4263EB] font-medium mb-4">{t("reserv.countries")}</div>
+        <div className="text-sm text-[#4263EB] font-medium mb-4">
+          {t("reserv.countries")}
+        </div>
         <h2 className="text-2xl font-bold mb-8">{t("reserv.bookYourTrip")}</h2>
 
         {renderStepIndicator()}
@@ -349,19 +412,31 @@ export default function FormReserv({ onOpenModal, location }: FormReservProps) {
 
           <div className="flex gap-4">
             {currentStep > 1 && (
-              <Button type="button" variant="outline" className="flex-1" onClick={handleBack}>
+              <Button
+                type="button"
+                variant="outline"
+                className="flex-1"
+                onClick={handleBack}
+              >
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Atrás
               </Button>
             )}
 
             {currentStep < 3 ? (
-              <Button type="button" className="flex-1 bg-[#4263EB] hover:bg-[#3651c9]" onClick={handleNext}>
+              <Button
+                type="button"
+                className="flex-1 bg-[#4263EB] hover:bg-[#3651c9]"
+                onClick={handleNext}
+              >
                 Siguiente
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
             ) : (
-              <Button type="submit" className="flex-1 bg-[#4263EB] hover:bg-[#3651c9]">
+              <Button
+                type="submit"
+                className="flex-1 bg-[#4263EB] hover:bg-[#3651c9]"
+              >
                 Confirmar Reserva
               </Button>
             )}
@@ -369,6 +444,5 @@ export default function FormReserv({ onOpenModal, location }: FormReservProps) {
         </form>
       </div>
     </div>
-  )
+  );
 }
-
