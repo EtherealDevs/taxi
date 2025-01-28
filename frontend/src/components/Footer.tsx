@@ -24,6 +24,14 @@ export default function Footer() {
         <div className="mt-8 text-center text-sm text-gray-600">
           <p>&copy; 2023 {t('footer.brand')}. {t('footer.rightsReserved')}</p>
         </div>
+        <div className="mt-8 text-center text-sm text-gray-600">
+          <p>{t('footer.createdAt')}
+            <span className='mr-2' />
+            <a href='https://www.etherealdevs.com/' className='italic hover:text-blue-600'>
+              {t('footer.ethereal')}
+            </a>
+          </p>
+        </div>
       </div>
     </footer>
   )
