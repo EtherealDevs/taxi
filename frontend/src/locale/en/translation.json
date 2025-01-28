@@ -47,7 +47,9 @@
   "footer": {
     "brand": "Nelson Olivera",
     "slogan": "Connecting passengers and quality drivers",
-    "rightsReserved": "All rights reserved."
+    "rightsReserved": "All rights reserved.",
+    "createdAt": "Created by",
+    "ethereal": "Ethereal Devs"
   },
   "howItWorks": {
     "title": "How Do Reservations Work?",
