@@ -119,13 +119,12 @@ export default function FormReserv({ onOpenModal, location }: FormReservProps) {
       {[1, 2, 3].map((step) => (
         <div key={step} className="flex items-center">
           <div
-            className={`w-8 h-8 rounded-full flex items-center justify-center ${
-              step === currentStep
+            className={`w-8 h-8 rounded-full flex items-center justify-center ${step === currentStep
                 ? "bg-[#4263EB] text-white"
                 : step < currentStep
                   ? "bg-green-500 text-white"
                   : "bg-gray-200 text-gray-600"
-            }`}
+              }`}
           >
             {step < currentStep ? "✓" : step}
           </div>
@@ -205,6 +204,7 @@ export default function FormReserv({ onOpenModal, location }: FormReservProps) {
             className="w-full py-3 px-4 rounded-2xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#4263EB] focus:border-transparent"
             value={formData.date}
             onChange={(e) => handleInputChange("date", e.target.value)}
+            min={new Date().toISOString().split("T")[0]}
           />
         </div>
         <div className="relative">
