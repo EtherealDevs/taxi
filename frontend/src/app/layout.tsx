@@ -1,7 +1,6 @@
 "use client";
 import "../styles/globals.css";
-import '../config/i18n';
-import Stars from "../components/Stars";
+import "../config/i18n";
 import SocialMediaLinks from "@/components/ui/socialMedia";
 
 export default function RootLayout({
@@ -11,18 +10,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body >
-
+      <body>
         {/* Fondo con Stars */}
-        <div
-          className="fixed inset-0 -z-10"
-          style={{
-            backgroundColor: "white",
-            overflow: "hidden",
-          }}
-        >
-          <Stars />
-        </div>
 
         <main className="relative z-10 min-h-screen bg-transparent">
           {children}
