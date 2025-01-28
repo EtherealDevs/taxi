@@ -18,7 +18,7 @@ import { Badge } from "@/components/ui/badge";
 import { usePost } from "@/hooks/posts";
 
 export interface Post {
-  id: number;
+  id: string;
   title: string;
   extract: string;
   content: string;
@@ -31,11 +31,12 @@ export interface Post {
 
 export default function BlogPage() {
   const [posts, setPosts] = useState<Post[]>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchData();
   }, []);
-  const { getPosts } = usePost("guest");
+  const { getPosts, deletePost } = usePost();
   const formatDate = (date: string) => {
     const options: Intl.DateTimeFormatOptions = {
       year: "numeric",
@@ -102,9 +103,36 @@ export default function BlogPage() {
   // };
 
   const fetchData = async () => {
-    const response = await getPosts();
-    setPosts(response.posts);
+    setLoading(true);
+    try {
+      const data = await getPosts();
+      setPosts(data.posts);
+    } catch (error) {
+      console.error("Error al cargar las publicaciones:", error);
+    } finally {
+      setLoading(false);
+    }
   };
+
+  // Función para eliminar una publicación
+  const handleDelete = async (id: string) => {
+    const confirmDelete = confirm(
+      "¿Estás seguro de que deseas eliminar esta publicación?"
+    );
+    if (!confirmDelete) return;
+
+    try {
+      await deletePost(id);
+      alert("Publicación eliminada correctamente");
+
+      // Actualizar la lista de publicaciones después de la eliminación
+      setPosts((prevPosts) => prevPosts.filter((post) => post.id !== id));
+    } catch (error) {
+      console.error("Error al eliminar la publicación:", error);
+      alert("No se pudo eliminar la publicación");
+    }
+  };
+  if (loading) return <p>Cargando publicaciones...</p>;
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -176,7 +204,11 @@ export default function BlogPage() {
                       <Pencil className="w-4 h-4" />
                     </Button>
                   </Link>
-                  <Button variant="destructive" size="sm">
+                  <Button
+                    onClick={() => handleDelete(post.id)}
+                    variant="destructive"
+                    size="sm"
+                  >
                     <Trash2 className="w-4 h-4" />
                   </Button>
                 </div>

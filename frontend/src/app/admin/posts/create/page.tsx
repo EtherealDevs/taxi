@@ -21,12 +21,12 @@ import { Switch } from "@/components/ui/switch";
 import { usePost } from "@/hooks/posts";
 
 export default function CreateBlogPost() {
-  const { create } = usePost("auth:sanctum");
+  const { create } = usePost();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [extract, setExtract] = useState("");
   const [slug, setSlug] = useState("");
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [image, setImage] = useState<string | null>(null);
   const [tags, setTags] = useState<string[]>([]);
   const [newTag, setNewTag] = useState("");
 
@@ -35,7 +35,7 @@ export default function CreateBlogPost() {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImagePreview(reader.result as string);
+        setImage(reader.result as string);
       };
       reader.readAsDataURL(file);
     }
@@ -75,7 +75,11 @@ export default function CreateBlogPost() {
             <TabsTrigger value="media">Multimedia</TabsTrigger>
             <TabsTrigger value="settings">Configuración</TabsTrigger>
           </TabsList>
-          <form className="space-y-6" onSubmit={submitForm}>
+          <form
+            className="space-y-6"
+            onSubmit={submitForm}
+            encType="multpart/from-data"
+          >
             <TabsContent value="content">
               <div className="space-y-6">
                 <div>
@@ -160,9 +164,9 @@ export default function CreateBlogPost() {
                     <div className="flex items-center justify-center w-full">
                       <label className="flex flex-col items-center justify-center w-full h-64 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:bg-neutral-800 border-gray-300 dark:border-neutral-600 hover:bg-gray-100 dark:hover:bg-neutral-700 transition-colors">
                         <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                          {imagePreview ? (
+                          {image ? (
                             <Image
-                              src={imagePreview}
+                              src={image}
                               alt="Preview"
                               width={400}
                               height={300}
@@ -187,6 +191,7 @@ export default function CreateBlogPost() {
                         <input
                           type="file"
                           className="hidden"
+                          name="image"
                           onChange={handleImageChange}
                           accept="image/*"
                         />

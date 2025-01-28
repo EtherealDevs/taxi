@@ -36,7 +36,7 @@ export default function TravelPosts() {
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
   const [modalImageIndex, setModalImageIndex] = useState(0);
   const [posts, setPosts] = useState<Post[]>([]);
-  const { getPosts } = usePost("guest");
+  const { getPosts } = usePost();
   const formatDate = (date: string) => {
     const options: Intl.DateTimeFormatOptions = {
       year: "numeric",

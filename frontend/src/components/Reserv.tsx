@@ -21,7 +21,7 @@ import { useMap } from "@/hooks/map";
 
 interface FormReservProps {
   onOpenModal: (
-    inputName: "departure" | "destination" | "extraStop",
+    inputName: "departure" | "destination" | "extraStops",
     index?: number
   ) => void;
   location: {
@@ -211,7 +211,7 @@ export default function FormReserv({ onOpenModal, location }: FormReservProps) {
             placeholder={t("reserv.extraStop")}
             className="w-full pl-12 pr-12 py-3 rounded-2xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#4263EB] focus:border-transparent"
             value={stop}
-            onClick={() => onOpenModal("extraStop", index)}
+            onClick={() => onOpenModal("extraStops", index)}
             readOnly
           />
           <button

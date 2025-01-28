@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
@@ -31,7 +32,6 @@ class PostController extends Controller
             'title' => 'required|string',
             'content' => 'required|string',
             'extract' => 'required|string',
-            // 'image' => 'required',
         ]);
         if ($validator->fails()) {
             $data = [
@@ -41,12 +41,12 @@ class PostController extends Controller
             return response()->json($data, 422);
         }
         $post = Post::create($request->only(['title', 'content', 'extract']));
-        if ($request->image) {
-            foreach ($request->image as $image) {
-                $path = $image->store('images');
-                $post->images()->create(['url' => $path]);
-            }
-        }
+        // if ($request->image) {
+        //     $image = $request->file('image');
+        //     $imageName = time() . '.' . $image->getClientOriginalExtension();
+        //     $path = Storage::putFileAs('public/posts', $image, $imageName);
+        //     $post->images()->create(['url' => $path]);
+        // }
         $data = [
             'status' => 201,
             'message' => 'Post created successfully',
@@ -104,9 +104,12 @@ class PostController extends Controller
         $post->update(
             $request->only(['title', 'content', 'extract'])
         );
-        if ($request->image) {
-            foreach ($request->image as $image) {
-                $post->images()->create(['url' => $image]);
+        if ($request->images) {
+            foreach ($request->file('images') as $image) {
+                $imageName = time() . '.' . $image->getClientOriginalExtension();
+
+                $path = Storage::putFileAs('public/posts', $image, $imageName);
+                $post->images()->create(['url' => $path]);
             }
         }
         $data = [
