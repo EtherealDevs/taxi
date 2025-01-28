@@ -38,7 +38,11 @@
     "addExtraStop": "Agregar Parada Extra",
     "destination": "Destino",
     "startTrip": "Iniciar Viaje",
-    "contact": "Contactar"
+    "contact": "Contactar",
+    "firstName": "Nombre",
+    "lastName": "Apellido",
+    "email": "Correo Electrónico",
+    "phone": "Numero de teléfono"
   },
   "footer": {
     "brand": "Nelson Olivera",

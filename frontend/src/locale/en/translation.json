@@ -38,7 +38,11 @@
     "addExtraStop": "Add Extra Stop",
     "destination": "Destination",
     "startTrip": "Start Trip",
-    "contact": "Contact"
+    "contact": "Contact",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email",
+    "phone": "Phone Number"
   },
   "footer": {
     "brand": "Nelson Olivera",
