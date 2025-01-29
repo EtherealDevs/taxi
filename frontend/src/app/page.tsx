@@ -15,11 +15,11 @@ export default function Home() {
         <section id="hero">
           <Hero />
         </section>
-        <section id="reviews" className="h-screen snap-center grid grid-cols-5 gap-2">
-          <div className="col-span-2">
+        <section id="reviews" className="snap-center grid grid-cols-1 md:grid-cols-5 gap-2">
+          <div className="col-span-1 md:col-span-2">
             <Reviews />
           </div>
-          <div className="col-span-3">
+          <div className="col-span-1 md:col-span-3">
             <TravelPosts />
           </div>
         </section>
