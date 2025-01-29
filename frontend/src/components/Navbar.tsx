@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -25,17 +25,13 @@ import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/auth";
 
 export default function Navbar() {
-  const { user } = useAuth();
-  function isUser() {
-    if (typeof user == "undefined") {
-      return false;
-    }
-    return true;
-  }
+  const { user } = useAuth({
+    middleware: "guest",
+  });
   const { logout } = useAuth();
   const { i18n } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(isUser());
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const navItems = [
     { name: "Bienvenido", href: "#hero" },
@@ -61,6 +57,13 @@ export default function Navbar() {
     setIsLoggedIn(false);
     logout();
   };
+  if (isLoggedIn) {
+  } else {
+    if (user) {
+      setIsLoggedIn(true);
+    }
+  }
+
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
