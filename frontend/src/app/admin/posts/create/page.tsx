@@ -27,12 +27,14 @@ export default function CreateBlogPost() {
   const [extract, setExtract] = useState("");
   const [slug, setSlug] = useState("");
   const [image, setImage] = useState<string | null>(null);
+  const [file, setFile] = useState<File | null>(null);
   const [tags, setTags] = useState<string[]>([]);
   const [newTag, setNewTag] = useState("");
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      setFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
         setImage(reader.result as string);
@@ -41,14 +43,14 @@ export default function CreateBlogPost() {
     }
   };
 
-  const submitForm = async (event: any) => {
+  const submitForm = async (event: React.FormEvent) => {
     event.preventDefault();
-
-    create({
-      title,
-      content,
-      extract,
-    });
+    const formData = new FormData();
+    formData.append("image", file);
+    formData.append("title", title);
+    formData.append("content", content);
+    formData.append("extract", extract);
+    create(formData);
   };
 
   const handleAddTag = () => {

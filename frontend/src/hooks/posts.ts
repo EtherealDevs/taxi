@@ -41,7 +41,7 @@ export const usePost = () => {
     }
   };
 
-  const create = async (props: Post) => {
+  const create = async (props: FormData) => {
     await csrf();
     try {
       const response = await axios.post("/api/posts", props);

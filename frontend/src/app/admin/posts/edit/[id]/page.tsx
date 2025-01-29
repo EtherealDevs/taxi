@@ -104,9 +104,12 @@ export default function EditBlogPost() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Here you would typically send the updated post data to your backend
-    console.log("Updated post:", post);
-    // Implement your save logic here
+    const formData = new FormData();
+    formData.append("image", file);
+    formData.append("title", title);
+    formData.append("content", content);
+    formData.append("extract", extract);
+    update(id, formData);
   };
   if (loading) return <p>Cargando publicaciones...</p>;
   return (

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\PostResource;
+use Spatie\Image\Image;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -15,7 +17,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
+        $posts = PostResource::collection(Post::with('images')->get());
         $data = [
             'posts' => $posts,
             'status' => 200
@@ -41,16 +43,16 @@ class PostController extends Controller
             return response()->json($data, 422);
         }
         $post = Post::create($request->only(['title', 'content', 'extract']));
-        // if ($request->image) {
-        //     $image = $request->file('image');
-        //     $imageName = time() . '.' . $image->getClientOriginalExtension();
-        //     $path = Storage::putFileAs('public/posts', $image, $imageName);
-        //     $post->images()->create(['url' => $path]);
-        // }
+        if ($request->image) {
+            $image = $request->file('image');
+            $imageName = time() . '.' . 'webp';
+            $path = Storage::putFileAs('posts', $image, $imageName);
+            $post->images()->create(['url' => $path]);
+        }
         $data = [
             'status' => 201,
             'message' => 'Post created successfully',
-            'post' => $post
+            'post' => new PostResource($post)
         ];
         return response()->json($data, 201);
     }
@@ -60,7 +62,7 @@ class PostController extends Controller
      */
     public function show(string $id)
     {
-        $post = Post::find($id);
+        $post = Post::with('images')->find($id);
         if (!$post) {
             $data = [
                 'status' => 404,
@@ -71,7 +73,7 @@ class PostController extends Controller
         $data = [
             'message' => 'Post found successfully',
             'status' => 200,
-            'post' => $post
+            'post' => new PostResource($post)
         ];
         return response()->json($data, 200);
     }
@@ -104,18 +106,16 @@ class PostController extends Controller
         $post->update(
             $request->only(['title', 'content', 'extract'])
         );
-        if ($request->images) {
-            foreach ($request->file('images') as $image) {
-                $imageName = time() . '.' . $image->getClientOriginalExtension();
-
-                $path = Storage::putFileAs('public/posts', $image, $imageName);
-                $post->images()->create(['url' => $path]);
-            }
+        if ($request->image) {
+            $image = $request->file('image');
+            $imageName = time() . '.' . 'webp';
+            $path = Storage::putFileAs('posts', $image, $imageName);
+            $post->images()->create(['url' => $path]);
         }
         $data = [
             'message' => 'Post updated successfully',
             'status' => 200,
-            'post' => $post
+            'post' => new PostResource($post)
         ];
         return response()->json($data, 200);
     }

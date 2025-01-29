@@ -50,6 +50,7 @@ export default function TravelPosts() {
   useEffect(() => {
     fetchData();
   }, []);
+  console.log(posts[0]);
   const fetchData = async () => {
     const response = await getPosts();
     setPosts(response.posts);
@@ -134,12 +135,12 @@ export default function TravelPosts() {
                     className="bg-white rounded-2xl overflow-hidden shadow-lg"
                   >
                     <div className="relative h-72">
-                      {/* <Image
+                      <Image
                         src={post.images[0] || "/placeholder.svg"}
                         alt={post.title}
                         layout="fill"
-                        objectFit="cover"
-                      /> */}
+                        objectFit="contain"
+                      />
                     </div>
                     <div className="p-4">
                       <h3 className="text-xl font-bold mb-2">{post.title}</h3>
@@ -198,13 +199,13 @@ export default function TravelPosts() {
                 onClick={() => setSelectedPost(post)}
               >
                 <div className="relative h-36">
-                  {/* <Image
+                  <Image
                     src={post.images[0] || "/placeholder.svg"}
                     alt={post.title}
                     layout="fill"
-                    objectFit="cover"
+                    objectFit="contain"
                     className="group-hover:scale-105 transition-transform duration-300"
-                  /> */}
+                  />
                 </div>
                 <div className="p-3">
                   <p className="text-sm text-gray-500 mb-2">
@@ -233,12 +234,12 @@ export default function TravelPosts() {
                   className="w-full focus:outline-none"
                 >
                   <div className="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden">
-                    {/* <Image
+                    <Image
                       src={post.images[0] || "/placeholder.svg"}
                       alt={post.title}
                       layout="fill"
-                      objectFit="cover"
-                    /> */}
+                      objectFit="contain"
+                    />
                   </div>
                 </button>
               </div>
@@ -275,7 +276,7 @@ export default function TravelPosts() {
 
               <div className="relative h-[60vh]" ref={emblaModalRef}>
                 <div className="flex h-full">
-                  {/* {selectedPost.images.map((image, index) => (
+                  {selectedPost.images.map((image, index) => (
                     <div
                       key={index}
                       className="flex-[0_0_100%] min-w-0 relative h-full"
@@ -284,10 +285,10 @@ export default function TravelPosts() {
                         src={image || "/placeholder.svg"}
                         alt={`${selectedPost.title} - Image ${index + 1}`}
                         layout="fill"
-                        objectFit="cover"
+                        objectFit="contain"
                       />
                     </div>
-                  ))} */}
+                  ))}
                 </div>
                 <button
                   onClick={scrollModalPrev}
