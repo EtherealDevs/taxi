@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
@@ -8,24 +8,31 @@ import { Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/hooks/auth";
+import validateRegisterForm from "@/app/server/validation/register";
 
 export default function RegisterPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
-  const [errors, setErrors] = useState([]);
+  const [errors, setErrors] = useState<any>();
 
-  const submitForm = (event: any) => {
+  const submitForm = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    register({
-      name,
-      email,
-      password,
-      password_confirmation: passwordConfirmation,
-      setErrors,
-    });
+    const formData = new FormData(event.currentTarget);
+    const errorBag = validateRegisterForm(formData);
+    if (!errorBag) {
+      register({
+        name,
+        email,
+        password,
+        password_confirmation: passwordConfirmation,
+        setErrors,
+      });
+    } else{
+      setErrors(errorBag);
+    }
   };
 
   const { register } = useAuth({
@@ -136,6 +143,9 @@ export default function RegisterPage() {
                   value={name}
                   onChange={(event) => setName(event.target.value)}
                 />
+                {errors?.firstName != '' && (
+                  <p className="text-sm text-red-600">{errors?.firstName}</p>
+                )}
               </motion.div>
 
               {/* <motion.div
@@ -186,6 +196,9 @@ export default function RegisterPage() {
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
               />
+              {errors?.email != '' && (
+                <p className="text-sm text-red-600">{errors?.email}</p>
+              )}
             </motion.div>
 
             <motion.div
@@ -221,6 +234,9 @@ export default function RegisterPage() {
                     <Eye className="h-5 w-5 text-gray-400" />
                   )}
                 </button> */}
+              {errors?.password != '' && (
+                  <p className="text-sm text-red-600">{errors?.password}</p>
+                )}
               </div>
             </motion.div>
 
@@ -260,6 +276,9 @@ export default function RegisterPage() {
                   )}
                 </button> */}
               </div>
+              {errors?.confirmPassword != '' && (
+                  <p className="text-sm text-red-600">{errors?.confirmPassword}</p>
+                )}
             </motion.div>
 
             <motion.div

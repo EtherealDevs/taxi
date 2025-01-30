@@ -57,11 +57,8 @@ export default function Navbar() {
     setIsLoggedIn(false);
     logout();
   };
-  if (isLoggedIn) {
-  } else {
-    if (user) {
+  if (!isLoggedIn && user) {
       setIsLoggedIn(true);
-    }
   }
 
 
