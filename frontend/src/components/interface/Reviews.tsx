@@ -122,7 +122,7 @@ export default function Reviews() {
     }, [])
 
     return (
-        <div className="bg-gray-100/45 py-16 overflow-hidde rounded-3xl h-screen">
+        <div className="bg-gray-100/45 py-16 overflow-hidden rounded-3xl h-auto">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-12">
                     <h2 className="text-3xl font-bold">
@@ -138,43 +138,35 @@ export default function Reviews() {
                 </div>
 
                 <div className="relative">
-                    <div className="absolute left-0 top-0 text-gray-100 text-[200px] font-serif leading-none select-none">
-                        
-                    </div>
-
-                    <div className="relative">
-                        <div ref={containerRef} className="overflow-hidden">
-                            <motion.div
-                                style={{
-                                    x: position
-                                }}
-                                className="flex gap-6 w-fit"
-                            >
-                                {[...reviews, ...reviews].map((review, index) => (
-                                    <div
-                                        key={`${review.id}-${index}`}
-                                        className="w-[300px] flex-shrink-0 bg-white rounded-xl p-8 shadow-sm"
-                                    >
-                                        <div className="flex flex-col items-center text-center">
-                                            <Image
-                                                src={review.avatar || "/placeholder.svg"}
-                                                alt={review.author}
-                                                width={80}
-                                                height={80}
-                                                className="rounded-full mb-4"
-                                            />
-                                            <h3 className="font-semibold text-lg mb-2">
-                                                {review.author}
-                                            </h3>
-                                            <StarRating rating={review.rating} />
-                                            <p className="text-gray-600 text-sm leading-relaxed">
-                                                {review.text}
-                                            </p>
-                                        </div>
+                    <div className="overflow-hidden">
+                        <motion.div
+                            style={{ x: position }}
+                            className="flex gap-6 w-fit"
+                        >
+                            {[...reviews, ...reviews].map((review, index) => (
+                                <div
+                                    key={`${review.id}-${index}`}
+                                    className="w-full sm:w-[300px] flex-shrink-0 bg-white rounded-xl p-8 shadow-sm"
+                                >
+                                    <div className="flex flex-col items-center text-center">
+                                        <Image
+                                            src={review.avatar || "/placeholder.svg"}
+                                            alt={review.author}
+                                            width={80}
+                                            height={80}
+                                            className="rounded-full mb-4"
+                                        />
+                                        <h3 className="font-semibold text-lg mb-2">
+                                            {review.author}
+                                        </h3>
+                                        <StarRating rating={review.rating} />
+                                        <p className="text-gray-600 text-sm leading-relaxed">
+                                            {review.text}
+                                        </p>
                                     </div>
-                                ))}
-                            </motion.div>
-                        </div>
+                                </div>
+                            ))}
+                        </motion.div>
                     </div>
                 </div>
             </div>

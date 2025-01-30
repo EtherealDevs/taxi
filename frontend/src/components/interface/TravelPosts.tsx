@@ -116,7 +116,6 @@ export default function TravelPosts() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className=""
         >
           <h2 className="text-3xl font-bold text-center text-[#272727] mb-1">
             {t("travelPosts.intro")}
@@ -127,7 +126,7 @@ export default function TravelPosts() {
           <div className="overflow-hidden" ref={emblaMainRef}>
             <div className="flex">
               {posts.map((post, index) => (
-                <div key={post.id} className="flex-[0_0_100%] min-w-0 pl-4">
+                <div key={post.id} className="flex-[0_0_100%] sm:flex-[0_0_50%] md:flex-[0_0_33.33%] pl-4">
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -144,7 +143,6 @@ export default function TravelPosts() {
                     </div>
                     <div className="p-4">
                       <h3 className="text-xl font-bold mb-2">{post.title}</h3>
-
                       <p className="text-gray-700 mb-3 text-sm line-clamp-2">
                         {post.extract}
                       </p>
@@ -188,7 +186,7 @@ export default function TravelPosts() {
 
         <div className="mt-2">
           <h3 className="text-2xl font-bold mb-8">More Amazing Journeys</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             {posts.map((post, index) => (
               <motion.div
                 key={post.id}
@@ -225,9 +223,8 @@ export default function TravelPosts() {
             {posts.map((post, index) => (
               <div
                 key={post.id}
-                className={`flex-[0_0_33.33%] min-w-0 pl-4 ${
-                  index === selectedIndex ? "opacity-100" : "opacity-50"
-                }`}
+                className={`flex-[0_0_33.33%] min-w-0 pl-4 ${index === selectedIndex ? "opacity-100" : "opacity-50"
+                  }`}
               >
                 <button
                   onClick={() => onThumbClick(index)}

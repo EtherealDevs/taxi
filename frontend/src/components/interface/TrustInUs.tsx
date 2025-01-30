@@ -46,7 +46,7 @@ export default function TrustInUs() {
           <h2 className="text-2xl font-bold mb-4">{t('trustInUs.title')}</h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
           {items.map((item, index) => (
             <motion.div
               key={index}
