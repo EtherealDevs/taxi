@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
@@ -8,24 +8,34 @@ import { Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/hooks/auth";
+import validateRegisterForm from "@/app/server/validation/register";
 
 export default function RegisterPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
-  const [errors, setErrors] = useState([]);
+  const [errors, setErrors] = useState<any[]>();
 
-  const submitForm = (event: any) => {
+  const submitForm = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    register({
-      name,
-      email,
-      password,
-      password_confirmation: passwordConfirmation,
-      setErrors,
-    });
+    console.log(event);
+    const formData = new FormData(event.currentTarget);
+    const errorBag = validateRegisterForm(formData);
+    if (errorBag.length === 0) {
+      register({
+        name,
+        email,
+        password,
+        password_confirmation: passwordConfirmation,
+        setErrors,
+      });
+    } else{
+      setErrors(errorBag);
+    }
+
+
   };
 
   const { register } = useAuth({
@@ -35,6 +45,7 @@ export default function RegisterPage() {
 
   return (
     <div className="min-h-screen w-full flex">
+      {errors}
       {/* Left side - Form */}
       <div className="w-full lg:w-1/2 flex flex-col justify-center items-center p-8 relative">
         <div className="w-full max-w-md space-y-8">
