@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CarResource;
 use App\Models\Car;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -13,7 +14,7 @@ class CarController extends Controller
      */
     public function index()
     {
-        $cars = Car::all();
+        $cars = CarResource::collection(Car::with('drivers')->get());
         $data = [
             'cars' => $cars,
             'status' => 200
@@ -59,7 +60,7 @@ class CarController extends Controller
      */
     public function show(string $id)
     {
-        $car = Car::find($id);
+        $car = Car::with('drivers')->find($id);
         if (!$car) {
             $data = [
                 'errors' => 'Car not found',
@@ -68,7 +69,7 @@ class CarController extends Controller
             return response()->json($data, 404);
         }
         $data = [
-            'car' => $car,
+            'car' => new CarResource($car),
             'status' => 200
         ];
         return response()->json($data, 200);

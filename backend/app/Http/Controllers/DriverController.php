@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\DriverResource;
 use App\Models\Driver;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -13,7 +14,7 @@ class DriverController extends Controller
      */
     public function index()
     {
-        $drivers = Driver::all();
+        $drivers = DriverResource::collection(Driver::with(['cars', 'reservations'])->get());
         $data = [
             'drivers' => $drivers,
             'status' => 200
@@ -56,7 +57,7 @@ class DriverController extends Controller
      */
     public function show(string $id)
     {
-        $driver = Driver::find($id);
+        $driver = Driver::with(['cars', 'reservations'])->find($id);
         if (!$driver) {
             $data = [
                 'message' => 'Driver not found',
@@ -67,7 +68,7 @@ class DriverController extends Controller
         $data = [
             'message' => 'Driver found successfully',
             'status' => 200,
-            'driver' => $driver
+            'driver' => new DriverResource($driver)
         ];
         return response()->json($data, 200);
     }

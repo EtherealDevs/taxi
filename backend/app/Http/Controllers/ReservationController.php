@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ReservationResource;
 use App\Models\Reservation;
 use App\Models\Station;
 use App\Models\User;
@@ -15,7 +16,7 @@ class ReservationController extends Controller
      */
     public function index()
     {
-        $reservations = Reservation::all();
+        $reservations = ReservationResource::collection(Reservation::with(['user', 'driver', 'station'])->get());
         $date = [
             'reservations' => $reservations,
             'status' => 200
@@ -104,7 +105,7 @@ class ReservationController extends Controller
      */
     public function show(string $id)
     {
-        $reservation = Reservation::find($id);
+        $reservation = Reservation::with(['user', 'driver', 'station'])->find($id);
         if (!$reservation) {
             $date = [
                 'status' => 404,
@@ -115,7 +116,7 @@ class ReservationController extends Controller
         $date = [
             'status' => 200,
             'message' => 'reservation found',
-            'reservation' => $reservation
+            'reservation' => new ReservationResource($reservation)
         ];
         return response()->json($date, 200);
     }
