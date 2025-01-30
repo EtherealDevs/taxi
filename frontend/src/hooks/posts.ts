@@ -57,10 +57,11 @@ export const usePost = () => {
     }
   };
 
-  const update = async (id: string, props: Post) => {
+  const update = async (id: string, props: FormData) => {
     await csrf();
+    console.log(props);
     try {
-      const response = await axios.put(`/api/posts/${id}`, props);
+      const response = await axios.post(`/api/posts/${id}?_method=PUT`, props);
       console.log("Publicación actualizada:", response.data);
       router.push("/admin/posts");
       return response.data;

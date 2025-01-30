@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { Upload, X, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -25,16 +25,14 @@ export interface Post {
   title: string;
   extract: string;
   content: string;
-  image: string;
+  images: [string];
   created_at: string;
-  author: string;
-  likes: number;
-  status: "Publicado" | "Borrador";
 }
 
 export default function EditBlogPost() {
   const { id } = useParams();
   const [post, setPost] = useState<Post | null>();
+  const [file, setFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [newTag, setNewTag] = useState("");
   const { getPost, update } = usePost();
@@ -46,6 +44,7 @@ export default function EditBlogPost() {
       try {
         const post = await getPost(id as string);
         setPost(post.post);
+        setImagePreview(post.post.images[0]);
       } catch (error) {
         console.error("Error al cargar las publicaciones:", error);
       } finally {
@@ -54,61 +53,37 @@ export default function EditBlogPost() {
     };
     fetchPost();
   }, []);
-  //   const handleInputChange = (
-  //     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  //   ) => {
-  //     const { name, value } = e.target;
-  //     setPost((prevPost) => ({
-  //       ...prevPost,
-  //       [name]: value,
-  //     }));
-  //   };
-  //   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //     const file = e.target.files?.[0];
-  //     if (file) {
-  //       const reader = new FileReader();
-  //       reader.onloadend = () => {
-  //         setImagePreview(reader.result as string);
-  //         setPost((prevPost) => ({
-  //           ...prevPost,
-  //           image: reader.result as string,
-  //         }));
-  //       };
-  //       reader.readAsDataURL(file);
-  //     }
-  //   };
-
-  //   const handleAddTag = () => {
-  //     if (newTag && !post.tags.includes(newTag)) {
-  //       setPost((prevPost) => ({
-  //         ...prevPost,
-  //         tags: [...prevPost.tags, newTag],
-  //       }));
-  //       setNewTag("");
-  //     }
-  //   };
-
-  //   const handleRemoveTag = (tagToRemove: string) => {
-  //     setPost((prevPost) => ({
-  //       ...prevPost,
-  //       tags: prevPost.tags.filter((tag) => tag !== tagToRemove),
-  //     }));
-  //   };
-
-  //   const handleSwitchChange = (name: string) => {
-  //     setPost((prevPost) => ({
-  //       ...prevPost,
-  //       [name]: !prevPost[name as keyof typeof prevPost],
-  //     }));
-  //   };
-
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setPost((prevPost) => ({
+      ...prevPost,
+      [name]: value,
+    }));
+  };
+  function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      setFile(file);
+      reader.readAsDataURL(file);
+    }
+  }
+  console.log(post?.images[0]);
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append("image", file);
-    formData.append("title", title);
-    formData.append("content", content);
-    formData.append("extract", extract);
+    if (file) {
+      formData.append("image", file);
+    }
+
+    formData.append("title", post.title);
+    formData.append("content", post.content);
+    formData.append("extract", post.extract);
     update(id, formData);
   };
   if (loading) return <p>Cargando publicaciones...</p>;
@@ -130,7 +105,13 @@ export default function EditBlogPost() {
               <div className="space-y-6">
                 <div>
                   <Label htmlFor="title">Título</Label>
-                  <Input id="title" name="title" value={post?.title} />
+                  <Input
+                    id="title"
+                    type="text"
+                    name="title"
+                    value={post?.title}
+                    onChange={handleInputChange}
+                  />
                 </div>
 
                 <div>
@@ -139,6 +120,7 @@ export default function EditBlogPost() {
                     id="extract"
                     name="extract"
                     value={post?.extract}
+                    onChange={handleInputChange}
                     className="h-20"
                   />
                 </div>
@@ -149,6 +131,7 @@ export default function EditBlogPost() {
                     id="content"
                     name="content"
                     value={post?.content}
+                    onChange={handleInputChange}
                     className="h-64"
                   />
                 </div>
@@ -165,7 +148,7 @@ export default function EditBlogPost() {
                         <div className="flex flex-col items-center justify-center pt-5 pb-6">
                           {imagePreview ? (
                             <Image
-                              src={imagePreview}
+                              src={post?.images[0] || imagePreview}
                               alt="Preview"
                               width={400}
                               height={300}
@@ -191,6 +174,7 @@ export default function EditBlogPost() {
                           type="file"
                           className="hidden"
                           accept="image/*"
+                          onChange={handleImageChange}
                         />
                       </label>
                     </div>

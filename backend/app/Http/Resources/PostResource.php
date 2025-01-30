@@ -18,7 +18,7 @@ class PostResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'extract' => $this->extract,
-            'slug' => $this->slug,
+            'content' => $this->content,
             'images' => $this->images->map(fn($image) => asset('storage/' . $image->url)),
             'created_at' => $this->created_at->format('Y-m-d'),
         ];
