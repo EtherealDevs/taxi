@@ -1,7 +1,12 @@
 import { z } from "zod"
 
-export default function validateRegisterForm (formData: FormData): Array<string|null> {
-    var errorBag = [];
+export default function validateRegisterForm (formData: FormData): Object|null {
+    var errorBag = {
+      firstName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    };
 
       var passwordLoop = 0;
       var password = null;
@@ -15,7 +20,7 @@ export default function validateRegisterForm (formData: FormData): Array<string|
                 if (passwordLoop > 0) {
                     confirmPassword = item[1];
                     if (password!== confirmPassword) {
-                        errorBag.push("Ambas contraseñas deben coincidir.");
+                        errorBag.confirmPassword = "Ambas contraseñas deben coincidir.";
                         break;
                     }
                 }
@@ -41,9 +46,21 @@ export default function validateRegisterForm (formData: FormData): Array<string|
       
       if (!User.success) {
         for (var error of User.error.issues) {
-          errorBag.unshift(error.message);
+          var name = error.path[0];
+          switch (name) {
+            case "firstName":
+              errorBag.firstName = error.message;
+              break;
+            case "email":
+              errorBag.email = error.message;
+              break;
+            case "password":
+              errorBag.password = error.message;
+              break;
+            default:
+              break;
+          }
         }
       }
-
-      return errorBag;
+        return errorBag;
 }

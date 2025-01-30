@@ -15,15 +15,14 @@ export default function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
-  const [errors, setErrors] = useState<any[]>();
+  const [errors, setErrors] = useState<any>();
 
   const submitForm = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    console.log(event);
     const formData = new FormData(event.currentTarget);
     const errorBag = validateRegisterForm(formData);
-    if (errorBag.length === 0) {
+    if (!errorBag) {
       register({
         name,
         email,
@@ -34,8 +33,6 @@ export default function RegisterPage() {
     } else{
       setErrors(errorBag);
     }
-
-
   };
 
   const { register } = useAuth({
@@ -45,7 +42,6 @@ export default function RegisterPage() {
 
   return (
     <div className="min-h-screen w-full flex">
-      {errors}
       {/* Left side - Form */}
       <div className="w-full lg:w-1/2 flex flex-col justify-center items-center p-8 relative">
         <div className="w-full max-w-md space-y-8">
@@ -147,6 +143,9 @@ export default function RegisterPage() {
                   value={name}
                   onChange={(event) => setName(event.target.value)}
                 />
+                {errors?.firstName != '' && (
+                  <p className="text-sm text-red-600">{errors?.firstName}</p>
+                )}
               </motion.div>
 
               {/* <motion.div
@@ -197,6 +196,9 @@ export default function RegisterPage() {
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
               />
+              {errors?.email != '' && (
+                <p className="text-sm text-red-600">{errors?.email}</p>
+              )}
             </motion.div>
 
             <motion.div
@@ -232,6 +234,9 @@ export default function RegisterPage() {
                     <Eye className="h-5 w-5 text-gray-400" />
                   )}
                 </button> */}
+              {errors?.password != '' && (
+                  <p className="text-sm text-red-600">{errors?.password}</p>
+                )}
               </div>
             </motion.div>
 
@@ -271,6 +276,9 @@ export default function RegisterPage() {
                   )}
                 </button> */}
               </div>
+              {errors?.confirmPassword != '' && (
+                  <p className="text-sm text-red-600">{errors?.confirmPassword}</p>
+                )}
             </motion.div>
 
             <motion.div
