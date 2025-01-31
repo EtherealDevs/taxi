@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ReviewResource;
 use App\Models\Station;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -40,7 +41,7 @@ class StationController extends Controller
         $date = [
             'status' => 200,
             'message' => 'Station found',
-            'station' => $station,
+            'station' => new ReviewResource($station),
         ];
         return response()->json($date, 200);
     }

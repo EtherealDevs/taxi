@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ReviewResource;
 use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -13,7 +14,7 @@ class ReviewController extends Controller
      */
     public function index()
     {
-        $reviews = Review::all();
+        $reviews = ReviewResource::collection(Review::with('user')->get());
         $data = [
             'reviews' => $reviews,
             'status' => 200
@@ -52,7 +53,7 @@ class ReviewController extends Controller
      */
     public function show(string $id)
     {
-        $review = Review::find($id);
+        $review = Review::with('user')->find($id);
         if (!$review) {
             $data = [
                 'error' => 'Review not found',
@@ -61,7 +62,7 @@ class ReviewController extends Controller
             return response()->json($data, 404);
         }
         $data = [
-            'review' => $review,
+            'review' => new ReviewResource($review),
             'status' => 200
         ];
         return response()->json($data, 200);
