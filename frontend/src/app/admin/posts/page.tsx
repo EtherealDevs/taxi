@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { usePost } from "@/hooks/posts";
-
+import AnimatedLoadingSkeleton from "@/components/ui/animated-loading-skeleton";
 export interface Post {
   id: string;
   title: string;
@@ -78,7 +78,10 @@ export default function BlogPage() {
       alert("No se pudo eliminar la publicación");
     }
   };
-  if (loading) return <p>Cargando publicaciones...</p>;
+  if (loading) return
+  <div>
+    <AnimatedLoadingSkeleton />
+  </div> ;
 
   return (
     <div className="container mx-auto px-4 py-8">

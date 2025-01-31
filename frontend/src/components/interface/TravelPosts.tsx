@@ -133,7 +133,7 @@ export default function TravelPosts() {
                     transition={{ duration: 0.6, delay: index * 0.1 }}
                     className="bg-white rounded-2xl overflow-hidden shadow-lg"
                   >
-                    <div className="relative h-72">
+                    <div className="relative lg:w-[55vw] w-full h-72">
                       <Image
                         src={post.images[0] || "/placeholder.svg"}
                         alt={post.title}

@@ -1,7 +1,36 @@
 'use client'
 import { useState } from 'react'
-import { Mail, Phone, MapPin, Send } from 'lucide-react'
+import { MapPin, Phone, Mail, MessageCircle, Instagram, Facebook, Send,  Music } from "lucide-react"
 import { useTranslation } from 'react-i18next'
+
+const socialLinks = [
+    {
+        name: "WhatsApp",
+        icon: <MessageCircle className="w-6 h-6" />,
+        href: "https://wa.me/15551234567",
+        color: "hover:text-green-500",
+    },
+    {
+        name: "Instagram",
+        icon: <Instagram className="w-6 h-6" />,
+        href: "https://instagram.com/profdriver",
+        color: "hover:text-pink-500",
+    },
+    {
+        name: "Facebook",
+        icon: <Facebook className="w-6 h-6" />,
+        href: "https://facebook.com/profdriver",
+        color: "hover:text-blue-500",
+    },
+    {
+        name: "TikTok",
+        icon: <Music className="w-6 h-6" />,
+        href: "https://tiktok.com/@profdriver",
+        color: "hover:text-black",
+    },
+]
+
+
 
 export default function Contacto() {
     const { t } = useTranslation()
@@ -45,23 +74,42 @@ export default function Contacto() {
         <div className="bg-transparent min-h-screen py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-5xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
                 <div className="lg:flex">
-                    <div className="lg:w-1/2 bg-gray-900 text-white p-8 lg:p-12">
+                    <div className="lg:w-1/2 bg-gray-200 text-gray-700 p-8 lg:p-12">
                         <h2 className="text-3xl font-bold mb-4">{t('contact.title')}</h2>
-                        <p className="text-gray-300 mb-6">
+                        <p className="text-gray-800 mb-6">
                             {t('contact.description')}
                         </p>
                         <div className="space-y-4">
                             <div className="flex items-center">
-                                <Phone className="w-6 h-6 mr-4 text-blue-400" />
+                                <Phone className="w-6 h-6 mr-4 text-blue-600" />
                                 <span>+1 (555) 123-4567</span>
                             </div>
                             <div className="flex items-center">
-                                <Mail className="w-6 h-6 mr-4 text-blue-400" />
+                                <Mail className="w-6 h-6 mr-4 text-blue-600" />
                                 <span>contact@profdriver.com</span>
                             </div>
                             <div className="flex items-center">
-                                <MapPin className="w-6 h-6 mr-4 text-blue-400" />
+                                <MapPin className="w-6 h-6 mr-4 text-blue-600" />
                                 <span>123 Travel Lane, Global City</span>
+                            </div>
+
+                            {/* Add social media icons */}
+                            <div className="pt-6">
+                                <h4 className="text-lg font-semibold mb-4">Siguenos</h4>
+                                <div className="flex space-x-4">
+                                    {socialLinks.map((social) => (
+                                        <a
+                                            key={social.name}
+                                            href={social.href}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className={`text-gray-600 transition-colors duration-300 ${social.color}`}
+                                            aria-label={social.name}
+                                        >
+                                            {social.icon}
+                                        </a>
+                                    ))}
+                                </div>
                             </div>
                         </div>
                     </div>
