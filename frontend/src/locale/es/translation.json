@@ -13,6 +13,14 @@
     "portuguese": "Portugués",
     "spanish": "Español"
   },
+  "loading":"Cargando",
+  "redirecting": "Redireccionando",
+  "validation":{
+    "invalid email": "Direccion E-mail inválida",
+    "password should be at least 8 characters": "La contraseña debe tener al menos 8 caracteres",
+    "maximum length 255": "Longitud maxima 255 caracteres",
+    "passwords should match": "Ambas contraseñas deben coincidir"
+  },
   "hero": {
     "name": "Nelson Olivera",
     "internationalTrips": "Viajes Internacionales al precio Ideal.",

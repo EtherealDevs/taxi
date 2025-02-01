@@ -9,19 +9,24 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/hooks/auth";
 import validateRegisterForm from "@/app/server/validation/register";
+import { useTranslation } from "react-i18next";
 
 export default function RegisterPage() {
+  const { t } = useTranslation();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [errors, setErrors] = useState<any>();
 
+
   const submitForm = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
     const errorBag = validateRegisterForm(formData);
+    
+    
     if (!errorBag) {
       register({
         name,
@@ -128,14 +133,14 @@ export default function RegisterPage() {
                 transition={{ delay: 0.3 }}
               >
                 <label
-                  htmlFor="firstName"
+                  htmlFor="name"
                   className="block text-sm font-medium text-gray-700 mb-1"
                 >
                   Nombre
                 </label>
                 <Input
-                  id="firstName"
-                  name="firstName"
+                  id="name"
+                  name="name"
                   type="text"
                   required
                   className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
@@ -143,8 +148,8 @@ export default function RegisterPage() {
                   value={name}
                   onChange={(event) => setName(event.target.value)}
                 />
-                {errors?.firstName != '' && (
-                  <p className="text-sm text-red-600">{errors?.firstName}</p>
+                {errors?.name != '' && (
+                  <p className="text-sm text-red-600">{t(errors?.name)}</p>
                 )}
               </motion.div>
 
@@ -197,7 +202,7 @@ export default function RegisterPage() {
                 onChange={(event) => setEmail(event.target.value)}
               />
               {errors?.email != '' && (
-                <p className="text-sm text-red-600">{errors?.email}</p>
+                <p className="text-sm text-red-600">{t(errors?.email)}.</p>
               )}
             </motion.div>
 
@@ -235,7 +240,7 @@ export default function RegisterPage() {
                   )}
                 </button> */}
               {errors?.password != '' && (
-                  <p className="text-sm text-red-600">{errors?.password}</p>
+                  <p className="text-sm text-red-600">{t(errors?.password)}.</p>
                 )}
               </div>
             </motion.div>

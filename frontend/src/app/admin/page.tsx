@@ -24,7 +24,7 @@ export default function AdminDashboard() {
   const quickLinks = [
     { name: "Reservas", icon: "📅", href: "/admin/bookings" },
     { name: "Vehículos", icon: "🚗", href: "/admin/cars" },
-    { name: "Roles y Permisos", icon: "⚙️", href: "/roles-y-permisos" },
+    { name: "Roles y Permisos", icon: "⚙️", href: "/admin/permissions" },
   ];
 
   useEffect(() => {

@@ -1,14 +1,18 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Sidebar, SidebarBody, SidebarLink } from "@/components/ui/sidebar";
 import { LayoutDashboard, Car, Calendar, CreditCard, Settings, LogOut } from 'lucide-react';
 import Link from "next/link";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { useAuth } from "@/hooks/auth";
+import Loading from "@/components/interface/Loading";
+import Redirecting from "@/components/interface/Redirecting";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
     const [open, setOpen] = useState(false);
+    const { user, isLoading } = useAuth({ middleware: "admin" });
 
     const links = [
         {

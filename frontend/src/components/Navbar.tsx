@@ -24,10 +24,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/auth";
 
-export default function Navbar() {
-  const { user } = useAuth({
-    middleware: "guest",
-  });
+export default function Navbar({user}) {
   const { logout } = useAuth();
   const { i18n } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);

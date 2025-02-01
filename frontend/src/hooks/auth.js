@@ -11,13 +11,13 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     data: user,
     error,
     mutate,
+    isLoading,
   } = useSWR("/api/user", () =>
     axios
       .get("/api/user")
       .then((res) => res.data)
       .catch((error) => {
         if (error.response.status !== 409) throw error;
-
         router.push("/verify-email");
       })
   );
@@ -28,7 +28,6 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     await csrf();
 
     setErrors([]);
-
     axios
       .post("/register", props)
       .then(() => mutate())
@@ -106,20 +105,44 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     window.location.pathname = "/";
   };
 
-  useEffect(() => {
-    if (middleware === "guest" && redirectIfAuthenticated && user)
-      router.push(redirectIfAuthenticated);
-
-    if (middleware === "auth" && !user?.email_verified_at)
-      router.push("/verify-email");
-
-    if (window.location.pathname === "/verify-email" && user?.email_verified_at)
-      router.push(redirectIfAuthenticated);
-    if (middleware === "auth" && error) logout();
-  }, [user, error]);
+    useEffect(() => {
+      if (!isLoading){
+        if (middleware === "guest" && redirectIfAuthenticated && user){
+          router.push(redirectIfAuthenticated);
+        }
+        if (middleware === "auth" && !user?.email_verified_at){
+          router.push("/verify-email");
+        }
+        if (window.location.pathname === "/verify-email" && user?.email_verified_at){
+          router.push(redirectIfAuthenticated);
+        }
+        if (middleware === "auth" && error) {
+          logout()
+        };
+        if (middleware === "admin"){
+            var hasRole = false;
+          if (user == undefined || user?.roles.length == 0) {
+            router.push("/");
+          }
+          else {
+            if(user?.roles.length > 0){
+              user.roles.forEach(element => {
+                if (element.name == "admin"){
+                  hasRole = true;
+                }
+              });
+            }
+            if (!hasRole) {
+              router.push("/");
+            }
+          }
+        }
+      }
+    }, [user, error]);
 
   return {
     user,
+    isLoading,
     register,
     login,
     forgotPassword,

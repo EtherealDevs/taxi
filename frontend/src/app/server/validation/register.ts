@@ -2,7 +2,7 @@ import { z } from "zod"
 
 export default function validateRegisterForm (formData: FormData): Object|null {
     var errorBag = {
-      firstName: "",
+      name: "",
       email: "",
       password: "",
       confirmPassword: "",
@@ -35,11 +35,11 @@ export default function validateRegisterForm (formData: FormData): Object|null {
       
       // Validacion con Zod
       const User = z.object({
-        firstName: z.string().max(255, {message: "Longitud maxima 255 caracteres."}),
-        email: z.string().email({message: "Direccion E-mail inválida."}),
-        password: z.string().min(8, {message: "La contraseña debe tener al menos 8 caracteres."}),
+        name: z.string().max(255, {message: "maximum length 255"}),
+        email: z.string().email({message: "invalid email"}),
+        password: z.string().min(8, {message: "password should be at least 8 characters"}),
       }).safeParse({
-        firstName: array[0],
+        name: array[0],
         email: array[1],
         password: array[2],
       });
@@ -48,8 +48,8 @@ export default function validateRegisterForm (formData: FormData): Object|null {
         for (var error of User.error.issues) {
           var name = error.path[0];
           switch (name) {
-            case "firstName":
-              errorBag.firstName = error.message;
+            case "name":
+              errorBag.name = error.message;
               break;
             case "email":
               errorBag.email = error.message;
@@ -61,6 +61,18 @@ export default function validateRegisterForm (formData: FormData): Object|null {
               break;
           }
         }
+      }
+      var arrayOfErrors = Object.values(errorBag)
+      var hasError = false;
+      arrayOfErrors.forEach(element => {
+        if (element != '') {
+          hasError = true;
+          return
+        }
+      });
+
+      if (!hasError) {
+        return null;
       }
         return errorBag;
 }
