@@ -16,10 +16,10 @@
   "loading": "Carregando",
   "redirecting": "Redirecionando",
   "validation":{
-    "invalid email": "Endereço de e-mail inválido",
-    "password should be at least 8 characters": "A senha deve ter pelo menos 8 caracteres",
-    "maximum length 255": "Comprimento máximo 255 caracteres",
-    "passwords should match": "Ambas as senhas devem corresponder"
+    "email": "Endereço de e-mail inválido",
+    "password": "A senha deve ter pelo menos 8 caracteres",
+    "maxLength": "Comprimento máximo 255 caracteres",
+    "confirmPassword": "Ambas as senhas devem corresponder"
   },
   "hero": {
     "name": "Nelson Olivera",

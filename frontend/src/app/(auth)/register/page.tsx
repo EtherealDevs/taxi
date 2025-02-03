@@ -148,8 +148,8 @@ export default function RegisterPage() {
                   value={name}
                   onChange={(event) => setName(event.target.value)}
                 />
-                {errors?.name != '' && (
-                  <p className="text-sm text-red-600">{t(errors?.name)}</p>
+                {errors?.name && (
+                  <p className="text-sm text-red-600">{t("validation.maxLength")}</p>
                 )}
               </motion.div>
 
@@ -201,8 +201,8 @@ export default function RegisterPage() {
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
               />
-              {errors?.email != '' && (
-                <p className="text-sm text-red-600">{t(errors?.email)}.</p>
+              {errors?.email && (
+                <p className="text-sm text-red-600">{t("validation.email")}.</p>
               )}
             </motion.div>
 
@@ -239,8 +239,8 @@ export default function RegisterPage() {
                     <Eye className="h-5 w-5 text-gray-400" />
                   )}
                 </button> */}
-              {errors?.password != '' && (
-                  <p className="text-sm text-red-600">{t(errors?.password)}.</p>
+              {errors?.password && (
+                  <p className="text-sm text-red-600">{t("validation.password")}.</p>
                 )}
               </div>
             </motion.div>
@@ -281,8 +281,8 @@ export default function RegisterPage() {
                   )}
                 </button> */}
               </div>
-              {errors?.confirmPassword != '' && (
-                  <p className="text-sm text-red-600">{errors?.confirmPassword}</p>
+              {errors?.confirmPassword && (
+                  <p className="text-sm text-red-600">{t("validation.confirmPassword")}</p>
                 )}
             </motion.div>
 

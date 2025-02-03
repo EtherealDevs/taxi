@@ -20,7 +20,7 @@ export default function validateRegisterForm (formData: FormData): Object|null {
                 if (passwordLoop > 0) {
                     confirmPassword = item[1];
                     if (password!== confirmPassword) {
-                        errorBag.confirmPassword = "Ambas contraseñas deben coincidir.";
+                        errorBag.confirmPassword = "passwords should match";
                         break;
                     }
                 }

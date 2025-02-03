@@ -15,11 +15,11 @@
   },
   "loading": "Loading",
   "redirecting": "Redirecting",
-  "validation":{
-    "invalid email": "Invalid email address",
-    "password should be at least 8 characters": "Password should be at least 8 characters",
-    "maximum length 255": "Maximum length 255 characters",
-    "passwords should match": "Both passwords should match"
+  "validation": {
+    "email": "Invalid email address",
+    "password": "Password should be at least 8 characters",
+    "maxLength": "Maximum length 255 characters",
+    "confirmPassword": "Both passwords should match"
   },
   "hero": {
     "name": "Nelson Olivera",
