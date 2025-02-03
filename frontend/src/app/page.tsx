@@ -8,16 +8,54 @@ import TrustInUs from "@/components/interface/TrustInUs";
 import Footer from "@/components/Footer";
 import Contact from "@/components/interface/Contact";
 import Reviews from "@/components/interface/Reviews";
+import ReviewModal from "@/components/ui/ReviewModal";
 import { useAuth } from "@/hooks/auth";
 import Loading from "@/components/interface/Loading";
 import Redirecting from "@/components/interface/Redirecting";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function Home() {
   const { user, isLoading } = useAuth({ middleware: "guest" });
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false)
+  const [askLaterTimer, setAskLaterTimer] = useState<NodeJS.Timeout | null>(null)
+
+  useEffect(() => {
+    // Show the modal when the page loads
+    setIsReviewModalOpen(true)
+  }, [])
+
+  const handleCloseModal = () => {
+    setIsReviewModalOpen(false)
+    if (askLaterTimer) {
+      clearTimeout(askLaterTimer)
+    }
+  }
+
+  const handleSubmitReview = (rating: number, message: string) => {
+    // Here you would typically send the review to your backend
+    console.log("Review submitted:", { rating, message })
+    handleCloseModal()
+  }
+
+  const handleAskLater = () => {
+    handleCloseModal()
+    const timer = setTimeout(
+      () => {
+        setIsReviewModalOpen(true)
+      },
+      4 * 60 * 1000,
+    ) // 4 minutes in milliseconds
+    setAskLaterTimer(timer)
+  }
   return (
     <div className="flex flex-col min-h-screen bg-transparent">
       <Navbar user={user} />
+      <ReviewModal
+        isOpen={isReviewModalOpen}
+        onClose={handleCloseModal}
+        onSubmit={handleSubmitReview}
+        onAskLater={handleAskLater}
+      />
       <main className="flex-grow bg-transparent">
         <section id="hero">
           <Hero />
