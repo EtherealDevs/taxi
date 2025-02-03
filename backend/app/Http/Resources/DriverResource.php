@@ -23,6 +23,7 @@ class DriverResource extends JsonResource
             'rating' => $this->rating,
             'user_id' => $this->user_id,
             'cars' => CarResource::collection($this->whenLoaded('cars')),
+            'images' => $this->images->map(fn($image) => asset('storage/' . $image->url)),
             'reservation' => new ReservationResource($this->whenLoaded('reservation')),
         ];
     }

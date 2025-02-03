@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\DriverResource;
 use App\Models\Driver;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class DriverController extends Controller
@@ -14,7 +15,7 @@ class DriverController extends Controller
      */
     public function index()
     {
-        $drivers = DriverResource::collection(Driver::with(['cars', 'reservations'])->get());
+        $drivers = DriverResource::collection(Driver::with('images')->get());
         $data = [
             'drivers' => $drivers,
             'status' => 200
@@ -33,7 +34,7 @@ class DriverController extends Controller
             'phone_number' => 'required|string',
             'languages' => 'required|string',
             'rating' => 'numeric',
-            'user_id' => 'exists:users,id|nullable'
+            'user_id' => 'exists:users,id|nullable',
         ]);
         if ($validator->fails()) {
             $data = [
@@ -44,6 +45,12 @@ class DriverController extends Controller
             return response()->json($data, 400);
         }
         $driver = Driver::create($request->all());
+        if ($request->image) {
+            $image = $request->file('image');
+            $imageName = time() . '.' . 'webp';
+            $path = Storage::putFileAs('drivers', $image, $imageName);
+            $driver->images()->create(['url' => $path]);
+        }
         $data = [
             'message' => 'Driver created successfully',
             'status' => 201,
@@ -57,7 +64,7 @@ class DriverController extends Controller
      */
     public function show(string $id)
     {
-        $driver = Driver::with(['cars', 'reservations'])->find($id);
+        $driver = Driver::with('images')->find($id);
         if (!$driver) {
             $data = [
                 'message' => 'Driver not found',
@@ -103,6 +110,12 @@ class DriverController extends Controller
             return response()->json($data, 404);
         }
         $driver->update($request->all());
+        if ($request->image) {
+            $image = $request->file('image');
+            $imageName = time() . '.' . 'webp';
+            $path = Storage::putFileAs('drivers', $image, $imageName);
+            $driver->images()->create(['url' => $path]);
+        }
         $data = [
             'message' => 'Driver updated successfully',
             'status' => 200,
