@@ -133,7 +133,8 @@ class PostController extends Controller
             ];
             return response()->json($data, 404);
         }
-        foreach ($post->images() as $image) {
+        foreach ($post->images as $image) {
+            Storage::delete($image->url);
             $image->delete();
         }
         $post->delete();

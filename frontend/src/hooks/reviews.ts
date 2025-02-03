@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "@/lib/axios";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
@@ -44,6 +44,7 @@ export const useReview = () => {
     }
   };
   const createReview = async (FormData: FormData) => {
+    await csrf();
     try {
       const response = await axios.post("/api/reviews", FormData);
       return response.data;
@@ -53,6 +54,7 @@ export const useReview = () => {
     }
   };
   const updateReview = async (id: string, FormData: FormData) => {
+    await csrf();
     try {
       const response = await axios.put(`/api/reviews/${id}`, FormData);
       return response.data;
@@ -62,6 +64,7 @@ export const useReview = () => {
     }
   };
   const deleteReview = async (id: string) => {
+    await csrf();
     try {
       const response = await axios.delete(`/api/reviews/${id}`);
       return response.data;

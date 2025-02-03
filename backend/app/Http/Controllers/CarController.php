@@ -14,7 +14,7 @@ class CarController extends Controller
      */
     public function index()
     {
-        $cars = CarResource::collection(Car::with('drivers')->get());
+        $cars = CarResource::collection(Car::all());
         $data = [
             'cars' => $cars,
             'status' => 200
@@ -60,7 +60,7 @@ class CarController extends Controller
      */
     public function show(string $id)
     {
-        $car = Car::with('drivers')->find($id);
+        $car = Car::find($id);
         if (!$car) {
             $data = [
                 'errors' => 'Car not found',

@@ -80,10 +80,11 @@ export default function EditBlogPost() {
     if (file) {
       formData.append("image", file);
     }
-
-    formData.append("title", post.title);
-    formData.append("content", post.content);
-    formData.append("extract", post.extract);
+    if (post) {
+      formData.append("title", post.title);
+      formData.append("content", post.content);
+      formData.append("extract", post.extract);
+    }
     update(id, formData);
   };
   if (loading) return <p>Cargando publicaciones...</p>;

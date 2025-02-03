@@ -46,7 +46,9 @@ export default function CreateBlogPost() {
   const submitForm = async (event: React.FormEvent) => {
     event.preventDefault();
     const formData = new FormData();
-    formData.append("image", file);
+    if (file) {
+      formData.append("image", file);
+    }
     formData.append("title", title);
     formData.append("content", content);
     formData.append("extract", extract);

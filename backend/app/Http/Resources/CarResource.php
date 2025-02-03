@@ -23,7 +23,7 @@ class CarResource extends JsonResource
             'type' => $this->type,
             'description' => $this->description,
             'seats' => $this->seats,
-            'drivers' => DriverResource::collection($this->whenLoaded('drivers')),
+            'drivers' => DriverResource::collection($this->whenLoaded('drivers')) || null,
         ];
     }
 }

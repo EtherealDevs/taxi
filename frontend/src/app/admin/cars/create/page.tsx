@@ -1,167 +1,162 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { Upload, Plus, X } from 'lucide-react'
-import Image from 'next/image'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Textarea } from '@/components/ui/textarea'
+import { useState } from "react";
+import { Upload, Plus, X } from "lucide-react";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from '@/components/ui/select'
-import { Card, CardContent } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { car, useCar } from "@/hooks/cars";
 
 export default function CreateCar() {
-    const [carInfo, setCarInfo] = useState({
-        make: '',
-        model: '',
-        year: '',
-        type: '',
-        seats: '',
-        transmission: '',
-        fuelType: '',
-        description: '',
-        features: [] as string[],
-    })
-    const [imagePreview, setImagePreview] = useState<string | null>(null)
-    const [newFeature, setNewFeature] = useState('')
+  const [carInfo, setCarInfo] = useState<car | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [newFeature, setNewFeature] = useState("");
+  const { createCar } = useCar();
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value } = e.target
-        setCarInfo(prevInfo => ({
-            ...prevInfo,
-            [name]: value
-        }))
-    }
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setCarInfo((prevInfo) => ({
+      ...prevInfo,
+      [name]: value,
+    }));
+  };
 
-    const handleSelectChange = (name: string, value: string) => {
-        setCarInfo(prevInfo => ({
-            ...prevInfo,
-            [name]: value
-        }))
-    }
+  const handleSelectChange = (name: string, value: string) => {
+    setCarInfo((prevInfo) => ({
+      ...prevInfo,
+      [name]: value,
+    }));
+  };
 
-    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0]
-        if (file) {
-            const reader = new FileReader()
-            reader.onloadend = () => {
-                setImagePreview(reader.result as string)
-            }
-            reader.readAsDataURL(file)
-        }
-    }
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("brand", carInfo?.brand as string);
+    formData.append("year", carInfo?.year);
+    formData.append("model", carInfo?.model as string);
+    formData.append("type", carInfo?.type as string);
+    formData.append("description", carInfo?.description as string);
+    formData.append("patent", carInfo?.patent as string);
+    formData.append("seats", carInfo?.seats);
+    await createCar(formData);
+  };
 
-    const handleAddFeature = () => {
-        if (newFeature && !carInfo.features.includes(newFeature)) {
-            setCarInfo(prevInfo => ({
-                ...prevInfo,
-                features: [...prevInfo.features, newFeature]
-            }))
-            setNewFeature('')
-        }
-    }
+  return (
+    <Card className="max-w-4xl mx-auto overflow-y-hidden">
+      <CardContent className="p-6">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">
+          Agregar Nuevo Autoooo
+        </h1>
 
-    const handleRemoveFeature = (featureToRemove: string) => {
-        setCarInfo(prevInfo => ({
-            ...prevInfo,
-            features: prevInfo.features.filter(feature => feature !== featureToRemove)
-        }))
-    }
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <Label htmlFor="brand">Marca</Label>
+              <Input
+                id="brand"
+                name="brand"
+                value={carInfo?.brand}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div>
+              <Label htmlFor="model">Modelo</Label>
+              <Input
+                id="model"
+                name="model"
+                value={carInfo?.model}
+                onChange={handleInputChange}
+              />
+            </div>
+            {/* drivers */}
+            {/* <div>
+              <Label htmlFor="drivers">Chofer</Label>
+              <Select
+                onValueChange={(value) => handleSelectChange("drivers", value)}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Seleccione el tipo de vehículo" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="sedan">Sedán</SelectItem>
+                  <SelectItem value="suv">SUV</SelectItem>
+                  <SelectItem value="hatchback">Hatchback</SelectItem>
+                  <SelectItem value="van">Van</SelectItem>
+                </SelectContent>
+              </Select>
+            </div> */}
+            <div>
+              <Label htmlFor="patent">Patente</Label>
+              <Input
+                id="patent"
+                name="patent"
+                value={carInfo?.patent}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div>
+              <Label htmlFor="year">Año</Label>
+              <Input
+                id="year"
+                name="year"
+                type="number"
+                value={carInfo?.year}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div>
+              <Label htmlFor="type">Tipo</Label>
+              <Select
+                onValueChange={(value) => handleSelectChange("type", value)}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Seleccione el tipo de vehículo" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="sedan">Sedán</SelectItem>
+                  <SelectItem value="suv">SUV</SelectItem>
+                  <SelectItem value="hatchback">Hatchback</SelectItem>
+                  <SelectItem value="van">Van</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <Label htmlFor="seats">Asientos</Label>
+              <Input
+                id="seats"
+                name="seats"
+                type="number"
+                value={carInfo?.seats}
+                onChange={handleInputChange}
+              />
+            </div>
+          </div>
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-        // Here you would typically send the car data to your backend
-        console.log('Car Info:', carInfo)
-        console.log('Image:', imagePreview)
-        // Implement your save logic here
-    }
+          <div>
+            <Label htmlFor="description">Descripción</Label>
+            <Textarea
+              id="description"
+              name="description"
+              value={carInfo?.description}
+              onChange={handleInputChange}
+              className="h-32"
+            />
+          </div>
 
-    return (
-        <Card className="max-w-4xl mx-auto overflow-y-hidden">
-            <CardContent className="p-6">
-                <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">
-                    Agregar Nuevo Autoooo
-                </h1>
-
-                <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <Label htmlFor="make">Marca</Label>
-                            <Input id="make" name="make" value={carInfo.make} onChange={handleInputChange} />
-                        </div>
-                        <div>
-                            <Label htmlFor="model">Modelo</Label>
-                            <Input id="model" name="model" value={carInfo.model} onChange={handleInputChange} />
-                        </div>
-                        <div>
-                            <Label htmlFor="year">Año</Label>
-                            <Input id="year" name="year" type="number" value={carInfo.year} onChange={handleInputChange} />
-                        </div>
-                        <div>
-                            <Label htmlFor="type">Tipo</Label>
-                            <Select onValueChange={(value) => handleSelectChange('type', value)}>
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Seleccione el tipo de vehículo" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="sedan">Sedán</SelectItem>
-                                    <SelectItem value="suv">SUV</SelectItem>
-                                    <SelectItem value="hatchback">Hatchback</SelectItem>
-                                    <SelectItem value="van">Van</SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </div>
-                        <div>
-                            <Label htmlFor="seats">Asientos</Label>
-                            <Input id="seats" name="seats" type="number" value={carInfo.seats} onChange={handleInputChange} />
-                        </div>
-                        <div>
-                            <Label htmlFor="transmission">Transmisión</Label>
-                            <Select onValueChange={(value) => handleSelectChange('transmission', value)}>
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Seleccione el tipo de transmisión" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="automatic">Automática</SelectItem>
-                                    <SelectItem value="manual">Manual</SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </div>
-                        <div>
-                            <Label htmlFor="fuelType">Tipo de Combustible</Label>
-                            <Select onValueChange={(value) => handleSelectChange('fuelType', value)}>
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Seleccione el tipo de combustible" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="gasoline">Gasolina</SelectItem>
-                                    <SelectItem value="diesel">Diésel</SelectItem>
-                                    <SelectItem value="electric">Eléctrico</SelectItem>
-                                    <SelectItem value="hybrid">Híbrido</SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </div>
-                    </div>
-
-                    <div>
-                        <Label htmlFor="description">Descripción</Label>
-                        <Textarea
-                            id="description"
-                            name="description"
-                            value={carInfo.description}
-                            onChange={handleInputChange}
-                            className="h-32"
-                        />
-                    </div>
-
-                    <div>
+          {/* <div>
                         <Label>Imagen del Auto</Label>
                         <div className="mt-2">
                             <div className="flex items-center justify-center w-full">
@@ -228,15 +223,16 @@ export default function CreateCar() {
                                 </Badge>
                             ))}
                         </div>
-                    </div>
+                    </div> */}
 
-                    <div className="flex justify-end gap-4">
-                        <Button type="button" variant="outline">Cancelar</Button>
-                        <Button type="submit">Guardar Auto</Button>
-                    </div>
-                </form>
-            </CardContent>
-        </Card>
-    )
+          <div className="flex justify-end gap-4">
+            <Button type="button" variant="outline">
+              Cancelar
+            </Button>
+            <Button type="submit">Guardar Auto</Button>
+          </div>
+        </form>
+      </CardContent>
+    </Card>
+  );
 }
-
