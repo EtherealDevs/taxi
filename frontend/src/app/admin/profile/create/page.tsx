@@ -14,13 +14,18 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select'
+import { Drivers, useDriver } from '@/hooks/drivers'
+
 
 export default function CreateDriver() {
+    const [file, setFile] = useState<File | null>(null)
+    const [driver, setDriver] = useState<Drivers | null>(null)
     const [imagePreview, setImagePreview] = useState<string | null>(null)
-
+    const { createDriver } = useDriver()
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0]
         if (file) {
+            setFile(file)
             const reader = new FileReader()
             reader.onloadend = () => {
                 setImagePreview(reader.result as string)
@@ -28,52 +33,80 @@ export default function CreateDriver() {
             reader.readAsDataURL(file)
         }
     }
+    const handleInputChange = (
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ) => {
+        const { name, value } = e.target;
+        setDriver((prevInfo) => ({
+            ...prevInfo,
+            [name]: value,
+        }));
+    };
 
+    const handleSubmit = async (
+        e: React.FormEvent<HTMLFormElement>
+    ) => {
+        e.preventDefault()
+        const formData = new FormData()
+        if (file) {
+            formData.append('image', file)
+        }
+        formData.append('name', driver?.name as string)
+        formData.append('lastname', driver?.lastname as string)
+        formData.append('phone_number', driver?.phone_number as string)
+        formData.append('languages', driver?.languages as string)
+        await createDriver(formData)
+    }
     return (
         <div className="max-w-4xl mx-auto">
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">Agregar Nuevo Chofer</h1>
 
-            <form className="space-y-6">
+            <form className="space-y-6" onSubmit={handleSubmit}
+                encType="multpart/from-data">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <Label htmlFor="name">Nombre Completo</Label>
-                        <Input id="name" placeholder="Nombre del chofer" />
+                        <Input id="name" name='name' value={driver?.name}
+                            onChange={handleInputChange} placeholder="Nombre del chofer" />
                     </div>
 
                     <div>
                         <Label htmlFor="email">Email</Label>
-                        <Input id="email" type="email" placeholder="email@ejemplo.com" />
+                        <Input id="email" name='email' type="text" value={driver?.lastname}
+                            onChange={handleInputChange} placeholder="Apellido del chofer" />
                     </div>
 
                     <div>
-                        <Label htmlFor="phone">Teléfono</Label>
-                        <Input id="phone" placeholder="+1234567890" />
+                        <Label htmlFor="phone_number">Teléfono</Label>
+                        <Input id="phone_number" name="phone_number" type='text' value={driver?.phone_number}
+                            onChange={handleInputChange} placeholder="+1234567890" />
                     </div>
 
-                    <div>
+                    {/* <div>
                         <Label htmlFor="car">Vehículo</Label>
                         <Input id="car" placeholder="Marca y modelo" />
-                    </div>
+                    </div> */}
 
                     <div>
                         <Label htmlFor="languages">Idiomas</Label>
-                        <Input id="languages" placeholder="Español, Inglés, etc." />
+                        <Input id="languages" name="languages" value={driver?.languages}
+                            onChange={handleInputChange} placeholder="Español, Inglés, etc." />
                     </div>
 
-                    <div>
+                    {/* <div>
                         <Label htmlFor="experience">Años de Experiencia</Label>
                         <Input id="experience" type="number" min="0" />
-                    </div>
+                    </div> */}
                 </div>
 
-                <div>
+                {/* <div>
                     <Label htmlFor="bio">Biografía</Label>
                     <Textarea
                         id="bio"
                         placeholder="Descripción del chofer"
                         className="h-32"
                     />
-                </div>
+                </div> */}
 
                 <div>
                     <Label>Foto de Perfil</Label>
@@ -110,7 +143,7 @@ export default function CreateDriver() {
                     </div>
                 </div>
 
-                <div>
+                {/* <div>
                     <Label htmlFor="status">Estado</Label>
                     <Select>
                         <SelectTrigger>
@@ -121,7 +154,7 @@ export default function CreateDriver() {
                             <SelectItem value="inactive">Inactivo</SelectItem>
                         </SelectContent>
                     </Select>
-                </div>
+                </div> */}
 
                 <div className="flex justify-end gap-4">
                     <Button variant="outline">Cancelar</Button>

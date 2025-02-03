@@ -1,14 +1,15 @@
 import axios from "@/lib/axios";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { car } from "./cars";
 export interface Drivers {
-  id: number;
+  id: string;
   name: string;
   lastname: string;
   phone_number: string;
   languages: string;
   rating: number;
   userId: string;
+  image: string[];
   cars: car;
 }
 export const useDriver = () => {
@@ -38,7 +39,7 @@ export const useDriver = () => {
     await csrf();
     try {
       const response = await axios.post("/api/drivers", FormData);
-      router.push("/admin/drivers");
+      router.push("/admin/profile");
       return response.data;
     } catch (error) {
       console.error(error);
@@ -53,7 +54,7 @@ export const useDriver = () => {
         `/api/drivers/${id}?_method=PUT`,
         FormData
       );
-      router.push("/admin/drivers");
+      router.push("/admin/profile");
       return response.data;
     } catch (error) {
       console.error(error);
