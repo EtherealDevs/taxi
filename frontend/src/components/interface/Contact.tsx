@@ -13,10 +13,10 @@ const socialLinks = [
     {
         name: "Instagram",
         icon: <Instagram className="w-6 h-6" />,
-        href: "https://instagram.com/profdriver",
+        href: "https://www.instagram.com/nelsonolivera.viajes",
         color: "hover:text-pink-500",
     },
-    {
+    /* {
         name: "Facebook",
         icon: <Facebook className="w-6 h-6" />,
         href: "https://facebook.com/profdriver",
@@ -27,7 +27,7 @@ const socialLinks = [
         icon: <Music className="w-6 h-6" />,
         href: "https://tiktok.com/@profdriver",
         color: "hover:text-black",
-    },
+    }, */
 ]
 
 
@@ -82,15 +82,15 @@ export default function Contacto() {
                         <div className="space-y-4">
                             <div className="flex items-center">
                                 <Phone className="w-6 h-6 mr-4 text-blue-600" />
-                                <span>+1 (555) 123-4567</span>
+                                <span>+54 9 3757 542174</span>
                             </div>
                             <div className="flex items-center">
                                 <Mail className="w-6 h-6 mr-4 text-blue-600" />
-                                <span>contact@profdriver.com</span>
+                                <span>nelsonolivera.viajes@gmail.com</span>
                             </div>
                             <div className="flex items-center">
                                 <MapPin className="w-6 h-6 mr-4 text-blue-600" />
-                                <span>123 Travel Lane, Global City</span>
+                                <span>Puerto Iguazu, Misiones</span>
                             </div>
 
                             {/* Add social media icons */}
