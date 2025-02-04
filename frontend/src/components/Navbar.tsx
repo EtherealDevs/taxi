@@ -23,8 +23,115 @@ import {
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/auth";
-
-export default function Navbar({user}) {
+export const languages = [
+  {
+    code: "en",
+    label: "English",
+    flag: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width={20}
+        height={20}
+        viewBox="0 0 72 72"
+      >
+        <path fill="#1e50a0" d="M5 17h62v38H5z"></path>
+        <path fill="#fff" d="M40 28.856V32h10.181L67 21.691V17h-7.654z"></path>
+        <path
+          fill="#d22f27"
+          d="M67 17h-3.827L40 31.203V32h3.482L67 17.586z"
+        ></path>
+        <path fill="#fff" d="M59.347 55H67v-4.692L50.182 40H40v3.143z"></path>
+        <path
+          fill="#d22f27"
+          d="M67 55v-2.347L46.355 40h-4.787l24.474 15z"
+        ></path>
+        <path fill="#fff" d="M32 43.144V40H21.819L5 50.309V55h7.654z"></path>
+        <path
+          fill="#d22f27"
+          d="M5 55h3.827L32 40.797V40h-3.482L5 54.414z"
+        ></path>
+        <path fill="#fff" d="M12.653 17H5v4.692L21.818 32H32v-3.143z"></path>
+        <path fill="#d22f27" d="M5 17v2.347L25.646 32h4.786L5.958 17z"></path>
+        <path fill="#fff" d="M5 31h62v10H5z"></path>
+        <path fill="#fff" d="M31 17h10v38H31z"></path>
+        <path fill="#d22f27" d="M5 33h62v6H5z"></path>
+        <path fill="#d22f27" d="M33 17h6v38h-6z"></path>
+        <path
+          fill="none"
+          stroke="#000"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M5 17h62v38H5z"
+        ></path>
+      </svg>
+    ),
+  },
+  {
+    code: "es",
+    label: "Español",
+    flag: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width={20}
+        height={20}
+        viewBox="0 0 72 72"
+      >
+        <path fill="#1e50a0" d="M5 17h62v38H5z"></path>
+        <path fill="#fff" d="M5 17h62v38H5z"></path>
+        <path fill="#61b2e4" d="M5 42h62v13H5zm0-25h62v13H5z"></path>
+        <path
+          fill="#f1b31c"
+          stroke="#f1b31c"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M36 33.897L37.236 32l-.06 2.299l2.06-.771l-1.334 1.822L40 36l-2.098.65l1.334 1.822l-2.06-.771l.06 2.299L36 38.103L34.764 40l.06-2.299l-2.06.771l1.334-1.822L32 36l2.098-.65l-1.334-1.822l2.06.771l-.06-2.299z"
+          strokeWidth={1}
+        ></path>
+        <path
+          fill="none"
+          stroke="#000"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M5 17h62v38H5z"
+        ></path>
+      </svg>
+    ),
+  },
+  {
+    code: "pt",
+    label: "Português",
+    flag: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width={20}
+        height={20}
+        viewBox="0 0 72 72"
+      >
+        <path fill="#5c9e31" d="M5 17h62v38H5z"></path>
+        <path
+          fill="#fcea2b"
+          d="m59.023 36.023l-23.157 14.63l-22.889-14.362l23.157-14.63z"
+        ></path>
+        <circle cx={36} cy={36} r={9} fill="#1e50a0"></circle>
+        <path
+          fill="#fff"
+          d="M44.159 39.782a9 9 0 0 0 .696-2.26a11.474 11.474 0 0 0-17.477-4.04a9 9 0 0 0-.352 2.013a10.998 10.998 0 0 1 17.133 4.287"
+        ></path>
+        <path
+          fill="none"
+          stroke="#000"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M5 17h62v38H5z"
+        ></path>
+      </svg>
+    ),
+  },
+];
+export default function Navbar({ user }) {
   const { logout } = useAuth();
   const { i18n } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
@@ -38,12 +145,6 @@ export default function Navbar({user}) {
     { name: "Contactanos", href: "#contact" },
   ];
 
-  const languages = [
-    { code: "en", label: "English", flag: "🇺🇸" },
-    { code: "es", label: "Español", flag: "🇪🇸" },
-    { code: "pt", label: "Português", flag: "🇧🇷" },
-  ];
-
   const handleLogin = () => {
     window.location.pathname = "/login";
   };
@@ -55,9 +156,8 @@ export default function Navbar({user}) {
     logout();
   };
   if (!isLoggedIn && user) {
-      setIsLoggedIn(true);
+    setIsLoggedIn(true);
   }
-
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">

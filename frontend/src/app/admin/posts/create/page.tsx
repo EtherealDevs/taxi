@@ -82,7 +82,7 @@ export default function CreateBlogPost() {
           <form
             className="space-y-6"
             onSubmit={submitForm}
-            encType="multpart/from-data"
+            encType="multpart/form-data"
           >
             <TabsContent value="content">
               <div className="space-y-6">

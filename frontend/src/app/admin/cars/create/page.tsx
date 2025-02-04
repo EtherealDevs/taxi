@@ -16,10 +16,20 @@ import {
 } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { car, useCar } from "@/hooks/cars";
+import { Car, useCar } from "@/hooks/cars";
 
 export default function CreateCar() {
-  const [carInfo, setCarInfo] = useState<car | null>(null);
+  const [carInfo, setCarInfo] = useState<Car>({
+    id: "",
+    patent: "",
+    brand: "",
+    model: "",
+    year: "",
+    type: "",
+    description: "",
+    seats: 0,
+    driverId: "",
+  });
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [newFeature, setNewFeature] = useState("");
   const { createCar } = useCar();
@@ -68,7 +78,7 @@ export default function CreateCar() {
               <Input
                 id="brand"
                 name="brand"
-                value={carInfo?.brand}
+                value={carInfo?.brand ?? ""}
                 onChange={handleInputChange}
               />
             </div>
@@ -103,7 +113,7 @@ export default function CreateCar() {
               <Input
                 id="patent"
                 name="patent"
-                value={carInfo?.patent}
+                value={carInfo?.patent ?? ""}
                 onChange={handleInputChange}
               />
             </div>
@@ -113,7 +123,7 @@ export default function CreateCar() {
                 id="year"
                 name="year"
                 type="number"
-                value={carInfo?.year}
+                value={carInfo?.year ?? ""}
                 onChange={handleInputChange}
               />
             </div>
@@ -139,7 +149,7 @@ export default function CreateCar() {
                 id="seats"
                 name="seats"
                 type="number"
-                value={carInfo?.seats}
+                value={carInfo?.seats ?? ""}
                 onChange={handleInputChange}
               />
             </div>
@@ -150,7 +160,7 @@ export default function CreateCar() {
             <Textarea
               id="description"
               name="description"
-              value={carInfo?.description}
+              value={carInfo?.description ?? ""}
               onChange={handleInputChange}
               className="h-32"
             />

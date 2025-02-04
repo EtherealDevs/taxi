@@ -1,7 +1,7 @@
 import axios from "@/lib/axios";
 import { useRouter } from "next/navigation";
 
-export interface car {
+export interface Car {
   id: string;
   patent: string;
   brand: string;
@@ -10,7 +10,7 @@ export interface car {
   type: string;
   description: string;
   seats: number;
-  drivers: [string];
+  driverId: string;
 }
 
 export const useCar = () => {

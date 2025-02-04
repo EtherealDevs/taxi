@@ -17,21 +17,36 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useParams } from "next/navigation";
-import { car, useCar } from "@/hooks/cars";
+import { Car, useCar } from "@/hooks/cars";
+import AnimatedLoadingWheel from "@/components/ui/animated-loading-wheel";
 
 export default function EditCar() {
   const { id } = useParams();
   const { getCar, updateCar } = useCar();
-  const [carInfo, setCarInfo] = useState<car>();
+  const [carInfo, setCarInfo] = useState<Car>({
+    id: "",
+    patent: "",
+    brand: "",
+    model: "",
+    year: "",
+    type: "",
+    description: "",
+    seats: 0,
+    driverId: "",
+  });
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [newFeature, setNewFeature] = useState("");
+  const [loading, setLoading] = useState(false);
   const fetchCar = async () => {
+    setLoading(true);
     try {
       const response = await getCar(id);
       setCarInfo(response.car);
     } catch (error) {
       console.error(error);
       throw error;
+    } finally {
+      setLoading(false);
     }
   };
   useEffect(() => {
@@ -67,7 +82,7 @@ export default function EditCar() {
     formData.append("seats", carInfo?.seats);
     await updateCar(id, formData);
   };
-
+  if (loading) return <AnimatedLoadingWheel />;
   return (
     <Card className="max-w-4xl mx-auto">
       <CardContent className="p-6">
@@ -82,7 +97,7 @@ export default function EditCar() {
               <Input
                 id="brand"
                 name="brand"
-                value={carInfo?.brand}
+                value={carInfo?.brand ?? ""}
                 onChange={handleInputChange}
               />
             </div>
@@ -91,7 +106,7 @@ export default function EditCar() {
               <Input
                 id="model"
                 name="model"
-                value={carInfo?.model}
+                value={carInfo?.model ?? ""}
                 onChange={handleInputChange}
               />
             </div>
@@ -101,18 +116,18 @@ export default function EditCar() {
                 id="year"
                 name="year"
                 type="number"
-                value={carInfo?.year}
+                value={carInfo?.year ?? ""}
                 onChange={handleInputChange}
               />
             </div>
             <div>
               <Label htmlFor="type">Tipo</Label>
               <Select
-                defaultValue={carInfo?.type}
+                defaultValue={carInfo?.type ?? ""}
                 onValueChange={(value) => handleSelectChange("type", value)}
               >
                 <SelectTrigger>
-                  <SelectValue placeholder={carInfo?.type} />
+                  <SelectValue placeholder={carInfo?.type ?? ""} />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="sedan">Sedán</SelectItem>
@@ -128,7 +143,7 @@ export default function EditCar() {
                 id="seats"
                 name="seats"
                 type="number"
-                value={carInfo?.seats}
+                value={carInfo?.seats ?? ""}
                 onChange={handleInputChange}
               />
             </div>
@@ -139,7 +154,7 @@ export default function EditCar() {
             <Textarea
               id="description"
               name="description"
-              value={carInfo?.description}
+              value={carInfo?.description ?? ""}
               onChange={handleInputChange}
               className="h-32"
             />

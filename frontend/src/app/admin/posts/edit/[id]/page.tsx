@@ -20,6 +20,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Switch } from "@/components/ui/switch";
 import { useParams } from "next/navigation";
 import { usePost } from "@/hooks/posts";
+import AnimatedLoadingWheel from "@/components/ui/animated-loading-wheel";
 export interface Post {
   id: string;
   title: string;
@@ -87,7 +88,7 @@ export default function EditBlogPost() {
     }
     update(id, formData);
   };
-  if (loading) return <p>Cargando publicaciones...</p>;
+  if (loading) return <AnimatedLoadingWheel />;
   return (
     <Card className="max-w-4xl mx-auto">
       <CardContent className="p-6">

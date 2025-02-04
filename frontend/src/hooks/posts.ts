@@ -61,7 +61,10 @@ export const usePost = () => {
     await csrf();
     console.log(props);
     try {
-      const response = await axios.post(`/api/posts/${id}?_method=PUT`, props);
+      const response = await axios.post(
+        `/api/posts/${id}?_method=PATCH`,
+        props
+      );
       console.log("Publicación actualizada:", response.data);
       router.push("/admin/posts");
       return response.data;
