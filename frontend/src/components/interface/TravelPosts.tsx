@@ -110,16 +110,18 @@ export default function TravelPosts() {
   }, [emblaMainApi, onSelect]);
 
   return (
-    <div className="bg-gray-100/50 rounded-3xl py-16 max-h-screen overflow-hidden">
+    <div className="bg-gray-100/50 rounded-3xl pt-16 h-full overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-3xl font-bold text-center text-[#272727] mb-1">
+          <h2 className="text-3xl font-bold text-center text-gray-700 mb-1">
             {t("travelPosts.intro")}
           </h2>
+          <p className="text-gray-500 text-center">Aqui anuncio los viajes hechos y otros anuncios importantes</p>
+          <div className="w-24 h-2 bg-blue-500 mx-auto mt-4 mb-2" />
         </motion.div>
 
         <div className="relative">
@@ -151,16 +153,12 @@ export default function TravelPosts() {
                           <Calendar className="w-3 h-3 mr-1" />
                           <span>{formatDate(post.created_at)}</span>
                         </div>
-                        <div className="flex items-center">
-                          <User className="w-3 h-3 mr-1" />
-                          <span>Driver: </span>
-                        </div>
                       </div>
                       <motion.button
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={() => setSelectedPost(post)}
-                        className="mt-3 w-full bg-[#6944ff] text-white py-2 rounded-xl font-medium hover:bg-[#5933ff] transition-colors text-sm"
+                        className="mt-3 w-full bg-blue-500 text-white py-2 rounded-xl font-medium hover:bg-blue-600 transition-colors text-sm"
                       >
                         Read More
                       </motion.button>
@@ -184,41 +182,9 @@ export default function TravelPosts() {
           </button>
         </div>
 
-        <div className="mt-2">
-          <h3 className="text-2xl font-bold mb-8">More Amazing Journeys</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            {posts.map((post, index) => (
-              <motion.div
-                key={post.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="bg-white rounded-xl overflow-hidden shadow-lg cursor-pointer group"
-                onClick={() => setSelectedPost(post)}
-              >
-                <div className="relative h-36">
-                  <Image
-                    src={post.images[0] || "/placeholder.svg"}
-                    alt={post.title}
-                    layout="fill"
-                    objectFit="contain"
-                    className="group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-                <div className="p-3">
-                  <p className="text-sm text-gray-500 mb-2">
-                    {formatDate(post.created_at)}
-                  </p>
-                  <h4 className="font-semibold text-lg line-clamp-2 group-hover:text-[#6944ff] transition-colors">
-                    {post.title}
-                  </h4>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
+        
 
-        <div className="mt-6" ref={emblaThumbsRef}>
+        {/* <div className="mt-6" ref={emblaThumbsRef}>
           <div className="flex">
             {posts.map((post, index) => (
               <div
@@ -242,9 +208,10 @@ export default function TravelPosts() {
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
       </div>
 
+      {/* Modal */}
       <AnimatePresence>
         {selectedPost && (
           <motion.div
@@ -304,10 +271,7 @@ export default function TravelPosts() {
               <div className="p-8">
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-3xl font-bold">{selectedPost.title}</h2>
-                  <div className="flex items-center">
-                    <Star className="w-5 h-5 text-yellow-400 fill-current" />
-                    <span className="ml-1 font-semibold"></span>
-                  </div>
+
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -342,10 +306,6 @@ export default function TravelPosts() {
                         <div className="flex items-center text-gray-600">
                           <Calendar className="w-5 h-5 mr-3" />
                           <span>{formatDate(selectedPost.created_at)}</span>
-                        </div>
-                        <div className="flex items-center text-gray-600">
-                          <User className="w-5 h-5 mr-3" />
-                          <span></span>
                         </div>
                       </div>
                     </div>

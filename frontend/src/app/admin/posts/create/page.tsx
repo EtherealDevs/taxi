@@ -77,7 +77,7 @@ export default function CreateBlogPost() {
           <TabsList className="grid w-full grid-cols-3 mb-8">
             <TabsTrigger value="content">Contenido</TabsTrigger>
             <TabsTrigger value="media">Multimedia</TabsTrigger>
-            <TabsTrigger value="settings">Configuración</TabsTrigger>
+            {/* <TabsTrigger value="settings">Configuración</TabsTrigger> */}
           </TabsList>
           <form
             className="space-y-6"
@@ -123,7 +123,7 @@ export default function CreateBlogPost() {
                   />
                 </div>
 
-                <div>
+                {/* <div>
                   <Label htmlFor="tags">Etiquetas</Label>
                   <div className="flex items-center space-x-2 mt-1">
                     <Input
@@ -156,7 +156,7 @@ export default function CreateBlogPost() {
                       </Badge>
                     ))}
                   </div>
-                </div>
+                </div> */}
               </div>
             </TabsContent>
 
@@ -174,17 +174,14 @@ export default function CreateBlogPost() {
                               alt="Preview"
                               width={400}
                               height={300}
-                              className="h-full w-full object-cover rounded-lg"
+                              className="w-full h-64 object-cover rounded-lg"
                               priority
                             />
                           ) : (
                             <>
                               <Upload className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" />
                               <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                                <span className="font-semibold">
-                                  Click para subir
-                                </span>{" "}
-                                o arrastre y suelte
+                                <span className="font-semibold">Click para subir</span> o arrastre y suelte
                               </p>
                               <p className="text-xs text-gray-500 dark:text-gray-400">
                                 PNG, JPG o GIF (MAX. 800x400px)

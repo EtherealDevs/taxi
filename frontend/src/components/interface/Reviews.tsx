@@ -1,8 +1,8 @@
-'use client'
+"use client"
 
-import { useState, useEffect, useRef } from 'react'
-import { motion } from 'framer-motion'
-import Image from 'next/image'
+import { useEffect, useRef } from "react"
+import { motion, useAnimation } from "framer-motion"
+import Image from "next/image"
 
 interface Review {
     id: number
@@ -16,13 +16,7 @@ const StarRating = ({ rating }: { rating: number }) => {
     return (
         <div className="flex gap-1 mb-4">
             {[1, 2, 3, 4, 5].map((star) => (
-                <svg
-                    key={star}
-                    className="w-6 h-6"
-                    viewBox="0 0 30 26"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                >
+                <svg key={star} className="w-6 h-6" viewBox="0 0 30 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M10.2511 10.5755C10.2717 10.5231 10.2765 10.467 10.2651 10.4126C10.2536 10.3581 10.2264 10.3071 10.1858 10.2643C10.1452 10.2216 10.0927 10.1885 10.0333 10.1683C9.97386 10.148 9.90943 10.1413 9.84614 10.1487L2.82614 11.0153C2.75722 11.0231 2.69215 11.0473 2.63818 11.0853C2.58422 11.1232 2.54349 11.1734 2.52054 11.2303C2.49759 11.2872 2.49333 11.3484 2.50822 11.4073C2.52312 11.4661 2.55659 11.5202 2.60489 11.5635L7.60489 16.0355C7.64913 16.0771 7.70532 16.1078 7.76772 16.1244C7.83011 16.141 7.89648 16.1429 7.96004 16.1301C8.02359 16.1172 8.08206 16.0899 8.12947 16.051C8.17689 16.0121 8.21154 15.963 8.22989 15.9087L10.2511 10.5755Z"
                         fill={star <= rating ? "#FFB400" : "#D1D5DB"}
@@ -70,7 +64,7 @@ const StarRating = ({ rating }: { rating: number }) => {
 }
 
 export default function Reviews() {
-    const [position, setPosition] = useState(0)
+    const controls = useAnimation()
     const containerRef = useRef<HTMLDivElement>(null)
 
     const reviews: Review[] = [
@@ -79,95 +73,94 @@ export default function Reviews() {
             text: "By far the best thing about this is the efficient team they've put together. Everyone is so knowledgeable and friendly.",
             author: "Clara Reyes",
             avatar: "/placeholder.svg?height=80&width=80",
-            rating: 5
+            rating: 5,
         },
         {
             id: 2,
             text: "Just wow. I knew I was going to get a great service, but they went above and beyond my expectations.",
             author: "John Doe",
             avatar: "/placeholder.svg?height=80&width=80",
-            rating: 4.5
+            rating: 4.5,
         },
         {
             id: 3,
             text: "This is the best thing that happened to my small business. They re-branded, re-organized and re-vamped my company in no time.",
             author: "Asa Walter",
             avatar: "/placeholder.svg?height=80&width=80",
-            rating: 5
+            rating: 5,
         },
         {
             id: 4,
             text: "They are great. They delivered exactly what I needed. Their friendly chaps are a mix of creative and problem solvers. Love working with them.",
             author: "Zahid Miles",
             avatar: "/placeholder.svg?height=80&width=80",
-            rating: 4.5
-        }
+            rating: 4.5,
+        },
     ]
 
     const averageRating = reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length
 
     useEffect(() => {
-        const animate = () => {
+        const animate = async () => {
             if (containerRef.current) {
-                const containerWidth = containerRef.current.scrollWidth - containerRef.current.clientWidth
-                setPosition((prevPosition) => {
-                    const newPosition = prevPosition - 1
-                    return newPosition <= -containerWidth ? 0 : newPosition
+                const containerWidth = containerRef.current.scrollWidth
+                const viewportWidth = containerRef.current.offsetWidth
+
+                await controls.start({
+                    x: [-viewportWidth, -containerWidth],
+                    transition: {
+                        x: {
+                            repeat: Number.POSITIVE_INFINITY,
+                            repeatType: "loop",
+                            duration: 50,
+                            ease: "linear",
+                        },
+                    },
                 })
             }
         }
 
-        const interval = setInterval(animate, 50)
-        return () => clearInterval(interval)
-    }, [])
+        animate()
+    }, [controls])
 
     return (
         <div className="bg-gray-100/45 py-16 overflow-hidden rounded-3xl h-auto">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-12">
-                    <h2 className="text-3xl font-bold">
-                        What our Clients say!
-                    </h2>
-                    <div className="w-24 h-1 bg-red-500 mx-auto mt-4" />
-                    <div className="flex items-center justify-center gap-2 mt-4">
-                        <StarRating rating={averageRating} />
-                        <span className="text-lg font-semibold text-gray-700">
-                            {averageRating.toFixed(1)}
-                        </span>
-                    </div>
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6 }}
+                    >
+                        <h2 className="text-3xl font-bold text-gray-700">What our Clients say!</h2>
+                        <p className="text-md font-light text-gray-500">Asi me han puntuado mis clientes</p>
+                    </motion.div>
+                        <div className="w-24 h-2 bg-blue-500 mx-auto mt-4" />
+                        <div className="flex items-center justify-center gap-2 mt-4">
+                            <StarRating rating={averageRating} />
+                            <span className="text-lg font-semibold text-gray-700">{averageRating.toFixed(1)}</span>
+                        </div>
                 </div>
 
-                <div className="relative">
-                    <div className="overflow-hidden">
-                        <motion.div
-                            style={{ x: position }}
-                            className="flex gap-6 w-fit"
-                        >
-                            {[...reviews, ...reviews].map((review, index) => (
-                                <div
-                                    key={`${review.id}-${index}`}
-                                    className="w-full sm:w-[300px] flex-shrink-0 bg-white rounded-xl p-8 shadow-sm"
-                                >
-                                    <div className="flex flex-col items-center text-center">
-                                        <Image
-                                            src={review.avatar || "/placeholder.svg"}
-                                            alt={review.author}
-                                            width={80}
-                                            height={80}
-                                            className="rounded-full mb-4"
-                                        />
-                                        <h3 className="font-semibold text-lg mb-2">
-                                            {review.author}
-                                        </h3>
-                                        <StarRating rating={review.rating} />
-                                        <p className="text-gray-600 text-sm leading-relaxed">
-                                            {review.text}
-                                        </p>
-                                    </div>
+                <div className="relative overflow-hidden">
+                    <motion.div ref={containerRef} className="flex gap-6" animate={controls}>
+                        {[...reviews, ...reviews, ...reviews].map((review, index) => (
+                            <div key={`${review.id}-${index}`} className="w-[300px] flex-shrink-0 bg-white rounded-xl p-8 shadow-sm">
+                                <div className="flex flex-col items-center text-center">
+                                    <Image
+                                        src={review.avatar || "/placeholder.svg"}
+                                        alt={review.author}
+                                        width={80}
+                                        height={80}
+                                        className="rounded-full mb-4"
+                                    />
+                                    <h3 className="font-semibold text-lg mb-2">{review.author}</h3>
+                                    <StarRating rating={review.rating} />
+                                    <p className="text-gray-600 text-sm leading-relaxed">{review.text}</p>
                                 </div>
-                            ))}
-                        </motion.div>
-                    </div>
+                            </div>
+                        ))}
+                    </motion.div>
                 </div>
             </div>
         </div>

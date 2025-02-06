@@ -138,8 +138,7 @@ export default function Navbar({ user }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const navItems = [
-    { name: "Bienvenido", href: "#hero" },
-    { name: "Reservar Viaje", href: "#reviews" },
+    { name: "Quiero hacer una reserva", href: "#hero" },
     { name: "Confia en Nosotros", href: "#trust-in-us" },
     { name: "¿Cómo Funciona?", href: "#how-it-works" },
     { name: "Contactanos", href: "#contact" },

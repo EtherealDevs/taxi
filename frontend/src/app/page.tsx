@@ -13,6 +13,7 @@ import { useAuth } from "@/hooks/auth";
 import Loading from "@/components/interface/Loading";
 import Redirecting from "@/components/interface/Redirecting";
 import { useEffect, useRef, useState } from "react";
+import OtherPosts from "@/components/interface/OtherPosts";
 
 export default function Home() {
   const { user, isLoading } = useAuth({ middleware: "guest" });
@@ -66,6 +67,9 @@ export default function Home() {
           </div>
           <div className="col-span-1 md:col-span-3">
             <TravelPosts />
+          </div>
+          <div className="ml-6 w-full col-span-1 md:col-span-5">
+            <OtherPosts/>
           </div>
         </section>
         <section id="trust-in-us">
