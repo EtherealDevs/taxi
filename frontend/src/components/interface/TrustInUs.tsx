@@ -1,41 +1,45 @@
 "use client"
-import { useTranslation } from 'react-i18next';
-import { motion } from 'framer-motion'
-import { ShieldCheck, Handshake, CircleFadingPlus, Car, BookUser } from 'lucide-react'
+
+import { useTranslation } from "react-i18next"
+import { motion } from "framer-motion"
+import { ShieldCheck, Handshake, CircleFadingPlus, Car, BookUser } from "lucide-react"
 
 export default function TrustInUs() {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   const items = [
     {
       icon: <ShieldCheck className="w-8 h-8 text-[#6944ff]" />,
-      title: t('trustInUs.security.title'),
-      description: t('trustInUs.security.description')
+      title: t("trustInUs.security.title"),
+      description: t("trustInUs.security.description"),
     },
     {
       icon: <CircleFadingPlus className="w-8 h-8 text-[#6944ff]" />,
-      title: t('trustInUs.experience.title'),
-      description: t('trustInUs.experience.description')
+      title: t("trustInUs.experience.title"),
+      description: t("trustInUs.experience.description"),
     },
     {
       icon: <BookUser className="w-8 h-8 text-[#6944ff]" />,
-      title: t('trustInUs.attentionToDetail.title'),
-      description: t('trustInUs.attentionToDetail.description')
+      title: t("trustInUs.attentionToDetail.title"),
+      description: t("trustInUs.attentionToDetail.description"),
     },
     {
       icon: <Car className="w-8 h-8 text-[#6944ff]" />,
-      title: t('trustInUs.comfort.title'),
-      description: t('trustInUs.comfort.description')
+      title: t("trustInUs.comfort.title"),
+      description: t("trustInUs.comfort.description"),
     },
     {
       icon: <Handshake className="w-8 h-8 text-[#6944ff]" />,
-      title: t('trustInUs.professionalism.title'),
-      description: t('trustInUs.professionalism.description')
-    }
-  ];
+      title: t("trustInUs.professionalism.title"),
+      description: t("trustInUs.professionalism.description"),
+    },
+  ]
+
+  // Get only the last 5 items
+  const lastFiveItems = items.slice(-5)
 
   return (
-    <div className="bg-gray-100/50 py-16">
+    <div className="bg-gray-100/50 py-16 mt-6 h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -43,11 +47,11 @@ export default function TrustInUs() {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <h2 className="text-2xl font-bold mb-4">{t('trustInUs.title')}</h2>
+          <h2 className="text-2xl font-bold mb-4">{t("trustInUs.title")}</h2>
         </motion.div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
-          {items.map((item, index) => (
+          {lastFiveItems.map((item, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 20 }}
@@ -65,5 +69,6 @@ export default function TrustInUs() {
         </div>
       </div>
     </div>
-  );
+  )
 }
+
