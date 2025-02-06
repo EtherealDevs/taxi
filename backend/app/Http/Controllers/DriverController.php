@@ -51,6 +51,9 @@ class DriverController extends Controller
             $path = Storage::putFileAs('drivers', $image, $imageName);
             $driver->images()->create(['url' => $path]);
         }
+        if ($request->car_id) {
+            $driver->cars()->attach($request->car_id);
+        }
         $data = [
             'message' => 'Driver created successfully',
             'status' => 201,
@@ -110,6 +113,9 @@ class DriverController extends Controller
             return response()->json($data, 404);
         }
         $driver->update($request->all());
+        if ($request->car_id) {
+            $driver->cars()->attach($request->car_id);
+        }
         if ($request->image) {
             $image = $request->file('image');
             $imageName = time() . '.' . 'webp';

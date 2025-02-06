@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Upload, Plus, X } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -17,6 +17,7 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Car, useCar } from "@/hooks/cars";
+import { Drivers, useDriver } from "@/hooks/drivers";
 
 export default function CreateCar() {
   const [carInfo, setCarInfo] = useState<Car>({
@@ -33,7 +34,12 @@ export default function CreateCar() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [newFeature, setNewFeature] = useState("");
   const { createCar } = useCar();
+  const [drivers, setDrivers] = useState<Drivers[]>();
+  const { getDrivers } = useDriver();
 
+  useEffect(() => {
+    getDrivers().then((response) => setDrivers(response.drivers));
+  }, []);
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -54,6 +60,9 @@ export default function CreateCar() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData();
+    if (carInfo.driverId) {
+      formData.append("driver_id", carInfo.driverId);
+    }
     formData.append("brand", carInfo?.brand as string);
     formData.append("year", carInfo?.year);
     formData.append("model", carInfo?.model as string);
@@ -92,22 +101,23 @@ export default function CreateCar() {
               />
             </div>
             {/* drivers */}
-            {/* <div>
-              <Label htmlFor="drivers">Chofer</Label>
+            <div>
+              <Label htmlFor="driverId">Chofer</Label>
               <Select
-                onValueChange={(value) => handleSelectChange("drivers", value)}
+                onValueChange={(value) => handleSelectChange("driverId", value)}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Seleccione el tipo de vehículo" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="sedan">Sedán</SelectItem>
-                  <SelectItem value="suv">SUV</SelectItem>
-                  <SelectItem value="hatchback">Hatchback</SelectItem>
-                  <SelectItem value="van">Van</SelectItem>
+                  {drivers?.map((driver) => (
+                    <SelectItem key={driver.id} value={driver.id}>
+                      {driver.name} {driver.lastname}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
-            </div> */}
+            </div>
             <div>
               <Label htmlFor="patent">Patente</Label>
               <Input

@@ -22,7 +22,7 @@ class Driver extends Model
 
     public function cars(): BelongsToMany
     {
-        return $this->belongsToMany(Car::class);
+        return $this->belongsToMany(Car::class, 'driver_car');
     }
 
     public function reservation(): BelongsTo
