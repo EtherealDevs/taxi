@@ -73,7 +73,6 @@ export default function Reviews() {
       const fetchData = async () => {
         const response = await getReviews();
         setReviews(response.reviews);
-        console.log(response);
       };
     const controls = useAnimation()
     const containerRef = useRef<HTMLDivElement>(null)
