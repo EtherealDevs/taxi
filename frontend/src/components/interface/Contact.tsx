@@ -165,7 +165,7 @@ export default function Contacto() {
                             </div>
                             <button
                                 type="submit"
-                                className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-300 flex items-center justify-center"
+                                className="w-full bg-blue-600 text-white py-2 px-4 rounded-3xl hover:bg-blue-700 transition duration-300 flex items-center justify-center"
                             >
                                 <Send className="w-5 h-5 mr-2" />
                                 {t('contact.sendMessage')}

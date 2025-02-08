@@ -117,11 +117,11 @@ export default function TravelPosts() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-3xl font-bold text-center text-gray-700 mb-1">
+          <h2 className="text-3xl font-bold text-start text-gray-700 mb-1">
             {t("travelPosts.intro")}
           </h2>
-          <p className="text-gray-500 text-center">Aqui anuncio los viajes hechos y otros anuncios importantes</p>
-          <div className="w-24 h-2 bg-blue-500 mx-auto mt-4 mb-2" />
+          <div className="w-24 h-2 bg-blue-500 mt-1 mb-2" />
+          <p className="text-gray-500 text-start">Aqui anuncio los viajes hechos y otros anuncios importantes</p>
         </motion.div>
 
         <div className="relative">
@@ -158,7 +158,7 @@ export default function TravelPosts() {
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={() => setSelectedPost(post)}
-                        className="mt-3 w-full bg-blue-500 text-white py-2 rounded-xl font-medium hover:bg-blue-600 transition-colors text-sm"
+                        className="mt-3 w-full bg-blue-600 text-white py-2 rounded-3xl font-medium hover:bg-blue-7 00 transition-colors text-sm"
                       >
                         Read More
                       </motion.button>

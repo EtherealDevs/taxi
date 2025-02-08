@@ -133,9 +133,9 @@ export default function Reviews() {
                         transition={{ duration: 0.6 }}
                     >
                         <h2 className="text-3xl font-bold text-gray-700">What our Clients say!</h2>
+                        <div className="w-24 h-2 bg-blue-500 mx-auto mt-1 mb-4" />
                         <p className="text-md font-light text-gray-500">Asi me han puntuado mis clientes</p>
                     </motion.div>
-                        <div className="w-24 h-2 bg-blue-500 mx-auto mt-4" />
                         <div className="flex items-center justify-center gap-2 mt-4">
                             <StarRating rating={averageRating} />
                             <span className="text-lg font-semibold text-gray-700">{averageRating.toFixed(1)}</span>

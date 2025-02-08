@@ -45,9 +45,10 @@ export default function TrustInUs() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-12"
+          className="text-start mb-12"
         >
-          <h2 className="text-2xl font-bold mb-4">{t("trustInUs.title")}</h2>
+          <h2 className="text-2xl font-bold mb-1">{t("trustInUs.title")}</h2>
+          <div className="w-24 h-2 bg-blue-500 mt-1 mb-6" />
         </motion.div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">

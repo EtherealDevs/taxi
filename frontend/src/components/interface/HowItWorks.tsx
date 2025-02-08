@@ -37,9 +37,10 @@ export default function HowItWorks() {
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
-                    className="text-center mb-12"
+                    className="text-start mb-12"
                 >
-                    <h2 className="text-2xl font-bold mb-4">{t('howItWorks.title')}</h2>
+                    <h2 className="text-2xl font-bold mb-1">{t('howItWorks.title')}</h2>
+                    <div className="w-24 h-2 bg-blue-500 mt-1 mb-6" />
                 </motion.div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">

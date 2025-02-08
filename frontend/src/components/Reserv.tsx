@@ -426,7 +426,7 @@ export default function FormReserv({ onOpenModal, location }: FormReservProps) {
             {currentStep < 3 ? (
               <Button
                 type="button"
-                className="flex-1 bg-[#4263EB] hover:bg-[#3651c9]"
+                className="flex-1 bg-blue-600 hover:bg-blue-700 rounded-3xl text-white"
                 onClick={handleNext}
               >
                 Siguiente
@@ -435,7 +435,7 @@ export default function FormReserv({ onOpenModal, location }: FormReservProps) {
             ) : (
               <Button
                 type="submit"
-                className="flex-1 bg-[#4263EB] hover:bg-[#3651c9]"
+                className="flex-1 bg-blue-600 hover:bg-blue-700 rounded-3xl text-white"
               >
                 Confirmar Reserva
               </Button>
