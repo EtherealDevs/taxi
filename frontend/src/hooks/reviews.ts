@@ -1,6 +1,6 @@
 import axios from "@/lib/axios";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 export interface Review {
   id: string;

@@ -20,7 +20,8 @@ Route::group(
     [
         'middleware' =>
         [
-            'auth:sanctum'
+            'auth:sanctum',
+            'can:access admin'
         ]
     ],
     function () {
@@ -30,11 +31,12 @@ Route::group(
         ]);
     }
 );
-Route::group(['middleware' => 'auth:sanctum'], function () {
+Route::group(['middleware' => ['auth:sanctum', 'can:access admin']], function () {
     Route::apiResource('posts', PostController::class)->except(['index', 'show']);
     Route::apiResource('drivers', DriverController::class)->except('index');
     Route::apiResource('cars', CarController::class)->except('index');
 });
+Route::apiResource('reviews', ReviewController::class)->only('index');
 Route::apiResource('posts', PostController::class)->only(['index', 'show']);
 Route::apiResource('drivers', DriverController::class)->only('index');
 Route::apiResource('cars', CarController::class)->only('index');

@@ -24,5 +24,9 @@ class DatabaseSeeder extends Seeder
             'password' => $hashedPassword,
         ]);
         $this->call(RolePermissionSeeder::class);
+        $this->call(CarSeeder::class);
+        $this->call(DriverSeeder::class);
+        $this->call(ReservationSeeder::class);
+        $this->call(ReviewSeeder::class);
     }
 }
