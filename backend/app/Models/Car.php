@@ -15,9 +15,10 @@ class Car extends Model
         'type',
         'description',
         'seats',
-        ];
+    ];
 
-        public function drivers():BelongsToMany{
-            return $this->belongsToMany(Driver::class);
-        }
+    public function drivers(): BelongsToMany
+    {
+        return $this->belongsToMany(Driver::class, 'driver_car');
+    }
 }

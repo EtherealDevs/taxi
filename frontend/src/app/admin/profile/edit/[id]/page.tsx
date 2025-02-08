@@ -17,6 +17,7 @@ import {
 import { Drivers, useDriver } from "@/hooks/drivers";
 import { useParams } from "next/navigation";
 import AnimatedLoadingWheel from "@/components/ui/animated-loading-wheel";
+import { Car, useCar } from "@/hooks/cars";
 
 export default function CreateDriver() {
   const [file, setFile] = useState<File | null>(null);
@@ -33,6 +34,8 @@ export default function CreateDriver() {
     images: [],
     carId: "", // Si `cars` es un array
   });
+  const [cars, setCars] = useState<Car[]>();
+  const { getCars } = useCar();
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const { updateDriver, getDriver } = useDriver();
 
@@ -50,6 +53,7 @@ export default function CreateDriver() {
         setLoading(false);
       }
     };
+    getCars().then((response) => setCars(response.cars));
     fetchData();
   }, []);
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -72,12 +76,21 @@ export default function CreateDriver() {
       [name]: value,
     }));
   };
+  const handleSelectChange = (name: string, value: string) => {
+    setDriver((prevInfo) => ({
+      ...prevInfo,
+      [name]: value,
+    }));
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData();
     if (file) {
       formData.append("image", file);
+    }
+    if (driver.carId) {
+      formData.append("car_id", driver.carId);
     }
     formData.append("name", driver?.name as string);
     formData.append("lastname", driver?.lastname as string);
@@ -200,18 +213,23 @@ export default function CreateDriver() {
           </div>
         </div>
 
-        {/* <div>
-                                <Label htmlFor="status">Estado</Label>
-                                <Select>
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Seleccione el estado" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="active">Activo</SelectItem>
-                                        <SelectItem value="inactive">Inactivo</SelectItem>
-                                    </SelectContent>
-                                </Select>
-                            </div> */}
+        <div>
+          <Label htmlFor="carId">Auto</Label>
+          <Select onValueChange={(value) => handleSelectChange("carId", value)}>
+            <SelectTrigger>
+              <SelectValue placeholder={driver.carId || "seleccionar auto"} />
+            </SelectTrigger>
+            <SelectContent>
+              {cars?.map((car) => {
+                return (
+                  <SelectItem key={car.id} value={car.id}>
+                    {car.brand} {car.model}
+                  </SelectItem>
+                );
+              })}
+            </SelectContent>
+          </Select>
+        </div>
 
         <div className="flex justify-end gap-4">
           <Button variant="outline">Cancelar</Button>

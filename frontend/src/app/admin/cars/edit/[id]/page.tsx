@@ -19,6 +19,7 @@ import { Badge } from "@/components/ui/badge";
 import { useParams } from "next/navigation";
 import { Car, useCar } from "@/hooks/cars";
 import AnimatedLoadingWheel from "@/components/ui/animated-loading-wheel";
+import { Drivers, useDriver } from "@/hooks/drivers";
 
 export default function EditCar() {
   const { id } = useParams();
@@ -34,6 +35,8 @@ export default function EditCar() {
     seats: 0,
     driverId: "",
   });
+  const [drivers, setDrivers] = useState<Drivers[]>();
+  const { getDrivers } = useDriver();
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [newFeature, setNewFeature] = useState("");
   const [loading, setLoading] = useState(false);
@@ -50,6 +53,7 @@ export default function EditCar() {
     }
   };
   useEffect(() => {
+    getDrivers().then((response) => setDrivers(response.drivers));
     fetchCar();
   }, []);
 
@@ -73,6 +77,9 @@ export default function EditCar() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData();
+    if (carInfo.driverId) {
+      formData.append("driver_id", carInfo.driverId);
+    }
     formData.append("brand", carInfo?.brand as string);
     formData.append("year", carInfo?.year);
     formData.append("model", carInfo?.model as string);
@@ -107,6 +114,32 @@ export default function EditCar() {
                 id="model"
                 name="model"
                 value={carInfo?.model ?? ""}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div>
+              <Label htmlFor="driverId">Chofer</Label>
+              <Select
+                onValueChange={(value) => handleSelectChange("driverId", value)}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Seleccione el tipo de vehículo" />
+                </SelectTrigger>
+                <SelectContent>
+                  {drivers?.map((driver) => (
+                    <SelectItem key={driver.id} value={driver.id}>
+                      {driver.name} {driver.lastname}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <Label htmlFor="patent">Patente</Label>
+              <Input
+                id="patent"
+                name="patent"
+                value={carInfo?.patent ?? ""}
                 onChange={handleInputChange}
               />
             </div>

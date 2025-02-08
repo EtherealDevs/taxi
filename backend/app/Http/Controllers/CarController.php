@@ -45,8 +45,10 @@ class CarController extends Controller
             ];
             return response()->json($data, 400);
         }
-
         $car = Car::create($request->all());
+        if ($request->driver_id) {
+            $car->drivers()->attach($request->driver_id);
+        }
         $data = [
             'message' => 'Car created successfully',
             'car' => $car,
@@ -104,6 +106,9 @@ class CarController extends Controller
             return response()->json($data, 404);
         }
         $car->update($request->all());
+        if ($request->driver_id) {
+            $car->drivers()->attach($request->driver_id);
+        }
         $data = [
             'message' => 'Car updated successfully',
             'car' => $car,

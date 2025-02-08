@@ -6,10 +6,10 @@ import { Plus, Pencil, Trash2 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { useCar, car } from "@/hooks/cars";
+import { useCar, Car } from "@/hooks/cars";
 
 export default function CarsPage() {
-  const [cars, setCars] = useState<car[]>([]);
+  const [cars, setCars] = useState<Car[]>([]);
   const { getCars, deleteCar } = useCar();
 
   useEffect(() => {

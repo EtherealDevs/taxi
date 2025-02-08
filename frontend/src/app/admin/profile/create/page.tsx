@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,9 +15,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Drivers, useDriver } from "@/hooks/drivers";
+import { Car, useCar } from "@/hooks/cars";
 
 export default function CreateDriver() {
   const [file, setFile] = useState<File | null>(null);
+  const [cars, setCars] = useState<Car[]>();
+  const { getCars } = useCar();
   const [driver, setDriver] = useState<Drivers>({
     id: "",
     name: "",
@@ -31,6 +34,9 @@ export default function CreateDriver() {
   });
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const { createDriver } = useDriver();
+  useEffect(() => {
+    getCars().then((response) => setCars(response.cars));
+  }, []);
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -51,12 +57,21 @@ export default function CreateDriver() {
       [name]: value,
     }));
   };
+  const handleSelectChange = (name: string, value: string) => {
+    setDriver((prevInfo) => ({
+      ...prevInfo,
+      [name]: value,
+    }));
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData();
     if (file) {
       formData.append("image", file);
+    }
+    if (driver.carId) {
+      formData.append("car_id", driver.carId);
     }
     formData.append("name", driver?.name as string);
     formData.append("lastname", driver?.lastname as string);
@@ -177,19 +192,23 @@ export default function CreateDriver() {
             </div>
           </div>
         </div>
-
-        {/* <div>
-                    <Label htmlFor="status">Estado</Label>
-                    <Select>
-                        <SelectTrigger>
-                            <SelectValue placeholder="Seleccione el estado" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="active">Activo</SelectItem>
-                            <SelectItem value="inactive">Inactivo</SelectItem>
-                        </SelectContent>
-                    </Select>
-                </div> */}
+        <div>
+          <Label htmlFor="carId">Auto</Label>
+          <Select onValueChange={(value) => handleSelectChange("carId", value)}>
+            <SelectTrigger>
+              <SelectValue placeholder={driver.carId || "seleccionar auto"} />
+            </SelectTrigger>
+            <SelectContent>
+              {cars?.map((car) => {
+                return (
+                  <SelectItem key={car.id} value={car.id}>
+                    {car.brand} {car.model}
+                  </SelectItem>
+                );
+              })}
+            </SelectContent>
+          </Select>
+        </div>
 
         <div className="flex justify-end gap-4">
           <Button variant="outline">Cancelar</Button>
