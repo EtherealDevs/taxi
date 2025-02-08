@@ -112,8 +112,7 @@ export default function OtherPosts() {
 
 
     return (
-
-        <div className="mt-2 h-[350px] w-full">
+        <div className="mt-2 h-[350px] w-34">
             <h3 className="text-2xl font-bold text-gray-700 mb-1">Otros anuncios y viajes</h3>
             <div className="w-24 h-2 bg-blue-500 mt-1 mb-6" />
             <div className="h-[600px] overflow-y-auto">

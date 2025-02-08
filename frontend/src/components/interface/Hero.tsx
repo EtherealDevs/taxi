@@ -91,7 +91,7 @@ export default function Hero() {
                         </h2>
                     </motion.div>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                         {/* Profile Image Column */}
                         <div className="lg:col-span-1">
                             <motion.div
@@ -99,7 +99,7 @@ export default function Hero() {
                                 animate={{ opacity: 1, scale: 1 }}
                                 className="relative"
                             >
-                                <div className="relative w-[240px] h-[240px] mx-auto">
+                                <div className="relative w-[240px] h-full mx-auto">
                                     <div className="absolute inset-0 top-4 bg-gradient-to-b from-transparent via-white/50 to-white rounded-[2rem] z-10" />
                                     <Image
                                         src="/img/driver.png"
@@ -116,7 +116,7 @@ export default function Hero() {
                         </div>
 
                         {/* Info Column */}
-                        <div className="lg:col-span-2 space-y-8">
+                        <div className="lg:col-span-2">
                             <motion.div
                                 initial={{ opacity: 0, x: 20 }}
                                 animate={{ opacity: 1, x: 0 }}
@@ -167,7 +167,8 @@ export default function Hero() {
                                     </div>
                                 </div>
                             </motion.div>
-
+                        </div>
+                        <div className="lg:col-span-3 w-full">
                             {/* Stats Grid */}
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}

@@ -394,7 +394,7 @@ export default function FormReserv({ onOpenModal, location }: FormReservProps) {
   );
 
   return (
-    <div className="flex-none w-full md:w-[400px] md:ml-auto sticky translate-x-9 top-0">
+    <div className="flex-none w-full md:w-[400px] md:ml-auto sticky translate-x-0 lg:translate-x-9 top-0">
       <div className="w-full border-[#4263EB] border-2 rounded-[2rem] p-8 bg-white shadow-lg">
         <div className="text-sm text-[#4263EB] font-medium mb-4">
           {t("reserv.countries")}
