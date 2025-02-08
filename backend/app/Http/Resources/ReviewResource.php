@@ -21,6 +21,7 @@ class ReviewResource extends JsonResource
             'stars' => $this->stars,
             'content' => $this->content,
             'user' => new UserResource($this->whenLoaded('user')),
+            'reservation' => new ReservationResource($this->whenLoaded('reservation')),
         ];
     }
 }

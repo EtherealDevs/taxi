@@ -18,7 +18,7 @@ class ReviewController extends Controller
      */
     public function index()
     {
-        $reviews = ReviewResource::collection(Review::with('user')->get());
+        $reviews = ReviewResource::collection(Review::with(['user', 'reservation.driver'])->get());
         $data = [
             'reviews' => $reviews,
             'status' => 200

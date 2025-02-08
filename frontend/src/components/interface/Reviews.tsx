@@ -72,7 +72,7 @@ export default function Reviews() {
       }, []);
       const fetchData = async () => {
         const response = await getReviews();
-        setReviews(response);
+        setReviews(response.reviews);
         console.log(response);
       };
     const controls = useAnimation()
@@ -133,7 +133,8 @@ export default function Reviews() {
 
         animate()
     }, [controls])
-
+    
+    if (reviews != undefined && reviews != null && reviews.length > 0) {
     return (
         <div className="bg-gray-100/45 py-16 overflow-hidden rounded-3xl h-auto">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -148,8 +149,8 @@ export default function Reviews() {
                         <p className="text-md font-light text-gray-500">Asi me han puntuado mis clientes</p>
                     </motion.div>
                         <div className="flex items-center justify-center gap-2 mt-4">
-                            <StarRating rating={averageRating} />
-                            <span className="text-lg font-semibold text-gray-700">{averageRating.toFixed(1)}</span>
+                            <StarRating rating={reviews[0].reservation.driver.rating} />
+                            <span className="text-lg font-semibold text-gray-700">{reviews[0].reservation.driver.rating}</span>
                         </div>
                 </div>
 
@@ -159,15 +160,16 @@ export default function Reviews() {
                             <div key={`${review.id}-${index}`} className="w-[300px] flex-shrink-0 bg-white rounded-xl p-8 shadow-sm">
                                 <div className="flex flex-col items-center text-center">
                                     <Image
-                                        src={review.avatar || "/placeholder.svg"}
-                                        alt={review.author}
+                                    // Change this line when user images become available
+                                        src={"/placeholder.svg"}
+                                        alt={review.user.name}
                                         width={80}
                                         height={80}
                                         className="rounded-full mb-4"
                                     />
-                                    <h3 className="font-semibold text-lg mb-2">{review.author}</h3>
-                                    <StarRating rating={review.rating} />
-                                    <p className="text-gray-600 text-sm leading-relaxed">{review.text}</p>
+                                    <h3 className="font-semibold text-lg mb-2">{review.reservation.driver.name}</h3>
+                                    <StarRating rating={review.stars} />
+                                    <p className="text-gray-600 text-sm leading-relaxed">{review.content}</p>
                                 </div>
                             </div>
                         ))}
@@ -176,5 +178,6 @@ export default function Reviews() {
             </div>
         </div>
     )
+    }
 }
 
