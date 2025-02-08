@@ -1,8 +1,9 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import { motion, useAnimation } from "framer-motion"
 import Image from "next/image"
+import { useReview } from "@/hooks/reviews";
 
 interface Review {
     id: number
@@ -64,41 +65,51 @@ const StarRating = ({ rating }: { rating: number }) => {
 }
 
 export default function Reviews() {
+    const { getReviews } = useReview();
+    const [reviews, setReviews] = useState([]);
+    useEffect(() => {
+        fetchData();
+      }, []);
+      const fetchData = async () => {
+        const response = await getReviews();
+        setReviews(response);
+        console.log(response);
+      };
     const controls = useAnimation()
     const containerRef = useRef<HTMLDivElement>(null)
 
-    const reviews: Review[] = [
-        {
-            id: 1,
-            text: "By far the best thing about this is the efficient team they've put together. Everyone is so knowledgeable and friendly.",
-            author: "Clara Reyes",
-            avatar: "/placeholder.svg?height=80&width=80",
-            rating: 5,
-        },
-        {
-            id: 2,
-            text: "Just wow. I knew I was going to get a great service, but they went above and beyond my expectations.",
-            author: "John Doe",
-            avatar: "/placeholder.svg?height=80&width=80",
-            rating: 4.5,
-        },
-        {
-            id: 3,
-            text: "This is the best thing that happened to my small business. They re-branded, re-organized and re-vamped my company in no time.",
-            author: "Asa Walter",
-            avatar: "/placeholder.svg?height=80&width=80",
-            rating: 5,
-        },
-        {
-            id: 4,
-            text: "They are great. They delivered exactly what I needed. Their friendly chaps are a mix of creative and problem solvers. Love working with them.",
-            author: "Zahid Miles",
-            avatar: "/placeholder.svg?height=80&width=80",
-            rating: 4.5,
-        },
-    ]
+    // const reviews: Review[] = [
+    //     {
+    //         id: ,
+    //         text: "By far the best thing about this is the efficient team they've put together. Everyone is so knowledgeable and friendly.",
+    //         author: "Clara Reyes",
+    //         avatar: "/placeholder.svg?height=80&width=80",
+    //         rating: 5,
+    //     },
+    //     {
+    //         id: 2,
+    //         text: "Just wow. I knew I was going to get a great service, but they went above and beyond my expectations.",
+    //         author: "John Doe",
+    //         avatar: "/placeholder.svg?height=80&width=80",
+    //         rating: 4.5,
+    //     },
+    //     {
+    //         id: 3,
+    //         text: "This is the best thing that happened to my small business. They re-branded, re-organized and re-vamped my company in no time.",
+    //         author: "Asa Walter",
+    //         avatar: "/placeholder.svg?height=80&width=80",
+    //         rating: 5,
+    //     },
+    //     {
+    //         id: 4,
+    //         text: "They are great. They delivered exactly what I needed. Their friendly chaps are a mix of creative and problem solvers. Love working with them.",
+    //         author: "Zahid Miles",
+    //         avatar: "/placeholder.svg?height=80&width=80",
+    //         rating: 4.5,
+    //     },
+    // ]
 
-    const averageRating = reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length
+    // const averageRating = reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length
 
     useEffect(() => {
         const animate = async () => {

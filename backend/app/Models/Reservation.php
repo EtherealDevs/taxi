@@ -30,4 +30,8 @@ class Reservation extends Model
     {
         return $this->hasMany(Station::class);
     }
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(Review::class);
+    }
 }

@@ -49,6 +49,7 @@ interface Addresses {
 }
 
 export default function FormReserv({ onOpenModal, location }: FormReservProps) {
+  console.log(onOpenModal, location);
   const { t } = useTranslation();
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<FormData>({
@@ -205,12 +206,13 @@ export default function FormReserv({ onOpenModal, location }: FormReservProps) {
 
       {formData.extraStops.map((stop, index) => (
         <div className="relative" key={index}>
+        {console.log(index, location.extraStops, location.extraStops[0])}
           <MapPin className="absolute left-4 top-3.5 h-5 w-5 text-gray-400" />
           <input
             type="text"
             placeholder={t("reserv.extraStop")}
             className="w-full pl-12 pr-12 py-3 rounded-2xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#4263EB] focus:border-transparent"
-            value={stop}
+            value={location.extraStops[index]}
             onClick={() => onOpenModal("extraStops", index)}
             readOnly
           />

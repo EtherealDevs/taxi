@@ -18,12 +18,8 @@ class RolePermissionSeeder extends Seeder
 
         // Create permissions
         $accessAdmin = Permission::create(['name' => 'access admin']);
-        $editPermission = Permission::create(['name' => 'edit articles']);
-        $viewPermission = Permission::create(['name' => 'view articles']);
 
-        // Assign permissions to roles
-        $adminRole->givePermissionTo($editPermission, $viewPermission, $accessAdmin);
-        $userRole->givePermissionTo($viewPermission);
+        $adminRole->givePermissionTo($accessAdmin);
 
         // Assign role to user
         $admin = User::where('name', '=', env('ADMIN_NAME'))->first();

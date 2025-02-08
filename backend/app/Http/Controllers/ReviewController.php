@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ReviewDeleted;
+use App\Events\ReviewSaved;
+use App\Events\ReviewUpdated;
 use App\Http\Resources\ReviewResource;
 use App\Models\Review;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class ReviewController extends Controller
@@ -45,6 +49,7 @@ class ReviewController extends Controller
             'review' => $review,
             'status' => 201
         ];
+        ReviewSaved::dispatch($review);
         return response()->json($data, 201);
     }
 
@@ -97,6 +102,7 @@ class ReviewController extends Controller
             'review' => $review,
             'status' => 200
         ];
+        ReviewUpdated::dispatch($review);
         return response()->json($data, 200);
     }
 
@@ -113,7 +119,11 @@ class ReviewController extends Controller
             ];
             return response()->json($data, 404);
         }
-        $review->delete();
+        DB::transaction(function () use ($review) {
+            $driver = $review->reservation->driver;
+            $review->delete();
+            ReviewDeleted::dispatch(null, $driver);
+        });
         $data = [
             'message' => 'Review deleted successfully',
             'status' => 200
