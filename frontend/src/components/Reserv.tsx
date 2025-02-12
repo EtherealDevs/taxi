@@ -49,7 +49,7 @@ interface Addresses {
 }
 
 export default function FormReserv({ onOpenModal, location }: FormReservProps) {
-  console.log(onOpenModal, location);
+  console.log(location);
   const { t } = useTranslation();
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<FormData>({
@@ -78,15 +78,23 @@ export default function FormReserv({ onOpenModal, location }: FormReservProps) {
   };
   const handleInputChange = (field: keyof FormData, value: any) => {
     // Not this one
-    setFormData((prev) => ({ ...prev, [field]: value }));
+    if ((field = "extraStops")) {
+      setFormData((prev) => ({
+        ...prev,
+        extraStops: [...prev.extraStops, value],
+      }));
+    } else {
+      setFormData((prev) => ({ ...prev, [field]: value }));
+    }
   };
 
   const handleAddExtraStop = () => {
-    // Not this one
-    setFormData((prev) => ({
-      ...prev,
-      extraStops: ["testingggg"],
-    }));
+    const value = location.extraStops || [];
+    if (!value) {
+      setFormData((prev) => ({ ...prev, extraStop: value }));
+    }
+    // Utiliza handleInputChange para actualizar el estado
+    handleInputChange("extraStops", [...formData.extraStops, ""]);
   };
 
   const handleExtraStopChange = (index: number, value: string) => {
@@ -210,7 +218,6 @@ export default function FormReserv({ onOpenModal, location }: FormReservProps) {
 
       {formData.extraStops.map((stop, index) => (
         <div className="relative" key={index}>
-        {console.log(index, location, location.extraStops, location.extraStops[0])}
           <MapPin className="absolute left-4 top-3.5 h-5 w-5 text-gray-400" />
           <input
             type="text"

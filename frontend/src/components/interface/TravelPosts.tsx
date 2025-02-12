@@ -50,7 +50,6 @@ export default function TravelPosts() {
   useEffect(() => {
     fetchData();
   }, []);
-  console.log(posts[0]);
   const fetchData = async () => {
     const response = await getPosts();
     setPosts(response.posts);
@@ -121,14 +120,19 @@ export default function TravelPosts() {
             {t("travelPosts.intro")}
           </h2>
           <div className="w-24 h-2 bg-blue-500 mt-1 mb-2" />
-          <p className="text-gray-500 text-start">Aqui anuncio los viajes hechos y otros anuncios importantes</p>
+          <p className="text-gray-500 text-start">
+            Aqui anuncio los viajes hechos y otros anuncios importantes
+          </p>
         </motion.div>
 
         <div className="relative">
           <div className="overflow-hidden" ref={emblaMainRef}>
             <div className="flex">
               {posts.map((post, index) => (
-                <div key={post.id} className="flex-[0_0_100%] sm:flex-[0_0_50%] md:flex-[0_0_33.33%] pl-4">
+                <div
+                  key={post.id}
+                  className="flex-[0_0_100%] sm:flex-[0_0_50%] md:flex-[0_0_33.33%] pl-4"
+                >
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -181,8 +185,6 @@ export default function TravelPosts() {
             <ChevronRight className="w-6 h-6" />
           </button>
         </div>
-
-        
 
         {/* <div className="mt-6" ref={emblaThumbsRef}>
           <div className="flex">
@@ -271,7 +273,6 @@ export default function TravelPosts() {
               <div className="p-8">
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-3xl font-bold">{selectedPost.title}</h2>
-
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
