@@ -73,7 +73,6 @@ export default function Hero() {
     if (activeInput) {
       // Verifica si el campo activo es un extraStop (manejado como array)
       if (activeInput.startsWith("extraStops")) {
-        console.log(activeInput, location, extraStopsIndex);
         const index = extraStopsIndex;
         setLocation((prevLocation) => {
           const updatedStops = [...(prevLocation.extraStops || [])];

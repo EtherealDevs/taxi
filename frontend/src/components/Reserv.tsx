@@ -49,8 +49,6 @@ interface Addresses {
 }
 
 export default function FormReserv({ onOpenModal, location }: FormReservProps) {
-  console.log(location, onOpenModal);
-  
   const { t } = useTranslation();
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<FormData>({
@@ -67,8 +65,6 @@ export default function FormReserv({ onOpenModal, location }: FormReservProps) {
     last: "",
   });
   const { getAddress } = useMap();
-  console.log("locating extra stops", location.extraStops);
-      console.log("formdata extra stops", formData.extraStops);
 
   const changeAddress = async () => {
     // Not this one
@@ -80,8 +76,6 @@ export default function FormReserv({ onOpenModal, location }: FormReservProps) {
     });
   };
   const handleInputChange = (field: keyof FormData, value: any) => {
-    // Not this one
-    console.log("field", field, " value", value);
     if ((field = "extraStops")) {
       setFormData((prev) => ({
         ...prev,
@@ -94,11 +88,7 @@ export default function FormReserv({ onOpenModal, location }: FormReservProps) {
 
   const handleAddExtraStop = () => {
     const value = location.extraStops || [];
-    // console.log("locating extra stops", location.extraStops);
-    // console.log("formdata extra stops", formData.extraStops);
-    // console.log("value", value);
     if (!value) {
-      // console.log("if !value", value)
       setFormData((prev) => ({ ...prev, extraStop: value }));
     }
     // Utiliza handleInputChange para actualizar el estado
@@ -108,7 +98,6 @@ export default function FormReserv({ onOpenModal, location }: FormReservProps) {
   const handleExtraStopChange = (index: number, value: string) => {
     const newExtraStops = [...formData.extraStops];
     newExtraStops[index] = value;
-    console.log(newExtraStops, index, value);
     handleInputChange("extraStops", newExtraStops);
   };
 
