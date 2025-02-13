@@ -50,12 +50,18 @@ export default function Hero() {
     extraStops: [""],
   });
   const [isMapModalOpen, setIsMapModalOpen] = useState(false);
+  const [extraStopsIndex, setExtraStopsIndex] = useState<any>();
 
   const handleOpenModal = (
-    inputName: "departure" | "destination" | "extraStops"
+    inputName: "departure" | "destination" | "extraStops",
+    index?: number
   ) => {
-    setActiveInput(inputName);
-    setIsMapModalOpen(true);
+    // Si es extraStops, agregar un índice nuevo al array de extraStops
+    if (inputName === "extraStops") {
+      setExtraStopsIndex(index);
+    }
+      setActiveInput(inputName);
+      setIsMapModalOpen(true);
   };
 
   const handleCloseMapModal = () => {
@@ -67,7 +73,8 @@ export default function Hero() {
     if (activeInput) {
       // Verifica si el campo activo es un extraStop (manejado como array)
       if (activeInput.startsWith("extraStops")) {
-        const index = parseInt(activeInput.match(/\d+/)?.[0] || "0", 10);
+        console.log(activeInput, location, extraStopsIndex);
+        const index = extraStopsIndex;
         setLocation((prevLocation) => {
           const updatedStops = [...(prevLocation.extraStops || [])];
           updatedStops[index] = `${lat}, ${lng}`;
