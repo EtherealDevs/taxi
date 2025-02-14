@@ -1,6 +1,8 @@
 import axios from "@/lib/axios";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { reservation } from "./reservations";
+import { Drivers } from "./drivers";
 
 export interface Review {
   id: string;
@@ -8,6 +10,7 @@ export interface Review {
   content: string;
   stars: number;
   userId: number;
+  reservation: reservation;
   user: {
     id: number;
     name: string;

@@ -43,7 +43,7 @@ export default function EditCar() {
   const fetchCar = async () => {
     setLoading(true);
     try {
-      const response = await getCar(id);
+      const response = await getCar(String(id));
       setCarInfo(response.car);
     } catch (error) {
       console.error(error);
@@ -86,8 +86,8 @@ export default function EditCar() {
     formData.append("type", carInfo?.type as string);
     formData.append("description", carInfo?.description as string);
     formData.append("patent", carInfo?.patent as string);
-    formData.append("seats", carInfo?.seats);
-    await updateCar(id, formData);
+    formData.append("seats", String(carInfo?.seats));
+    await updateCar(String(id), formData);
   };
   if (loading) return <AnimatedLoadingWheel />;
   return (

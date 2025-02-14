@@ -1,18 +1,20 @@
-"use client"
+"use client";
 
-import React, { useEffect, useRef } from "react"
-import { SparklesCore } from "@/components/ui/sparkles"
-
+import React, { useEffect, useRef } from "react";
+import { SparklesCore } from "@/components/ui/sparkles";
+type SparklesInstance = {
+  destroy: () => void;
+};
 const SparklesPreview = () => {
-  const sparklesRef = useRef(null)
+  const sparklesRef = useRef<SparklesInstance | null>(null);
 
   useEffect(() => {
     return () => {
       if (sparklesRef.current) {
-        sparklesRef.current.destroy()
+        sparklesRef.current.destroy();
       }
-    }
-  }, [])
+    };
+  }, []);
 
   return (
     <div className="bg-to-t from-white via-white to-transparent p-4 rounded-lg h-full">
@@ -29,19 +31,19 @@ const SparklesPreview = () => {
         />
       </div>
     </div>
-  )
-}
+  );
+};
 
 const SparklesPreviewDark = () => {
-  const sparklesRef = useRef(null)
+  const sparklesRef = useRef<SparklesInstance | null>(null);
 
   useEffect(() => {
     return () => {
       if (sparklesRef.current) {
-        sparklesRef.current.destroy()
+        sparklesRef.current.destroy();
       }
-    }
-  }, [])
+    };
+  }, []);
 
   return (
     <div className="bg-gray-100 dark:bg-gray-900 p-4 rounded-lg shadow-md relative h-64">
@@ -59,19 +61,19 @@ const SparklesPreviewDark = () => {
         />
       </div>
     </div>
-  )
-}
+  );
+};
 
 const SparklesPreviewColorful = () => {
-  const sparklesRef = useRef(null)
+  const sparklesRef = useRef<SparklesInstance | null>(null);
 
   useEffect(() => {
     return () => {
       if (sparklesRef.current) {
-        sparklesRef.current.destroy()
+        sparklesRef.current.destroy();
       }
-    }
-  }, [])
+    };
+  }, []);
 
   return (
     <div className="bg-gray-100 dark:bg-gray-900 p-4 rounded-lg shadow-md relative h-64">
@@ -89,8 +91,7 @@ const SparklesPreviewColorful = () => {
         />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export { SparklesPreview, SparklesPreviewDark, SparklesPreviewColorful }
-
+export { SparklesPreview, SparklesPreviewDark, SparklesPreviewColorful };

@@ -20,11 +20,12 @@ class RolePermissionSeeder extends Seeder
         $accessAdmin = Permission::create(['name' => 'access admin']);
 
         $adminRole->givePermissionTo($accessAdmin);
+        $admin = User::where('email', 'nelsonolivera.viajes@gmail.com')->first();
+        $admin->assignRole('admin');
 
         // Assign role to user
         $admin = User::where('name', '=', env('ADMIN_NAME'))->first();
-        if (Hash::check(env('ADMIN_PASS'), $admin->password))
-        {
+        if (Hash::check(env('ADMIN_PASS'), $admin->password)) {
             $admin->assignRole('admin');
         }
     }

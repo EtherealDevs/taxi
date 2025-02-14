@@ -23,9 +23,9 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
             'password' => $hashedPassword,
         ]);
-        $this->call(RolePermissionSeeder::class);
         $this->call(CarSeeder::class);
         $this->call(DriverSeeder::class);
+        $this->call(RolePermissionSeeder::class);
         $this->call(ReservationSeeder::class);
         $this->call(ReviewSeeder::class);
     }

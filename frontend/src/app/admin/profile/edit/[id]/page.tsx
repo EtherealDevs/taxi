@@ -43,7 +43,7 @@ export default function CreateDriver() {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const data = await getDriver(id);
+        const data = await getDriver(String(id));
         setDriver(data.driver);
         setImagePreview(driver.images[0]);
       } catch (error) {
@@ -96,7 +96,7 @@ export default function CreateDriver() {
     formData.append("lastname", driver?.lastname as string);
     formData.append("phone_number", driver?.phone_number as string);
     formData.append("languages", driver?.languages as string);
-    await updateDriver(id, formData);
+    await updateDriver(String(id), formData);
   };
   if (loading) return <AnimatedLoadingWheel />;
   return (

@@ -1,46 +1,48 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { motion } from "framer-motion"
-import Link from "next/link"
-import { Eye, EyeOff } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { useRouter } from "next/navigation"
-import { useAuth } from "@/hooks/auth"
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import Link from "next/link";
+import { Eye, EyeOff } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useAuth } from "@/hooks/auth";
 
 export default function LoginPage() {
-  const router = useRouter()
+  const router = useRouter();
   const { login } = useAuth({
     middleware: "guest",
     redirectIfAuthenticated: "/",
-  })
+  });
 
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [shouldRemember, setShouldRemember] = useState(false)
-  const [errors, setErrors] = useState([])
-  const [status, setStatus] = useState<string | null>(null)
-  const [showPassword, setShowPassword] = useState(false)
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [shouldRemember, setShouldRemember] = useState(false);
+  const [errors, setErrors] = useState([]);
+  const [status, setStatus] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
 
+  const searchParams = useSearchParams();
+  const resetParam = searchParams.get("reset");
   useEffect(() => {
-    if (router.query?.reset?.length > 0 && errors.length === 0) {
-      setStatus(atob(router.query.reset as string))
+    if (resetParam && resetParam.length > 0 && errors.length === 0) {
+      setStatus(atob(resetParam));
     } else {
-      setStatus(null)
+      setStatus(null);
     }
-  }, [router.query, errors.length])
+  }, [errors.length]);
 
   const submitForm = async (event: React.FormEvent) => {
-    event.preventDefault()
+    event.preventDefault();
     login({
       email,
       password,
       remember: shouldRemember,
       setErrors,
       setStatus,
-    })
-  }
+    });
+  };
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
@@ -52,10 +54,15 @@ export default function LoginPage() {
         >
           <div className="p-8">
             <div className="text-center mb-8">
-              <h1 className="text-3xl font-bold tracking-tight text-gray-900 mb-2">Bienvenido de nuevo</h1>
+              <h1 className="text-3xl font-bold tracking-tight text-gray-900 mb-2">
+                Bienvenido de nuevo
+              </h1>
               <p className="text-sm text-gray-600">
                 ¿No tienes una cuenta?{" "}
-                <Link href="/register" className="text-blue-600 hover:text-blue-700 font-medium transition-colors">
+                <Link
+                  href="/register"
+                  className="text-blue-600 hover:text-blue-700 font-medium transition-colors"
+                >
                   Regístrate
                 </Link>
               </p>
@@ -70,7 +77,10 @@ export default function LoginPage() {
             >
               <div className="space-y-4">
                 <div className="relative">
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                  <label
+                    htmlFor="email"
+                    className="block text-sm font-medium text-gray-700 mb-1"
+                  >
                     Correo electrónico
                   </label>
                   <Input
@@ -87,7 +97,10 @@ export default function LoginPage() {
                 </div>
 
                 <div className="relative">
-                  <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+                  <label
+                    htmlFor="password"
+                    className="block text-sm font-medium text-gray-700 mb-1"
+                  >
                     Contraseña
                   </label>
                   <div className="relative">
@@ -123,10 +136,15 @@ export default function LoginPage() {
                     id="remember-me"
                     name="remember-me"
                     type="checkbox"
-                    onChange={(event) => setShouldRemember(event.target.checked)}
+                    onChange={(event) =>
+                      setShouldRemember(event.target.checked)
+                    }
                     className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                   />
-                  <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
+                  <label
+                    htmlFor="remember-me"
+                    className="ml-2 block text-sm text-gray-900"
+                  >
                     Recordarme
                   </label>
                 </div>
@@ -155,11 +173,17 @@ export default function LoginPage() {
           <div className="bg-gray-50 px-8 py-4 text-center">
             <p className="text-sm text-gray-600">
               Al iniciar sesión, aceptas nuestros{" "}
-              <Link href="/terms" className="text-blue-600 hover:text-blue-700 font-medium transition-colors">
+              <Link
+                href="/terms"
+                className="text-blue-600 hover:text-blue-700 font-medium transition-colors"
+              >
                 Términos de servicio
               </Link>{" "}
               y{" "}
-              <Link href="/privacy" className="text-blue-600 hover:text-blue-700 font-medium transition-colors">
+              <Link
+                href="/privacy"
+                className="text-blue-600 hover:text-blue-700 font-medium transition-colors"
+              >
                 Política de privacidad
               </Link>
             </p>
@@ -167,6 +191,5 @@ export default function LoginPage() {
         </motion.div>
       </div>
     </div>
-  )
+  );
 }
-

@@ -69,7 +69,7 @@ export default function CreateCar() {
     formData.append("type", carInfo?.type as string);
     formData.append("description", carInfo?.description as string);
     formData.append("patent", carInfo?.patent as string);
-    formData.append("seats", carInfo?.seats);
+    formData.append("seats", String(carInfo?.seats));
     await createCar(formData);
   };
 

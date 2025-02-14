@@ -32,7 +32,14 @@ export interface Post {
 
 export default function EditBlogPost() {
   const { id } = useParams();
-  const [post, setPost] = useState<Post | null>();
+  const [post, setPost] = useState<Post>({
+    id: "",
+    title: "",
+    extract: "",
+    content: "",
+    images: [""],
+    created_at: "",
+  });
   const [file, setFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [newTag, setNewTag] = useState("");
@@ -86,7 +93,7 @@ export default function EditBlogPost() {
       formData.append("content", post.content);
       formData.append("extract", post.extract);
     }
-    update(id, formData);
+    update(String(id), formData);
   };
   if (loading) return <AnimatedLoadingWheel />;
   return (
