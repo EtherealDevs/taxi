@@ -51,7 +51,7 @@ class ReservationController extends Controller
             'name' => 'string',
             'phone' => 'required|string',
             'user_id' => 'exists:users,id',
-            'driver_id' => 'required|exists:drivers,id'
+            'driver_id' => 'exists:drivers,id'
         ]);
         if ($validator->fails()) {
             $date = [
@@ -71,14 +71,14 @@ class ReservationController extends Controller
             'name' => $request->name,
             'phone' => $request->phone,
             'user_id' => $request->user_id,
-            'driver_id' => $request->driver_id,
+            'driver_id' => 1,
             'status' => 1,
         ]);
         $code = $this->generateRandomCode();
         $code = $reservation->id . '-' . $code;
         $reservation->update(['code' => $code]);
-
-        foreach ($request->stations as $station) {
+        $stations = json_decode($request->stations, true);
+        foreach ($stations as $station) {
             Station::create(
                 [
                     'reservation_id' => $reservation->id,
@@ -88,7 +88,7 @@ class ReservationController extends Controller
                     'country' => $station['country'],
                     'latitude' => $station['latitude'],
                     'longitude' => $station['longitude'],
-                    'observations' => $station['observations']
+                    // 'observations' => $station['observations']
                 ]
             );
         }

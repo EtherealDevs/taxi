@@ -18,7 +18,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useMap } from "@/hooks/map";
-
+import { useReservation } from "@/hooks/reservations";
+import { formatAddresses, FormattedAddress } from "@/lib/formatAddress";
 interface FormReservProps {
   onOpenModal: (
     inputName: "departure" | "destination" | "extraStops",
@@ -46,11 +47,13 @@ interface FormData {
 interface Addresses {
   first: string;
   last: string;
+  extraStop: [string] | null;
 }
 
 export default function FormReserv({ onOpenModal, location }: FormReservProps) {
   const { t } = useTranslation();
   const [currentStep, setCurrentStep] = useState(1);
+  const { create } = useReservation();
   const [formData, setFormData] = useState<FormData>({
     extraStops: [],
     date: "",
@@ -63,20 +66,34 @@ export default function FormReserv({ onOpenModal, location }: FormReservProps) {
   const [addresses, setAddresses] = useState<Addresses>({
     first: "",
     last: "",
+    extraStop: [""],
   });
   const { getAddress } = useMap();
+  const [stations, setStations] = useState<FormattedAddress>();
 
   const changeAddress = async () => {
-    // Not this one
+    // Get first and last addresses
     let first = await getAddress(location.departure);
     let last = await getAddress(location.destination);
+    // Get all extra stop addresses using Promise.all
+    let extraStop = await Promise.all(
+      location.extraStops.map(async (stop) => {
+        const address = await getAddress(stop);
+        return address;
+      })
+    );
+
+    // Set state with resolved addresses
     setAddresses({
       first: first.display_name,
       last: last.display_name,
+      extraStop: extraStop.map((address) => address.display_name),
     });
+    let stations = formatAddresses(first, last, extraStop);
+    setStations(stations);
   };
   const handleInputChange = (field: keyof FormData, value: any) => {
-    if ((field = "extraStops")) {
+    if (field == "extraStops") {
       setFormData((prev) => ({
         ...prev,
         extraStops: [...prev.extraStops, value],
@@ -142,6 +159,16 @@ export default function FormReserv({ onOpenModal, location }: FormReservProps) {
   const handleBack = () => {
     setCurrentStep((prev) => prev - 1);
   };
+  const sendForm = async () => {
+    const form = new FormData();
+    form.append("name", formData.firstName);
+    form.append("phone", formData.phone);
+    form.append("date_start", formData.date);
+    form.append("time_start", formData.time);
+    console.log(stations);
+    form.append("stations", JSON.stringify(stations));
+    await create(form);
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -162,6 +189,7 @@ export default function FormReserv({ onOpenModal, location }: FormReservProps) {
     message += `Teléfono: ${formData.phone}\n`;
     message += `Email: ${formData.email}`;
 
+    sendForm();
     const encodedMessage = encodeURIComponent(message);
     const whatsappLink = `https://wa.me/34123456789?text=${encodedMessage}`;
     window.open(whatsappLink, "_blank");
@@ -359,7 +387,8 @@ export default function FormReserv({ onOpenModal, location }: FormReservProps) {
           </p>
           {formData.extraStops.map((stop, index) => (
             <p key={index}>
-              <span className="font-medium">Parada {index + 1}:</span> {stop}
+              <span className="font-medium">Parada {index + 1}:</span>{" "}
+              {addresses.extraStop[index]}
             </p>
           ))}
           <p>
