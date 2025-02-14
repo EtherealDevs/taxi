@@ -8,8 +8,8 @@ import { Star, Globe, Award, Clock, MapPin } from "lucide-react";
 import { languages } from "../Navbar";
 
 import FormReserv from "../Reserv";
-import Image from "next/image";
-import { SparklesPreview } from "@/components/anim/Sparkless";
+import Image from "next/image";/* 
+import { SparklesPreview } from "@/components/anim/Sparkless"; */
 
 const MapModal = dynamic(() => import("../ui/MapModal"), {
   ssr: false,
@@ -129,9 +129,9 @@ export default function Hero() {
                     className="rounded-[2rem] object-cover"
                   />
                 </div>
-                <div className="mt-12">
+                {/* <div className="mt-12">
                   <SparklesPreview />
-                </div>
+                </div> */}
               </motion.div>
             </div>
 

@@ -50,9 +50,9 @@ export const usePost = () => {
       return response.data;
     } catch (error) {
       console.error("Error al crear la publicación:", error);
-      if (error.response?.status === 422) {
+      /* if (error.response?.status === 422) {
         return error.response.data;
-      }
+      } */
       throw error;
     }
   };
@@ -70,9 +70,9 @@ export const usePost = () => {
       return response.data;
     } catch (error) {
       console.error(`Error al actualizar la publicación con ID ${id}:`, error);
-      if (error.response?.status === 422) {
+      /* if (error.response?.status === 422) {
         return error.response.data;
-      }
+      } */
       throw error;
     }
   };

@@ -47,7 +47,7 @@ interface FormData {
 interface Addresses {
   first: string;
   last: string;
-  extraStop: [string] | null;
+  extraStop: string[];
 }
 
 export default function FormReserv({ onOpenModal, location }: FormReservProps) {
@@ -69,7 +69,7 @@ export default function FormReserv({ onOpenModal, location }: FormReservProps) {
     extraStop: [""],
   });
   const { getAddress } = useMap();
-  const [stations, setStations] = useState<FormattedAddress>();
+  const [stations, setStations] = useState<FormattedAddress[]>();
 
   const changeAddress = async () => {
     // Get first and last addresses

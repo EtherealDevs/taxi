@@ -1,97 +1,82 @@
-"use client";
+import React, { forwardRef, useEffect, useState, useImperativeHandle } from "react";
+import Particles, { initParticlesEngine } from "@tsparticles/react";
+import type { Container } from "@tsparticles/engine";
+import { loadSlim } from "@tsparticles/slim";
+import { motion, useAnimation } from "framer-motion";
+import { cn } from "@/lib/utils";
 
-import React, { useEffect, useRef } from "react";
-import { SparklesCore } from "@/components/ui/sparkles";
-type SparklesInstance = {
+export type SparklesInstance = {
   destroy: () => void;
 };
-const SparklesPreview = () => {
-  const sparklesRef = useRef<SparklesInstance | null>(null);
 
-  useEffect(() => {
-    return () => {
-      if (sparklesRef.current) {
-        sparklesRef.current.destroy();
-      }
-    };
-  }, []);
-
-  return (
-    <div className="bg-to-t from-white via-white to-transparent p-4 rounded-lg h-full">
-      <div className="absolute inset-x-0 bottom-[30px] h-32">
-        <SparklesCore
-          ref={sparklesRef}
-          background="transparent"
-          minSize={0.4}
-          maxSize={1}
-          particleDensity={1200}
-          className="w-full h-full"
-          particleColor={["#000000", "#4263EB"]}
-          speed={0.2}
-        />
-      </div>
-    </div>
-  );
+type ParticlesProps = {
+  id?: string;
+  className?: string;
+  background?: string;
+  minSize?: number;
+  maxSize?: number;
+  speed?: number;
+  particleColor?: string[];
+  particleDensity?: number;
 };
 
-const SparklesPreviewDark = () => {
-  const sparklesRef = useRef<SparklesInstance | null>(null);
+// ✅ **Usamos forwardRef para aceptar referencias**
+export const SparklesCore = forwardRef<SparklesInstance | null, ParticlesProps>((props, ref) => {
+  const { id, className, background, minSize, maxSize, speed, particleColor, particleDensity } = props;
+  const [init, setInit] = useState(false);
+  const controls = useAnimation();
+  let containerRef: Container | null = null;
 
   useEffect(() => {
-    return () => {
-      if (sparklesRef.current) {
-        sparklesRef.current.destroy();
-      }
-    };
+    initParticlesEngine(async (engine) => {
+      await loadSlim(engine);
+    }).then(() => {
+      setInit(true);
+    });
   }, []);
 
-  return (
-    <div className="bg-gray-100 dark:bg-gray-900 p-4 rounded-lg shadow-md relative h-64">
-      <div className="absolute inset-x-0 bottom-0 h-32">
-        <SparklesCore
-          ref={sparklesRef}
-          id="tsparticlesfullpage"
-          background="transparent"
-          minSize={0.6}
-          maxSize={1.4}
-          particleDensity={100}
-          className="w-full h-full"
-          particleColor={["#FFFFFF", "#4263EB"]}
-          speed={0.3}
-        />
-      </div>
-    </div>
-  );
-};
+  const particlesLoaded = async (container?: Container) => {
+    if (container) {
+      containerRef = container;
+      controls.start({
+        opacity: 1,
+        transition: {
+          duration: 1,
+        },
+      });
+    }
+  };
 
-const SparklesPreviewColorful = () => {
-  const sparklesRef = useRef<SparklesInstance | null>(null);
-
-  useEffect(() => {
-    return () => {
-      if (sparklesRef.current) {
-        sparklesRef.current.destroy();
-      }
-    };
-  }, []);
+  // ✅ **Exponer la función destroy en el ref**
+  useImperativeHandle(ref, () => ({
+    destroy: () => {
+      containerRef?.destroy();
+    },
+  }));
 
   return (
-    <div className="bg-gray-100 dark:bg-gray-900 p-4 rounded-lg shadow-md relative h-64">
-      <div className="absolute inset-x-0 bottom-0 h-32">
-        <SparklesCore
-          ref={sparklesRef}
-          id="tsparticlescolorful"
-          background="transparent"
-          minSize={0.6}
-          maxSize={1.4}
-          particleDensity={100}
-          className="w-full h-full"
-          particleColor={["#00ff00", "#4263EB", "#ff00ff"]}
-          speed={0.2}
+    <motion.div animate={controls} className={cn("opacity-0", className)}>
+      {init && (
+        <Particles
+          id={id}
+          className={cn("h-full w-full")}
+          particlesLoaded={particlesLoaded}
+          options={{
+            background: { color: { value: background || "#0d47a1" } },
+            fullScreen: { enable: false, zIndex: 1 },
+            fpsLimit: 120,
+            particles: {
+              color: { value: particleColor || "#ffffff" },
+              move: { enable: true, speed: speed || 4 },
+              number: { value: particleDensity || 120 },
+              size: { value: { min: minSize || 1, max: maxSize || 3 } },
+            },
+            detectRetina: true,
+          }}
         />
-      </div>
-    </div>
+      )}
+    </motion.div>
   );
-};
+});
 
-export { SparklesPreview, SparklesPreviewDark, SparklesPreviewColorful };
+SparklesCore.displayName = "SparklesCore"; // Para evitar warnings en DevTools

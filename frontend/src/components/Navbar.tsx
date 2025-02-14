@@ -130,8 +130,14 @@ export const languages = [
       </svg>
     ),
   },
-];
-export default function Navbar({ user }) {
+];interface User {
+  name?: string;
+  email?: string;
+  avatar?: string;
+  // Agrega más propiedades si es necesario
+}
+
+export default function Navbar({ user }: { user?: User }) {
   const { logout } = useAuth();
   const { i18n } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);

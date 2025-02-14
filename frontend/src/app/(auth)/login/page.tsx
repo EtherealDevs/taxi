@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { Eye, EyeOff } from "lucide-react";
@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/hooks/auth";
 
-export default function LoginPage() {
+function LoginPageContent() {
   const router = useRouter();
   const { login } = useAuth({
     middleware: "guest",
@@ -23,15 +23,17 @@ export default function LoginPage() {
   const [status, setStatus] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
 
+  // 🔥 Ahora useSearchParams() está dentro de un Suspense
   const searchParams = useSearchParams();
   const resetParam = searchParams.get("reset");
+
   useEffect(() => {
     if (resetParam && resetParam.length > 0 && errors.length === 0) {
       setStatus(atob(resetParam));
     } else {
       setStatus(null);
     }
-  }, [errors.length]);
+  }, [errors.length, resetParam]);
 
   const submitForm = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -169,27 +171,17 @@ export default function LoginPage() {
               </div>
             </motion.form>
           </div>
-
-          <div className="bg-gray-50 px-8 py-4 text-center">
-            <p className="text-sm text-gray-600">
-              Al iniciar sesión, aceptas nuestros{" "}
-              <Link
-                href="/terms"
-                className="text-blue-600 hover:text-blue-700 font-medium transition-colors"
-              >
-                Términos de servicio
-              </Link>{" "}
-              y{" "}
-              <Link
-                href="/privacy"
-                className="text-blue-600 hover:text-blue-700 font-medium transition-colors"
-              >
-                Política de privacidad
-              </Link>
-            </p>
-          </div>
         </motion.div>
       </div>
     </div>
+  );
+}
+
+// 🔥 Suspense envuelve LoginPageContent para evitar errores en el build
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div>Cargando...</div>}>
+      <LoginPageContent />
+    </Suspense>
   );
 }
