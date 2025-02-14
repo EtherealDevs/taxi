@@ -191,7 +191,7 @@ export default function FormReserv({ onOpenModal, location }: FormReservProps) {
 
     sendForm();
     const encodedMessage = encodeURIComponent(message);
-    const whatsappLink = `https://wa.me/34123456789?text=${encodedMessage}`;
+    const whatsappLink = `https://wa.me/3757543174?text=${encodedMessage}`;
     window.open(whatsappLink, "_blank");
   };
 

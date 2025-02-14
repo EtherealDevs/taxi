@@ -7,7 +7,7 @@ const socialLinks = [
     {
         name: "WhatsApp",
         icon: <MessageCircle className="w-6 h-6" />,
-        href: "https://wa.me/15551234567",
+        href: "https://wa.me/3757543174",
         color: "hover:text-green-500",
     },
     {
@@ -82,7 +82,7 @@ export default function Contacto() {
                         <div className="space-y-4">
                             <div className="flex items-center">
                                 <Phone className="w-6 h-6 mr-4 text-blue-600" />
-                                <span>+54 9 3757 542174</span>
+                                <span>+54 9 3757 543174</span>
                             </div>
                             <div className="flex items-center">
                                 <Mail className="w-6 h-6 mr-4 text-blue-600" />
