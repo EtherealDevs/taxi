@@ -23,6 +23,7 @@ class ReservationResource extends JsonResource
             'time_start' => $this->time_start,
             'code' => $this->code,
             'name' => $this->name,
+            'status' => $this->status,
             'user' => new UserResource($this->whenLoaded('user')),
             'driver' => new DriverResource($this->whenLoaded('driver')),
             'stations' => StationResource::collection($this->whenLoaded('station')),
