@@ -177,7 +177,7 @@ export default function FormReserv({ onOpenModal, location }: FormReservProps) {
 
     if (formData.extraStops.length > 0) {
       message += `Paradas:\n`;
-      formData.extraStops.forEach((stop, index) => {
+      location.extraStops.forEach((stop, index) => {
         message += `  ${index + 1}. ${stop}\n`;
       });
     }
