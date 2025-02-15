@@ -378,14 +378,7 @@ export default function BookingsPage() {
                               <Button
                                 onClick={() => {
                                   if (
-                                    [
-                                      Number(
-                                        selectedBooking.stations[0].latitude
-                                      ),
-                                      Number(
-                                        selectedBooking.stations[0].longitude
-                                      ),
-                                    ] && [
+                                    selectedBooking.stations[0].latitude && [
                                       Number(
                                         selectedBooking.stations[
                                           selectedBooking.stations.length - 1
