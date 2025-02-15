@@ -220,25 +220,13 @@ export default function BookingsPage() {
                         value={booking.status}
                         onValueChange={async (newStatus) => {
                           const formData = new FormData();
-                          switch (newStatus) {
-                            case "waiting":
-                              formData.append("status", String(1));
-                              break;
-                            case "accept":
-                              formData.append("status", String(2));
-                              break;
-                            case "complete":
-                              formData.append("status", String(3));
-                              break;
-                            case "cancel":
-                              formData.append("status", String(4));
-                              break;
-                          }
+                          formData.append("status", newStatus);
                           formData.append("code", booking.code);
                           formData.append("name", booking.name);
                           formData.append("date_start", booking.date_start);
                           formData.append("time_start", booking.time_start);
                           formData.append("driver_id", booking.driver.id);
+                          console.log(formData.get("status"));
                           await update(booking.id, formData);
                           // Actualiza el estado localmente
                           const updatedBookings = filteredBookings.map((b) =>
