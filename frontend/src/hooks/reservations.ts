@@ -1,15 +1,18 @@
 import axios from "@/lib/axios";
 import { useRouter } from "next/navigation";
 import { Drivers } from "./drivers";
+import { FormattedAddress } from "@/lib/formatAddress";
 export interface reservation {
   id: string;
   userId: string;
   phone: string;
-  dateStart: string;
-  timeStart: string;
+  date_start: string;
+  time_start: string;
   code: string;
   name: string;
   driver: Drivers;
+  status: string;
+  stations: FormattedAddress[];
 }
 export const useReservation = () => {
   const router = useRouter();
