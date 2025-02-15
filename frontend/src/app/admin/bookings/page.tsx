@@ -52,7 +52,7 @@ export default function BookingsPage() {
     null
   );
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const { getReservations } = useReservation();
+  const { getReservations, update } = useReservation();
   const fetchData = async () => {
     try {
       const response = await getReservations();
@@ -71,9 +71,11 @@ export default function BookingsPage() {
   // Estado para las reservas filtradas
   const [filteredBookings, setFilteredBookings] = useState<reservation[]>([]);
 
-  // useEffect para aplicar los filtros
   useEffect(() => {
     fetchData();
+  }, []);
+  // useEffect para aplicar los filtros
+  useEffect(() => {
     const filtered = bookings?.filter((booking) => {
       const isWithinDateRange =
         !dateFrom || new Date(booking.date_start) >= new Date(dateFrom);
@@ -165,7 +167,7 @@ export default function BookingsPage() {
             <thead className="bg-gray-50 dark:bg-neutral-700">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                  ID
+                  Codigo
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                   Usuario
@@ -178,9 +180,6 @@ export default function BookingsPage() {
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                   Estado
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                  Precio
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                   Acciones
@@ -219,7 +218,28 @@ export default function BookingsPage() {
                     <td className="px-6 py-4 whitespace-nowrap">
                       <Select
                         value={booking.status}
-                        onValueChange={(newStatus) => {
+                        onValueChange={async (newStatus) => {
+                          const formData = new FormData();
+                          switch (newStatus) {
+                            case "waiting":
+                              formData.append("status", String(1));
+                              break;
+                            case "accept":
+                              formData.append("status", String(2));
+                              break;
+                            case "complete":
+                              formData.append("status", String(3));
+                              break;
+                            case "cancel":
+                              formData.append("status", String(4));
+                              break;
+                          }
+                          formData.append("code", booking.code);
+                          formData.append("name", booking.name);
+                          formData.append("date_start", booking.date_start);
+                          formData.append("time_start", booking.time_start);
+                          formData.append("driver_id", booking.driver.id);
+                          await update(booking.id, formData);
                           // Actualiza el estado localmente
                           const updatedBookings = filteredBookings.map((b) =>
                             b.id === booking.id
@@ -227,18 +247,6 @@ export default function BookingsPage() {
                               : b
                           );
                           setFilteredBookings(updatedBookings); // Asegúrate de tener setFilteredBookings disponible
-
-                          // Lógica para enviar al backend
-                          console.log(
-                            `Estado actualizado para ${booking.id}: ${newStatus}`
-                          );
-                          // fetch('/api/update-status', {
-                          //     method: 'POST',
-                          //     body: JSON.stringify({ id: booking.id, status: newStatus }),
-                          //     headers: {
-                          //         'Content-Type': 'application/json',
-                          //     },
-                          // });
                         }}
                       >
                         <SelectTrigger>
@@ -311,47 +319,117 @@ export default function BookingsPage() {
                                   <span className="font-medium">Estado:</span>
                                   <span>{selectedBooking.status}</span>
                                 </div>
-                              </div>
-
-                              {/* <div className="space-y-4">
+                              </div>{" "}
+                              <div className="space-y-4">
                                 <h3 className="text-lg font-semibold">
                                   Ubicaciones
                                 </h3>
                                 <BookingMap
-                                  originCoords={selectedBooking.originCoords}
-                                  destinationCoords={
-                                    selectedBooking.destinationCoords
+                                  originCoords={[
+                                    Number(
+                                      selectedBooking.stations[0].latitude
+                                    ),
+                                    Number(
+                                      selectedBooking.stations[0].longitude
+                                    ),
+                                  ]}
+                                  destinationCoords={[
+                                    Number(
+                                      selectedBooking.stations[
+                                        selectedBooking.stations.length - 1
+                                      ].latitude
+                                    ),
+                                    Number(
+                                      selectedBooking.stations[
+                                        selectedBooking.stations.length - 1
+                                      ].longitude
+                                    ),
+                                  ]}
+                                  originName={
+                                    selectedBooking.stations[0].address
                                   }
-                                  originName={selectedBooking.origin}
-                                  destinationName={selectedBooking.destination}
+                                  destinationName={
+                                    selectedBooking.stations[
+                                      selectedBooking.stations.length - 1
+                                    ].address
+                                  }
                                 />
                                 <div className="grid gap-2 mt-2">
                                   <div className="flex items-center gap-2 text-sm">
                                     <MapPin className="w-4 h-4 text-green-500" />
                                     <span className="font-medium">Origen:</span>
-                                    {selectedBooking.origin}
+                                    {selectedBooking.stations[0].address},{" "}
+                                    {selectedBooking.stations[0].city},{" "}
+                                    {selectedBooking.stations[0].country}
                                   </div>
                                   <div className="flex items-center gap-2 text-sm">
                                     <MapPin className="w-4 h-4 text-red-500" />
                                     <span className="font-medium">
                                       Destino:
                                     </span>
-                                    {selectedBooking.destination}
+                                    {
+                                      selectedBooking.stations[
+                                        selectedBooking.stations.length - 1
+                                      ].address
+                                    }
+                                    ,{" "}
+                                    {
+                                      selectedBooking.stations[
+                                        selectedBooking.stations.length - 1
+                                      ].city
+                                    }
+                                    ,{" "}
+                                    {
+                                      selectedBooking.stations[
+                                        selectedBooking.stations.length - 1
+                                      ].country
+                                    }
                                   </div>
                                 </div>
                               </div>
                               <Button
                                 onClick={() => {
                                   if (
-                                    selectedBooking?.originCoords &&
-                                    selectedBooking?.destinationCoords
+                                    [
+                                      Number(
+                                        selectedBooking.stations[0].latitude
+                                      ),
+                                      Number(
+                                        selectedBooking.stations[0].longitude
+                                      ),
+                                    ] && [
+                                      Number(
+                                        selectedBooking.stations[
+                                          selectedBooking.stations.length - 1
+                                        ].latitude
+                                      ),
+                                      Number(
+                                        selectedBooking.stations[
+                                          selectedBooking.stations.length - 1
+                                        ].longitude
+                                      ),
+                                    ]
                                   ) {
-                                    const origin =
-                                      selectedBooking.originCoords.join(",");
-                                    const destination =
-                                      selectedBooking.destinationCoords.join(
-                                        ","
-                                      );
+                                    const origin = [
+                                      Number(
+                                        selectedBooking.stations[0].latitude
+                                      ),
+                                      Number(
+                                        selectedBooking.stations[0].longitude
+                                      ),
+                                    ].join(",");
+                                    const destination = [
+                                      Number(
+                                        selectedBooking.stations[
+                                          selectedBooking.stations.length - 1
+                                        ].latitude
+                                      ),
+                                      Number(
+                                        selectedBooking.stations[
+                                          selectedBooking.stations.length - 1
+                                        ].longitude
+                                      ),
+                                    ].join(",");
                                     window.open(
                                       `https://www.google.com/maps/dir/${origin}/${destination}`,
                                       "_blank"
@@ -367,7 +445,7 @@ export default function BookingsPage() {
                               >
                                 <MapPin className="w-4 h-4 mr-2" />
                                 Abrir en Google Maps
-                              </Button> */}
+                              </Button>
                             </div>
                           </DialogContent>
                         )}

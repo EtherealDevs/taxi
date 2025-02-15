@@ -16,6 +16,14 @@ export interface reservation {
 }
 export const useReservation = () => {
   const router = useRouter();
+  const csrf = async () => {
+    try {
+      await axios.get("/sanctum/csrf-cookie");
+    } catch (error) {
+      console.error("Error al obtener el token CSRF:", error);
+      throw error;
+    }
+  };
   const getReservations = async () => {
     try {
       const response = await axios.get("/api/reservations");
@@ -44,6 +52,19 @@ export const useReservation = () => {
       throw error;
     }
   };
+  const update = async (id: string, formData: FormData) => {
+    await csrf();
+    try {
+      const response = await axios.post(
+        `/api/reservations/${id}?_method=PATCH`,
+        formData
+      );
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
   const deleteReservation = async (id: string) => {
     try {
       const response = await axios.delete(`/api/reservations/${id}`);
@@ -58,6 +79,7 @@ export const useReservation = () => {
     getReservations,
     getReservation,
     create,
+    update,
     deleteReservation,
   };
 };
