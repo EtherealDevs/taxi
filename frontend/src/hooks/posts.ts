@@ -23,13 +23,13 @@ export const usePost = () => {
 
   const getPosts = async () => {
     try {
-      const response = await axios.get(`/api/posts/`);
-      return response.data;
+        const response = await axios.get("/api/posts"); // Sin `/` al final
+        return response.data;
     } catch (error) {
-      console.error("Error al obtener las publicaciones:", error);
-      throw error;
+        console.error("Error al obtener las publicaciones:", error);
+        throw error;
     }
-  };
+};
 
   const getPost = async (id: string) => {
     try {
