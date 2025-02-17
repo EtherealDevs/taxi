@@ -32,7 +32,7 @@ const stats = [
     icon: <Star className="w-5 h-5 text-yellow-400" />,
   },
   {
-    value: "5",
+    value: "12",
     sublabel: "years",
     label: "experience",
     icon: <Clock className="w-5 h-5 text-blue-600" />,
