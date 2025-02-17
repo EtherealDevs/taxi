@@ -3,7 +3,7 @@
 import { motion, useScroll, useSpring, AnimatePresence } from "framer-motion"
 import { Camera, CreditCard, Car, MapPin, HelpCircle, Check } from "lucide-react"
 import { useTranslation } from "react-i18next"
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, useCallback } from "react"
 import { Button } from "@/components/ui/button"
 
 export default function HowItWorks() {
@@ -75,9 +75,15 @@ export default function HowItWorks() {
   const getStepStatus = (index: number) => {
     if (!hasScrolled) return "upcoming"
     if (activeSteps.includes(index) && index !== currentStep) return "completed"
-    if (index === currentStep) return "current"
+    if (index === currentStep) {
+      return "current"
+    }
     return "upcoming"
   }
+
+  const setStepRef = useCallback((el: HTMLDivElement | null, index: number) => {
+    stepsRef.current[index] = el
+  }, [])
 
   const steps = [
     {
@@ -124,7 +130,7 @@ export default function HowItWorks() {
               return (
                 <motion.div
                   key={index}
-                  ref={(el) => (stepsRef.current[index] = el)}
+                  ref={(el) => setStepRef(el, index)}
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
