@@ -120,9 +120,9 @@ export default function Hero() {
                 className="relative"
               >
                 <div className="relative w-[240px] h-full mx-auto">
-                  <div className="absolute inset-0 top-4 bg-gradient-to-b from-transparent via-white/50 to-white rounded-[2rem] z-10" />
+                  <div className="absolute inset-0 top-4 bg-gradient-to-b from-transparent via-white/20 to-white rounded-[2rem] z-10" />
                   <Image
-                    src="/img/driver.png"
+                    src="/img/driver.jpg"
                     alt={t("hero.imageAlt")}
                     width={240}
                     height={240}
@@ -152,7 +152,7 @@ export default function Hero() {
                   <div className="flex items-center gap-1">
                     <Star className="w-4 h-4 text-yellow-400 fill-current" />
                     <span className="text-sm font-medium">
-                      4.9 (200+ reseñas)
+                      4.9 (200+ Viajes)
                     </span>
                   </div>
                 </div>
