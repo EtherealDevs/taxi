@@ -99,6 +99,10 @@
       "title": "Segurança",
       "description": "Nossos motoristas são altamente treinados e seguem protocolos de segurança rigorosos, garantindo transferências confiáveis e seguras o tempo todo."
     },
+    "recomendation": {
+  "title": "Recomendações de Viagem",
+  "description": "Experiência transportando viajantes para diversos destinos, oferecendo recomendações valiosas sobre os melhores pontos turísticos e atividades em cada país."
+},
     "experience": {
       "title": "Anos de Experiência",
       "description": "Temos mais de 10 anos de experiência oferecendo um serviço de qualidade, adaptando-se às necessidades de cada cliente."

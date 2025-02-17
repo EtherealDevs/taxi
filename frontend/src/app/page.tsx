@@ -69,12 +69,14 @@ export default function Home() {
             <TravelPosts />
           </div>
           <div className="lg:mt-12 w-full col-span-1 md:col-span-5">
-            <OtherPosts/>
+            <OtherPosts />
           </div>
         </section>
-        <section id="trust-in-us">
-          <TrustInUs />
-        </section>
+        <div className="h-full">
+          <section id="trust-in-us">
+            <TrustInUs />
+          </section>
+        </div>
         <section id="how-it-works">
           <HowItWorks />
         </section>

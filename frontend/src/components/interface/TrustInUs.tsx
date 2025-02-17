@@ -14,6 +14,11 @@ export default function TrustInUs() {
       description: t("trustInUs.security.description"),
     },
     {
+      icon: <ShieldCheck className="w-8 h-8 text-[#6944ff]" />,
+      title: t("trustInUs.recomendation.title"),
+      description: t("trustInUs.recomendation.description"),
+    },
+    {
       icon: <CircleFadingPlus className="w-8 h-8 text-[#6944ff]" />,
       title: t("trustInUs.experience.title"),
       description: t("trustInUs.experience.description"),
@@ -35,36 +40,35 @@ export default function TrustInUs() {
     },
   ]
 
-  // Get only the last 5 items
-  const lastFiveItems = items.slice(-5)
-
   return (
-    <div className="bg-gray-100/50 py-16 mt-6 h-screen">
+    <div className="bg-white py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-start mb-12"
+          className="text-center mb-12"
         >
-          <h2 className="text-2xl font-bold mb-1">{t("trustInUs.title")}</h2>
-          <div className="w-24 h-2 bg-blue-500 mt-1 mb-6" />
+          <h2 className="text-3xl font-bold mb-4">{t("trustInUs.title")}</h2>
+          <div className="w-24 h-1 bg-[#6944ff] mx-auto" />
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
-          {lastFiveItems.map((item, index) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          {items.map((item, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="bg-[#ececec] rounded-2xl p-6"
+              className="bg-white rounded-3xl p-8 shadow-sm hover:shadow-md transition-shadow duration-300"
             >
-              <div className="bg-white w-16 h-16 rounded-full flex items-center justify-center mb-4 mx-auto">
-                {item.icon}
+              <div className="flex flex-col items-center">
+                <div className="bg-[#6944ff]/10 w-16 h-16 rounded-full flex items-center justify-center mb-6">
+                  {item.icon}
+                </div>
+                <h3 className="text-xl font-bold text-center mb-4">{item.title}</h3>
+                <p className="text-gray-600 text-center leading-relaxed">{item.description}</p>
               </div>
-              <h3 className="text-lg font-bold text-center mb-2">{item.title}</h3>
-              <p className="text-sm text-[#272727] text-center">{item.description}</p>
             </motion.div>
           ))}
         </div>

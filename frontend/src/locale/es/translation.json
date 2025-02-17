@@ -99,6 +99,10 @@
       "title": "Seguridad",
       "description": "Nuestros choferes están altamente capacitados y cumplen con estrictos protocolos de seguridad, garantizando traslados confiables y seguros en todo momento."
     },
+    "recomendation": {
+  "title": "Recomendaciones en Viajes",
+  "description": "Experiencia transportando viajeros a distintos destinos, se ofrecen valiosas recomendaciones sobre los mejores lugares turísticos y actividades en cada país."
+},
     "experience": {
       "title": "Años De experiencia",
       "description": "Contamos con más de 10 años de experiencia brindando un servicio de calidad, adaptándonos a las necesidades de cada cliente."
