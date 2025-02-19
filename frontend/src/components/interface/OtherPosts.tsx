@@ -88,11 +88,10 @@ export default function OtherPosts() {
             className="bg-white rounded-xl overflow-hidden shadow-lg cursor-pointer group hover:shadow-xl transition-shadow duration-300"
           >
             <div className="relative h-48">
-              <img
-                src={
-                  post.images?.[0] ? `${post.images[0]}` : "/placeholder.svg"
-                }
+              <Image
+                src={post.images[0] || "/placeholder.svg"}
                 alt={post.title}
+                fill
                 className="object-cover group-hover:scale-105 transition-transform duration-300"
               />
             </div>
