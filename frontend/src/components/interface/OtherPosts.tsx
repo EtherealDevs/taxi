@@ -90,9 +90,7 @@ export default function OtherPosts() {
             <div className="relative h-48">
               <img
                 src={
-                  post.images?.[0]
-                    ? `https://api.nelsonoliveraviajes.com/img/${post.images[0]}`
-                    : "/placeholder.svg"
+                  post.images?.[0] ? `${post.images[0]}` : "/placeholder.svg"
                 }
                 alt={post.title}
                 className="object-cover group-hover:scale-105 transition-transform duration-300"
