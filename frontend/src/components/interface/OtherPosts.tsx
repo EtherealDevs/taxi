@@ -88,8 +88,11 @@ export default function OtherPosts() {
             className="bg-white rounded-xl overflow-hidden shadow-lg cursor-pointer group hover:shadow-xl transition-shadow duration-300"
           >
             <div className="relative h-48">
-              <Image
-                src={post.images[0] || "/placeholder.svg"}
+              <img
+                src={
+                  "https://api.nelsonoliveraviajes.com/img/" + post.images[0] ||
+                  "/placeholder.svg"
+                }
                 alt={post.title}
                 fill
                 className="object-cover group-hover:scale-105 transition-transform duration-300"
