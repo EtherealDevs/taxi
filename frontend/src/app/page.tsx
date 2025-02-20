@@ -1,5 +1,5 @@
 "use client";
-
+import "../config/i18n";
 import Hero from "../components/interface/Hero";
 import TravelPosts from "../components/interface/TravelPosts";
 import HowItWorks from "../components/interface/HowItWorks";
@@ -14,40 +14,40 @@ import Loading from "@/components/interface/Loading";
 import Redirecting from "@/components/interface/Redirecting";
 import { useEffect, useRef, useState } from "react";
 import OtherPosts from "@/components/interface/OtherPosts";
+import SocialMediaLinks from "@/components/ui/socialMedia";
 
 export default function Home() {
   const { user, isLoading } = useAuth({ middleware: "guest" });
-  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false)
-  const [askLaterTimer, setAskLaterTimer] = useState<NodeJS.Timeout | null>(null)
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+  const [askLaterTimer, setAskLaterTimer] = useState<NodeJS.Timeout | null>(
+    null
+  );
 
   useEffect(() => {
     // Show the modal when the page loads
-    setIsReviewModalOpen(true)
-  }, [])
+    setIsReviewModalOpen(true);
+  }, []);
 
   const handleCloseModal = () => {
-    setIsReviewModalOpen(false)
+    setIsReviewModalOpen(false);
     if (askLaterTimer) {
-      clearTimeout(askLaterTimer)
+      clearTimeout(askLaterTimer);
     }
-  }
+  };
 
   const handleSubmitReview = (rating: number, message: string) => {
     // Here you would typically send the review to your backend
-    console.log("Review submitted:", { rating, message })
-    handleCloseModal()
-  }
+    console.log("Review submitted:", { rating, message });
+    handleCloseModal();
+  };
 
   const handleAskLater = () => {
-    handleCloseModal()
-    const timer = setTimeout(
-      () => {
-        setIsReviewModalOpen(true)
-      },
-      4 * 60 * 1000,
-    ) // 4 minutes in milliseconds
-    setAskLaterTimer(timer)
-  }
+    handleCloseModal();
+    const timer = setTimeout(() => {
+      setIsReviewModalOpen(true);
+    }, 4 * 60 * 1000); // 4 minutes in milliseconds
+    setAskLaterTimer(timer);
+  };
   return (
     <div className="flex flex-col min-h-screen bg-transparent">
       <Navbar user={user} />
@@ -58,10 +58,14 @@ export default function Home() {
         onAskLater={handleAskLater}
       />
       <main className="flex-grow bg-transparent">
+        <SocialMediaLinks />
         <section id="hero">
           <Hero />
         </section>
-        <section id="reviews" className="snap-center grid grid-cols-1 md:grid-cols-5 gap-2">
+        <section
+          id="reviews"
+          className="snap-center grid grid-cols-1 md:grid-cols-5 gap-2"
+        >
           <div className="col-span-1 md:col-span-2">
             <Reviews />
           </div>
