@@ -121,7 +121,7 @@ export default function TravelPosts() {
           </h2>
           <div className="w-24 h-2 bg-blue-500 mt-1 mb-2" />
           <p className="text-gray-500 text-start">
-            Aqui anuncio los viajes hechos y otros anuncios importantes
+            {t("travelPosts.subtitle")}
           </p>
         </motion.div>
 
@@ -164,7 +164,7 @@ export default function TravelPosts() {
                         onClick={() => setSelectedPost(post)}
                         className="mt-3 w-full bg-blue-600 text-white py-2 rounded-3xl font-medium hover:bg-blue-7 00 transition-colors text-sm"
                       >
-                        Read More
+                        {t("travelPosts.seeMore")}
                       </motion.button>
                     </div>
                   </motion.div>

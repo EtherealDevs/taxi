@@ -36,7 +36,7 @@ export default function OtherPosts() {
         setPosts(response.posts);
       } catch (err) {
         setError(
-          "No se pudieron cargar los posts. Por favor, intente nuevamente."
+          t("OtherPosts.error")
         );
       } finally {
         setIsLoading(false);
@@ -117,9 +117,8 @@ export default function OtherPosts() {
           >
             {showAllPosts ? "Ver menos" : "Ver más"}
             <ChevronDown
-              className={`ml-2 h-4 w-4 transition-transform duration-300 ${
-                showAllPosts ? "rotate-180" : ""
-              }`}
+              className={`ml-2 h-4 w-4 transition-transform duration-300 ${showAllPosts ? "rotate-180" : ""
+                }`}
             />
           </Button>
         </div>

@@ -92,7 +92,11 @@
       "description": "Desfrute das praias do Caribe e da arquitetura colonial desta joia colombiana."
     },
     "intro": "Aqui você pode obter cotações, ver a experiência de outros usuários e conhecer os motoristas de nossa agência",
-    "seeMore": "Ver mais"
+    "seeMore": "Ver mais",
+    "subtitle": "Aqui anuncio as viagens feitas e outros anúncios importantes"
+  },
+  "OtherPosts": {
+    "error": "As postagens não puderam ser carregadas. Por favor, tente novamente."
   },
   "trustInUs": {
     "title": "Por Que Confiar na Nelson Olivera?",

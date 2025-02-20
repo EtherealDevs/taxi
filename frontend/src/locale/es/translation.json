@@ -92,7 +92,11 @@
       "description": "Disfruta de las playas del Caribe y la arquitectura colonial de esta joya colombiana."
     },
     "intro": "Mis viajes y anuncios",
-    "seeMore": "Ver más"
+    "seeMore": "Ver más",
+    "subtitle": "Aqui anuncio los viajes hechos y otros anuncios importantes"
+  },
+  "OtherPosts": {
+    "error": "No se pudieron cargar los posts. Por favor, intente nuevamente."
   },
   "trustInUs": {
     "title": "¿Por Qué Confiar en Nelson Olivera?",

@@ -92,7 +92,11 @@
       "description": "Enjoy the Caribbean beaches and colonial architecture of this Colombian gem."
     },
     "intro": "Here you can get quotes, see other users' experiences, and meet the drivers of our agency",
-    "seeMore": "See more"
+    "seeMore": "See more",
+    "subtitle": "Here I announce the trips made and other important announcements"
+  },
+  "OtherPosts": {
+    "error": "The posts could not be loaded. Please try again."
   },
   "trustInUs": {
     "title": "Why Trust Nelson Olivera?",
