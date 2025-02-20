@@ -15,7 +15,7 @@
   },
   "loading": "Carregando",
   "redirecting": "Redirecionando",
-  "validation":{
+  "validation": {
     "email": "Endereço de e-mail inválido",
     "password": "A senha deve ter pelo menos 8 caracteres",
     "maxLength": "Comprimento máximo 255 caracteres",
@@ -26,7 +26,7 @@
     "internationalTrips": "Viagens Internacionais ao preço Ideal.",
     "safeTrips": "Oferecendo viagens Seguras desde 2004",
     "aboutMe": "Sobre Mim",
-    "aboutMeDescription": "Sou uma pessoa Profissional e atento a cada detalhe. Gosto de prestar um bom serviço",
+    "aboutMeDescription": "Sou uma pessoa Profissional e atento a cada detalhe. Gosto de prestar um bom serviço. Profissionalismo e atenção aos detalhes para um serviço excepcional em Puerto Iguazú.",
     "languages": "Idiomas",
     "english": "Inglês",
     "french": "Francês",
@@ -40,7 +40,7 @@
     "imageAlt": "Agente de Viagens"
   },
   "reserv": {
-    "countries": "Argentina, Paraguai, Brasil, Chile",
+    "countries": "Argentina, Paraguai, Brasil",
     "bookYourTrip": "Reserve sua Viagem",
     "departurePlace": "Local de Partida",
     "addExtraStop": "Adicionar Parada Extra",
@@ -100,9 +100,9 @@
       "description": "Nossos motoristas são altamente treinados e seguem protocolos de segurança rigorosos, garantindo transferências confiáveis e seguras o tempo todo."
     },
     "recomendation": {
-  "title": "Recomendações de Viagem",
-  "description": "Experiência transportando viajantes para diversos destinos, oferecendo recomendações valiosas sobre os melhores pontos turísticos e atividades em cada país."
-},
+      "title": "Recomendações de Viagem",
+      "description": "Experiência transportando viajantes para diversos destinos, oferecendo recomendações valiosas sobre os melhores pontos turísticos e atividades em cada país."
+    },
     "experience": {
       "title": "Anos de Experiência",
       "description": "Temos mais de 10 anos de experiência oferecendo um serviço de qualidade, adaptando-se às necessidades de cada cliente."

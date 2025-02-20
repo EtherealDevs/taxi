@@ -26,7 +26,7 @@
     "internationalTrips": "International Trips at the Ideal Price.",
     "safeTrips": "Offering Safe Trips Since 2012",
     "aboutMe": "About Me",
-    "aboutMeDescription": "I am a professional and attentive to every detail. I like to provide good service",
+    "aboutMeDescription": "I am a professional and attentive to every detail. I like to provide good service. Professionalism and attention to detail for exceptional service in Puerto Iguazú.",
     "languages": "Languages",
     "english": "English",
     "french": "French",
@@ -40,7 +40,7 @@
     "imageAlt": "Travel Agent"
   },
   "reserv": {
-    "countries": "Argentina, Paraguay, Brazil, Chile",
+    "countries": "Argentina, Paraguay, Brazil",
     "bookYourTrip": "Book Your Trip",
     "departurePlace": "Departure Place",
     "addExtraStop": "Add Extra Stop",
@@ -100,9 +100,9 @@
       "description": "Our drivers are highly trained and adhere to strict safety protocols, ensuring reliable and safe transfers at all times."
     },
     "recomendation": {
-  "title": "Travel Recommendations",
-  "description": "Experience transporting travelers to various destinations, providing valuable recommendations on the best tourist attractions and activities in each country."
-},
+      "title": "Travel Recommendations",
+      "description": "Experience transporting travelers to various destinations, providing valuable recommendations on the best tourist attractions and activities in each country."
+    },
     "experience": {
       "title": "Years of Experience",
       "description": "We have over 10 years of experience providing quality service, adapting to the needs of each client."

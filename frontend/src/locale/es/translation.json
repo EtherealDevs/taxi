@@ -13,7 +13,7 @@
     "portuguese": "Portugués",
     "spanish": "Español"
   },
-  "loading":"Cargando",
+  "loading": "Cargando",
   "redirecting": "Redireccionando",
   "validation": {
     "email": "Dirección Email inválida",
@@ -26,7 +26,7 @@
     "internationalTrips": "Viajes Internacionales al precio Ideal.",
     "safeTrips": "Ofreciendo viajes Seguros desde 2004",
     "aboutMe": "Sobre Mi",
-    "aboutMeDescription": "Soy una persona Profesional y atento a cada detalle. Me gusta prestar buen servicio",
+    "aboutMeDescription": "Soy una persona Profesional y atento a cada detalle. Me gusta prestar buen servicio.  Profesionalismo y atención al detalle para un servicio excepcional en Puerto Iguazú.",
     "languages": "Idiomas",
     "english": "Inglés",
     "french": "Francés",
@@ -40,7 +40,7 @@
     "imageAlt": "Agente de Viajes"
   },
   "reserv": {
-    "countries": "Argentina, Paraguay, Brasil, Chile",
+    "countries": "Argentina, Paraguay, Brasil",
     "bookYourTrip": "Reserva tu Viaje",
     "departurePlace": "Lugar de Partida",
     "addExtraStop": "Agregar Parada Extra",
@@ -100,9 +100,9 @@
       "description": "Nuestros choferes están altamente capacitados y cumplen con estrictos protocolos de seguridad, garantizando traslados confiables y seguros en todo momento."
     },
     "recomendation": {
-  "title": "Recomendaciones en Viajes",
-  "description": "Experiencia transportando viajeros a distintos destinos, se ofrecen valiosas recomendaciones sobre los mejores lugares turísticos y actividades en cada país."
-},
+      "title": "Recomendaciones en Viajes",
+      "description": "Experiencia transportando viajeros a distintos destinos, se ofrecen valiosas recomendaciones sobre los mejores lugares turísticos y actividades en cada país."
+    },
     "experience": {
       "title": "Años De experiencia",
       "description": "Contamos con más de 10 años de experiencia brindando un servicio de calidad, adaptándonos a las necesidades de cada cliente."
