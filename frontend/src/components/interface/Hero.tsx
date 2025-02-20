@@ -60,8 +60,8 @@ export default function Hero() {
     if (inputName === "extraStops") {
       setExtraStopsIndex(index);
     }
-      setActiveInput(inputName);
-      setIsMapModalOpen(true);
+    setActiveInput(inputName);
+    setIsMapModalOpen(true);
   };
 
   const handleCloseMapModal = () => {
@@ -104,7 +104,7 @@ export default function Hero() {
             className="text-center lg:text-left mb-8"
           >
             <h2 className="text-4xl md:text-5xl font-light mb-2">
-              Bienvenido, Soy{" "}
+              {t("hero.welcome")}{" "}
               <span className="font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                 Nelson Olivera
               </span>

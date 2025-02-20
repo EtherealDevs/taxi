@@ -22,6 +22,7 @@
     "confirmPassword": "Both passwords should match"
   },
   "hero": {
+    "welcome": "Welcome, I'm",
     "name": "Nelson Olivera",
     "internationalTrips": "International Trips at the Ideal Price.",
     "safeTrips": "Offering Safe Trips Since 2012",
@@ -153,11 +154,11 @@
       "step": "Step 4",
       "title": "Arrival",
       "description": "International trips at the ideal price. Offering safe trips since 2004."
-    },
-    "helpSection": {
-      "title": "Need help?",
-      "description": "We are here to assist you every step of the way. Don't hesitate to contact us if you have any questions.",
-      "contactSupport": "Contact Support"
     }
+  },
+  "helpSection": {
+    "title": "Need help?",
+    "description": "We are here to assist you every step of the way. Don't hesitate to contact us if you have any questions.",
+    "contactSupport": "Contact Support"
   }
 }

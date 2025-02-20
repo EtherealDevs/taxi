@@ -22,6 +22,7 @@
     "confirmPassword": "Ambas as senhas devem corresponder"
   },
   "hero": {
+    "welcome": "Bem-vindo, sou",
     "name": "Nelson Olivera",
     "internationalTrips": "Viagens Internacionais ao preço Ideal.",
     "safeTrips": "Oferecendo viagens Seguras desde 2004",
@@ -153,11 +154,11 @@
       "step": "Passo 4",
       "title": "Chegada",
       "description": "Viagens internacionais pelo melhor preço. Oferecendo viagens seguras desde 2004."
-    },
-    "helpSection": {
-      "title": "Precisa de ajuda?",
-      "description": "Estamos aqui para ajudá-lo em cada etapa do processo. Não hesite em nos contatar se tiver alguma dúvida.",
-      "contactSupport": "Entrar em contato com o suporte"
     }
+  },
+  "helpSection": {
+    "title": "Precisa de ajuda?",
+    "description": "Estamos aqui para ajudá-lo em cada etapa do processo. Não hesite em nos contatar se tiver alguma dúvida.",
+    "contactSupport": "Entrar em contato com o suporte"
   }
 }

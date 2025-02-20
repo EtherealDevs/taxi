@@ -22,6 +22,7 @@
     "confirmPassword": "Ambas contraseñas deben coincidir"
   },
   "hero": {
+    "welcome": "Bienvenido, soy",
     "name": "Nelson Olivera",
     "internationalTrips": "Viajes Internacionales al precio Ideal.",
     "safeTrips": "Ofreciendo viajes Seguros desde 2004",
