@@ -132,5 +132,32 @@
     "messageSent": "Message sent successfully",
     "errorSending": "Error sending message",
     "serverError": "Server error"
+  },
+  "steps": {
+    "step1": {
+      "step": "Step 1",
+      "title": "Trip Booking",
+      "description": "International trips at the ideal price. Offering safe trips since 2004."
+    },
+    "step2": {
+      "step": "Step 2",
+      "title": "Quotation",
+      "description": "International trips at the ideal price. Offering safe trips since 2004."
+    },
+    "step3": {
+      "step": "Step 3",
+      "title": "Payment",
+      "description": "International trips at the ideal price. Offering safe trips since 2004."
+    },
+    "step4": {
+      "step": "Step 4",
+      "title": "Arrival",
+      "description": "International trips at the ideal price. Offering safe trips since 2004."
+    },
+    "helpSection": {
+      "title": "Need help?",
+      "description": "We are here to assist you every step of the way. Don't hesitate to contact us if you have any questions.",
+      "contactSupport": "Contact Support"
+    }
   }
 }

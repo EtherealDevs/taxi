@@ -88,29 +88,29 @@ export default function HowItWorks() {
   const steps = [
     {
       icon: <Camera className="w-6 h-6 text-[#6944ff]" />,
-      step: "PASO 1",
-      title: "Trip Booking",
-      description: "International trips at the ideal price. Offering safe trips since 2004",
+      step: t("steps.step1.step"), // "PASO 1"
+      title: t("steps.step1.title"), // "Reserva de Viaje"
+      description: t("steps.step1.description") // "Viajes internacionales al mejor precio..."
     },
     {
       icon: <CreditCard className="w-6 h-6 text-[#6944ff]" />,
-      step: "PASO 2",
-      title: "Quotation",
-      description: "International trips at the ideal price. Offering safe trips since 2004",
+      step: t("steps.step2.step"),
+      title: t("steps.step2.title"),
+      description: t("steps.step2.description"),
     },
     {
       icon: <MapPin className="w-6 h-6 text-[#6944ff]" />,
-      step: "PASO 3",
-      title: "Payment",
-      description: "International trips at the ideal price. Offering safe trips since 2004",
+      step: t("steps.step3.step"),
+      title: t("steps.step3.title"),
+      description: t("steps.step3.description"),
     },
     {
       icon: <Car className="w-6 h-6 text-[#6944ff]" />,
-      step: "PASO 4",
-      title: "Arrival",
-      description: "International trips at the ideal price. Offering safe trips since 2004",
+      step: t("steps.step4.step"),
+      title: t("steps.step4.title"),
+      description: t("steps.step4.description"),
     },
-  ]
+  ];
 
   return (
     <div className="bg-white min-h-screen py-12" ref={containerRef}>
@@ -140,12 +140,11 @@ export default function HowItWorks() {
                   <div className="relative z-10">
                     <motion.div
                       className={`w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300
-                        ${
-                          status === "completed"
-                            ? "bg-green-500"
-                            : status === "current"
-                              ? "bg-[#6944ff]"
-                              : "bg-white border-2 border-gray-200"
+                        ${status === "completed"
+                          ? "bg-green-500"
+                          : status === "current"
+                            ? "bg-[#6944ff]"
+                            : "bg-white border-2 border-gray-200"
                         }`}
                       initial={false}
                       animate={{
@@ -201,15 +200,15 @@ export default function HowItWorks() {
               <div className="bg-[#6944ff]/10 w-16 h-16 rounded-full flex items-center justify-center mb-6">
                 <HelpCircle className="w-8 h-8 text-[#6944ff]" />
               </div>
-              <h3 className="text-2xl font-bold mb-4">¿Necesitas ayuda?</h3>
+              <h3 className="text-2xl font-bold mb-4">{t("helpSection.title")}</h3>
               <p className="text-gray-600 mb-6 max-w-md">
-                Estamos aquí para ayudarte en cada paso del proceso. No dudes en contactarnos si tienes alguna pregunta.
+                {t("helpSection.description")}
               </p>
               <Button
                 className="bg-[#6944ff] hover:bg-[#5835cc] text-white px-8"
                 onClick={() => (window.location.href = "/contact")}
               >
-                Contactar Soporte
+                {t("helpSection.contactSupport")}
               </Button>
             </div>
           </motion.div>

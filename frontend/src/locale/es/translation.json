@@ -132,5 +132,32 @@
     "messageSent": "Mensaje enviado correctamente",
     "errorSending": "Error al enviar el mensaje",
     "serverError": "Error en el servidor"
+  },
+  "steps": {
+    "step1": {
+      "step": "Paso 1",
+      "title": "Reserva de Viaje",
+      "description": "Viajes internacionales al mejor precio. Ofreciendo viajes seguros desde 2004."
+    },
+    "step2": {
+      "step": "Paso 2",
+      "title": "Cotización",
+      "description": "Viajes internacionales al mejor precio. Ofreciendo viajes seguros desde 2004."
+    },
+    "step3": {
+      "step": "Paso 3",
+      "title": "Pago",
+      "description": "Viajes internacionales al mejor precio. Ofreciendo viajes seguros desde 2004."
+    },
+    "step4": {
+      "step": "Paso 4",
+      "title": "Llegada",
+      "description": "Viajes internacionales al mejor precio. Ofreciendo viajes seguros desde 2004."
+    }
+  },
+  "helpSection": {
+    "title": "¿Necesitas ayuda?",
+    "description": "Estamos aquí para ayudarte en cada paso del proceso. No dudes en contactarnos si tienes alguna pregunta.",
+    "contactSupport": "Contactar Soporte"
   }
 }
