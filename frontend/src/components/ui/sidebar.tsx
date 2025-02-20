@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import Link, { LinkProps } from "next/link";
 import React, { useState, createContext, useContext } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Menu, X } from 'lucide-react';
+import { Menu, X } from "lucide-react";
 
 interface Links {
   label: string;
@@ -18,7 +18,9 @@ interface SidebarContextProps {
   animate: boolean;
 }
 
-const SidebarContext = createContext<SidebarContextProps | undefined>(undefined);
+const SidebarContext = createContext<SidebarContextProps | undefined>(
+  undefined
+);
 
 export const useSidebar = () => {
   const context = useContext(SidebarContext);
@@ -97,7 +99,7 @@ export const DesktopSidebar = ({
       onMouseLeave={() => setOpen(false)}
       {...props}
     >
-      {children} 
+      {children}
     </motion.div>
   );
 };
@@ -112,7 +114,7 @@ export const MobileSidebar = ({
     <>
       <div
         className={cn(
-          "h-10 px-4 py-4 flex flex-row md:hidden items-center justify-between bg-neutral-100 dark:bg-neutral-800 w-full"
+          "h-10 px-4 py-4 flex flex-row md:hidden items-center justify-between bg-neutral-100 dark:bg-neutral-800 top-0 sticky md:w-full"
         )}
         {...props}
       >
@@ -184,4 +186,3 @@ export const SidebarLink = ({
     </Link>
   );
 };
-
