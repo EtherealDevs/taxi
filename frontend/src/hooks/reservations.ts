@@ -42,6 +42,17 @@ export const useReservation = () => {
       throw error;
     }
   };
+  const getReservationWithPendingReview = async (id: number|undefined) => {
+    try {
+      console.log("Reservation hook. Here's data", id)
+      const response = await axios.get(`/api/reservations/user/${id}`);
+      console.log("Reservation hook. Here's response data", response)
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
   const create = async (formData: FormData) => {
     try {
       const response = await axios.post("/api/reservations", formData);
@@ -81,5 +92,6 @@ export const useReservation = () => {
     create,
     update,
     deleteReservation,
+    getReservationWithPendingReview,
   };
 };

@@ -56,6 +56,7 @@ export default function Home() {
         onClose={handleCloseModal}
         onSubmit={handleSubmitReview}
         onAskLater={handleAskLater}
+        user={user}
       />
       <main className="flex-grow bg-transparent">
         <SocialMediaLinks />

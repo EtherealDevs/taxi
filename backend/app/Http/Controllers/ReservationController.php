@@ -99,6 +99,27 @@ class ReservationController extends Controller
         ];
         return response()->json($date, 200);
     }
+    /**
+     * Get a reservation based on a user ID.
+     */
+    public function getByUserId(int $userId)
+    {
+        $reservations = Reservation::where('user_id', $userId)->with(['user', 'driver', 'station', 'reviews'])->get();
+        foreach ($reservations as $key => $reservation) {
+            if ($reservation->reviews->count() > 0) {
+                foreach ($reservation->reviews as $review) {
+                    if ($review->user_id == $userId) {
+                        $reservations->forget($key);
+                    }
+            }
+            }
+        }
+        $date = [
+            'reservations' => $reservations,
+            'status' => 200
+        ];
+        return response()->json($date, 200);
+    }
 
     /**
      * Display the specified resource.

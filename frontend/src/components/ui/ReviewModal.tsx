@@ -1,16 +1,30 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { X, Send, Clock } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
+import { useAuth } from "@/hooks/auth"
+import { useReservation } from "@/hooks/reservations"
+import { useReview } from "@/hooks/reviews"
 
+interface User {
+  created_at?: string,
+  email?: string
+  email_verified_at?: string,
+  id?: number,
+  name?: string,
+  roles?: any[],
+  updated_at?: string
+  // Agrega más propiedades si es necesario
+}
 interface ReviewModalProps {
   isOpen: boolean
   onClose: () => void
   onSubmit: (rating: number, message: string) => void
   onAskLater: () => void
+  user? : User
 }
 
 const StarRating = ({
@@ -84,79 +98,123 @@ const StarRating = ({
   )
 }
 
-export default function ReviewModal({ isOpen, onClose, onSubmit, onAskLater }: ReviewModalProps) {
+export default function ReviewModal({ isOpen, onClose, onSubmit, onAskLater, user }: ReviewModalProps) {
   const [rating, setRating] = useState(0)
   const [message, setMessage] = useState("")
   const [hoveredStar, setHoveredStar] = useState(0)
-
+  const [reservations, setReservations] = useState<any>();
+  const { getReservationWithPendingReview } = useReservation();
+  const { createReview } = useReview();
+  const fetchData = async () => {
+    try {
+      if (user == null || user == undefined) {
+        return;
+      }
+      else {
+        const response = await getReservationWithPendingReview(user?.id);
+        setReservations(response.reservations);
+      }
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+  const updateReview = async (rating, message, reservations, user) => {
+    try {
+      var formData = new FormData()
+      formData.append("stars", rating);
+      formData.append("content", message);
+      formData.append("reservation_id", reservations[0].id);
+      formData.append("user_id", user.id);
+      const response = await createReview(formData)
+      console.log("Review updated successfully", response);
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+  useEffect(() => {
+      fetchData();
+    }, [user]);
   const handleSubmit = () => {
     onSubmit(rating, message)
     setRating(0)
     setMessage("")
+    updateReview(rating, message, reservations, user);
   }
-
-  return (
-    <AnimatePresence>
-      {isOpen && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
-        >
-          <motion.div
-            initial={{ scale: 0.9, opacity: 0, y: 50 }}
-            animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{ scale: 0.9, opacity: 0, y: 50 }}
-            className="bg-white dark:bg-gray-800 rounded-2xl p-8 max-w-md w-full relative shadow-2xl"
-          >
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={onClose}
-              className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+  if (user == null || user == undefined) {
+    return;
+  }
+  else {
+    if (reservations == null || reservations == undefined || reservations?.length == 0) {
+      return;
+    }
+    else{
+      console.log("user not null. Here come reservations", reservations)
+        return (
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
             >
-              <X className="w-6 h-6" />
-            </motion.button>
-            <h2 className="text-3xl font-bold mb-6 text-center text-gray-800 dark:text-white">Rate Your Last Trip</h2>
-            <StarRating
-              rating={rating}
-              setRating={setRating}
-              hoveredStar={hoveredStar}
-              setHoveredStar={setHoveredStar}
-            />
-            <Textarea
-              placeholder="Tell us about your experience..."
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              className="mb-6 h-32 resize-none border-2 border-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-400 rounded-xl p-4 text-gray-800 dark:text-white bg-white dark:bg-gray-700"
-            />
-            <div className="flex justify-between">
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Button
-                  onClick={handleSubmit}
-                  disabled={rating === 0}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full flex items-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0, y: 50 }}
+                animate={{ scale: 1, opacity: 1, y: 0 }}
+                exit={{ scale: 0.9, opacity: 0, y: 50 }}
+                className="bg-white dark:bg-gray-800 rounded-2xl p-8 max-w-md w-full relative shadow-2xl"
+              >
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  onClick={onClose}
+                  className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
                 >
-                  <Send className="w-5 h-5" />
-                  <span>Send Review</span>
-                </Button>
+                  <X className="w-6 h-6" />
+                </motion.button>
+                <h2 className="text-3xl font-bold mb-6 text-center text-gray-800 dark:text-white">Rate Your Last Trip</h2>
+                <StarRating
+                  rating={rating}
+                  setRating={setRating}
+                  hoveredStar={hoveredStar}
+                  setHoveredStar={setHoveredStar}
+                />
+                <Textarea
+                  placeholder="Este campo es requerido..."
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  className="mb-6 h-32 resize-none border-2 border-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-400 rounded-xl p-4 text-gray-800 dark:text-white bg-white dark:bg-gray-700"
+                />
+                <div className="flex justify-between">
+                  <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                    <Button
+                      onClick={handleSubmit}
+                      disabled={message === ""}
+                      className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full flex items-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      <Send className="w-5 h-5" />
+                      <span>Send Review</span>
+                    </Button>
+                  </motion.div>
+                  <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                    <Button
+                      variant="outline"
+                      onClick={onAskLater}
+                      className="border-2 border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 px-6 py-2 rounded-full flex items-center space-x-2"
+                    >
+                      <Clock className="w-5 h-5" />
+                      <span>Ask Later</span>
+                    </Button>
+                  </motion.div>
+                </div>
               </motion.div>
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Button
-                  variant="outline"
-                  onClick={onAskLater}
-                  className="border-2 border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 px-6 py-2 rounded-full flex items-center space-x-2"
-                >
-                  <Clock className="w-5 h-5" />
-                  <span>Ask Later</span>
-                </Button>
-              </motion.div>
-            </div>
-          </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
-  )
+            </motion.div>
+          )}
+        </AnimatePresence>
+      )
+    }
+  }
 }
 

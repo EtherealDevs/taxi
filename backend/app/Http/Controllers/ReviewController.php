@@ -25,6 +25,9 @@ class ReviewController extends Controller
         ];
         return response()->json($data, 200);
     }
+    /**
+     * Get pending review
+     */
 
     /**
      * Store a newly created resource in storage.

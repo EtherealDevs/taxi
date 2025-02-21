@@ -27,6 +27,7 @@ class ReservationResource extends JsonResource
             'user' => new UserResource($this->whenLoaded('user')),
             'driver' => new DriverResource($this->whenLoaded('driver')),
             'stations' => StationResource::collection($this->whenLoaded('station')),
+            'reviews' => ReviewResource::collection($this->whenLoaded('reviews')),
         ];
     }
 }
