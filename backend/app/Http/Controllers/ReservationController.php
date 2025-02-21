@@ -115,7 +115,7 @@ class ReservationController extends Controller
             }
         }
         $date = [
-            'reservations' => $reservations,
+            'reservations' => $reservations->first(),
             'status' => 200
         ];
         return response()->json($date, 200);

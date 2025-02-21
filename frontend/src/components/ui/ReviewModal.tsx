@@ -6,7 +6,7 @@ import { X, Send, Clock } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { useAuth } from "@/hooks/auth"
-import { useReservation } from "@/hooks/reservations"
+import { reservation, useReservation } from "@/hooks/reservations"
 import { useReview } from "@/hooks/reviews"
 
 interface User {
@@ -119,13 +119,13 @@ export default function ReviewModal({ isOpen, onClose, onSubmit, onAskLater, use
       throw error;
     }
   };
-  const updateReview = async (rating, message, reservations, user) => {
+  const updateReview = async (rating: number, message: string, reservations: reservation, user: User|undefined) => {
     try {
       var formData = new FormData()
-      formData.append("stars", rating);
+      formData.append("stars", String(rating));
       formData.append("content", message);
-      formData.append("reservation_id", reservations[0].id);
-      formData.append("user_id", user.id);
+      formData.append("reservation_id", String(reservations?.id));
+      formData.append("user_id", String(user?.id));
       const response = await createReview(formData)
       console.log("Review updated successfully", response);
     } catch (error) {
