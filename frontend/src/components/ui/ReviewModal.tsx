@@ -150,7 +150,6 @@ export default function ReviewModal({ isOpen, onClose, onSubmit, onAskLater, use
       return;
     }
     else{
-      console.log("user not null. Here come reservations", reservations)
         return (
         <AnimatePresence>
           {isOpen && (

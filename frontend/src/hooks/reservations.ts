@@ -44,9 +44,7 @@ export const useReservation = () => {
   };
   const getReservationWithPendingReview = async (id: number|undefined) => {
     try {
-      console.log("Reservation hook. Here's data", id)
       const response = await axios.get(`/api/reservations/user/${id}`);
-      console.log("Reservation hook. Here's response data", response)
       return response.data;
     } catch (error) {
       console.error(error);
