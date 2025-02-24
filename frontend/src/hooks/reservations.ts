@@ -42,7 +42,16 @@ export const useReservation = () => {
       throw error;
     }
   };
-  const getReservationWithPendingReview = async (id: number|undefined) => {
+  const getReservationWithPendingReview = async (id: number | undefined) => {
+    try {
+      const response = await axios.get(`/api/reservations/user_review/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+  const getReservationsUser = async (id: number | undefined) => {
     try {
       const response = await axios.get(`/api/reservations/user/${id}`);
       return response.data;
@@ -91,5 +100,6 @@ export const useReservation = () => {
     update,
     deleteReservation,
     getReservationWithPendingReview,
+    getReservationsUser,
   };
 };

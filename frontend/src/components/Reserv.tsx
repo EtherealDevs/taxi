@@ -20,6 +20,7 @@ import { Input } from "@/components/ui/input";
 import { useMap } from "@/hooks/map";
 import { useReservation } from "@/hooks/reservations";
 import { formatAddresses, FormattedAddress } from "@/lib/formatAddress";
+import { useAuth } from "@/hooks/auth";
 interface FormReservProps {
   onOpenModal: (
     inputName: "departure" | "destination" | "extraStops",
@@ -52,6 +53,7 @@ interface Addresses {
 
 export default function FormReserv({ onOpenModal, location }: FormReservProps) {
   const { t } = useTranslation();
+  const { user } = useAuth();
   const [currentStep, setCurrentStep] = useState(1);
   const { create } = useReservation();
   const [formData, setFormData] = useState<FormData>({
@@ -161,11 +163,13 @@ export default function FormReserv({ onOpenModal, location }: FormReservProps) {
   };
   const sendForm = async () => {
     const form = new FormData();
+    if (user != undefined) {
+      form.append("user_id", user.id);
+    }
     form.append("name", formData.firstName);
     form.append("phone", formData.phone);
     form.append("date_start", formData.date);
     form.append("time_start", formData.time);
-    console.log(stations);
     form.append("stations", JSON.stringify(stations));
     await create(form);
   };

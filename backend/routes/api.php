@@ -38,6 +38,7 @@ Route::group(['middleware' => ['auth:sanctum', 'can:access admin']], function ()
     Route::apiResource('cars', CarController::class)->except('index');
 });
 Route::get('reservations/user/{id}', [ReservationController::class, 'getByUserId'])->middleware('auth:sanctum');
+Route::get('reservations/user_review/{id}', [ReservationController::class, 'getByUserIdWithPendingReview'])->middleware('auth:sanctum');
 Route::post('reviews', [ReviewController::class, 'store'])->middleware('auth:sanctum');
 Route::apiResource('reviews', ReviewController::class)->only('index');
 Route::apiResource('posts', PostController::class)->only(['index', 'show']);

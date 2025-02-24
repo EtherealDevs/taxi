@@ -102,7 +102,8 @@ class ReservationController extends Controller
     /**
      * Get a reservation based on a user ID.
      */
-    public function getByUserId(int $userId)
+
+    public function getByUserIdWithPendingReview(int $userId)
     {
         $reservations = Reservation::where('user_id', $userId)->with(['user', 'driver', 'station', 'reviews'])->get();
         foreach ($reservations as $key => $reservation) {
@@ -111,11 +112,20 @@ class ReservationController extends Controller
                     if ($review->user_id == $userId) {
                         $reservations->forget($key);
                     }
-            }
+                }
             }
         }
         $date = [
             'reservations' => $reservations->first(),
+            'status' => 200
+        ];
+        return response()->json($date, 200);
+    }
+    public function getByUserId(int $userId)
+    {
+        $reservations = ReservationResource::collection(Reservation::where('user_id', $userId)->with(['user', 'driver', 'station'])->get());
+        $date = [
+            'reservations' => $reservations,
             'status' => 200
         ];
         return response()->json($date, 200);
