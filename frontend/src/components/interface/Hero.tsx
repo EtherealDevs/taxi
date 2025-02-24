@@ -8,7 +8,7 @@ import { Star, Globe, Award, Clock, MapPin } from "lucide-react";
 import { languages } from "../Navbar";
 
 import FormReserv from "../Reserv";
-import Image from "next/image";/* 
+import Image from "next/image"; /* 
 import { SparklesPreview } from "@/components/anim/Sparkless"; */
 
 const MapModal = dynamic(() => import("../ui/MapModal"), {
@@ -122,7 +122,7 @@ export default function Hero() {
                 <div className="relative w-[240px] h-full mx-auto">
                   <div className="absolute inset-0 top-4 bg-gradient-to-b from-transparent via-white/20 to-white rounded-[2rem] z-10" />
                   <Image
-                    src="/img/driver.jpg"
+                    src="/img/driver.webp"
                     alt={t("hero.imageAlt")}
                     width={240}
                     height={240}
