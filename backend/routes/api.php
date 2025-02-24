@@ -6,6 +6,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\StationController;
+use App\Http\Controllers\UserController;
 use App\Models\Review;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -36,6 +37,8 @@ Route::group(['middleware' => ['auth:sanctum', 'can:access admin']], function ()
     Route::apiResource('posts', PostController::class)->except(['index', 'show']);
     Route::apiResource('drivers', DriverController::class)->except('index');
     Route::apiResource('cars', CarController::class)->except('index');
+    Route::apiResource('users', UserController::class)->only(['index', 'update']);
+    Route::get('users/roles', [UserController::class, 'roles']);
 });
 Route::get('reservations/user/{id}', [ReservationController::class, 'getByUserId'])->middleware('auth:sanctum');
 Route::get('reservations/user_review/{id}', [ReservationController::class, 'getByUserIdWithPendingReview'])->middleware('auth:sanctum');

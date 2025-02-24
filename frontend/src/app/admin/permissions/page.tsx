@@ -40,83 +40,33 @@ import {
 } from "@/components/ui/dialogs";
 import { Badge } from "@/components/ui/badge";
 import { useToast, ToastAction, ToastProvider } from "@/components/ui/toast";
-
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  role:
-    | "admin"
-    | "manager"
-    | "editor"
-    | "viewer"
-    | "driver"
-    | "blogger"
-    | "customer";
-  avatar: string;
-  status: "active" | "inactive";
-  lastActive: string;
-}
-
-const roles = {
-  admin: {
-    label: "Administrador Total",
-    description: "Acceso completo a todas las funciones del sistema",
-    badge: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200",
-    icon: <ShieldAlert className="w-4 h-4 text-red-600" />,
-  },
-  driver: {
-    label: "Chofer",
-    description: "Puede gestionar sus viajes y perfil",
-    badge: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200",
-    icon: <Car className="w-4 h-4 text-green-600" />,
-  },
-  blogger: {
-    label: "Escritor de Blog",
-    description: "Puede crear y editar contenido del blog",
-    badge: "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200",
-    icon: <PenTool className="w-4 h-4 text-blue-600" />,
-  },
-  customer: {
-    label: "Cliente",
-    description: "Puede reservar viajes y gestionar su perfil",
-    badge:
-      "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200",
-    icon: <User className="w-4 h-4 text-yellow-600" />,
-  },
-  manager: {
-    label: "Manager",
-    description: "Puede gestionar usuarios y permisos",
-    badge:
-      "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200",
-    icon: <User className="w-4 h-4 text-purple-600" />,
-  },
-  editor: {
-    label: "Editor",
-    description: "Puede editar contenido",
-    badge:
-      "bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200",
-    icon: <PenTool className="w-4 h-4 text-orange-600" />,
-  },
-  viewer: {
-    label: "Viewer",
-    description: "Puede ver contenido",
-    badge: "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200",
-    icon: <User className="w-4 h-4 text-gray-600" />,
-  },
-};
+import { Roles, Users, useUser } from "@/hooks/users";
 
 export default function PermissionsPage() {
   const [searchTerm, setSearchTerm] = useState("");
+  const [roles, setRoles] = useState<Roles[]>([]);
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
-  const [users, setUsers] = useState<User[]>([]);
+  const [users, setUsers] = useState<Users[]>([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [isNearBottom, setIsNearBottom] = useState(false);
   const { toast } = useToast();
-  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [selectedUser, setSelectedUser] = useState<Users | null>(null);
+  const { getUsers, getRoles, update } = useUser();
+  const fetchData = async () => {
+    try {
+      const response = await getUsers();
+      const roles = await getRoles();
+      setRoles(roles.roles);
+      setUsers(response.users);
+      setHasMore(false);
+    } catch (error) {
+      console.error("Error al obtener los usuarios:", error);
+    }
+  };
 
   useEffect(() => {
+    fetchData();
     const handleScroll = () => {
       const scrollTop =
         (document.documentElement && document.documentElement.scrollTop) ||
@@ -140,40 +90,14 @@ export default function PermissionsPage() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const loadMoreUsers = () => {
-    // Simulating API call to load more users
-    const newUsers = Array.from({ length: 20 }, (_, i) => ({
-      id: `${users.length + i + 1}`,
-      name: `Usuario ${users.length + i + 1}`,
-      email: `usuario${users.length + i + 1}@choferconnect.com`,
-      role: ["admin", "driver", "blogger", "customer"][
-        Math.floor(Math.random() * 4)
-      ] as User["role"],
-      avatar: "/placeholder.svg?height=40&width=40",
-      status: Math.random() > 0.2 ? ("active" as const) : ("inactive" as const),
-      lastActive: new Date(Date.now() - Math.random() * 10).toISOString(),
-    }));
-    setUsers((prevUsers) => [...prevUsers, ...newUsers]);
-    setPage((prevPage) => prevPage + 1);
-    setHasMore(page < 5); // Limit to 5 pages for this example
-  };
-
-  useEffect(() => {
-    if (isNearBottom && hasMore) {
-      loadMoreUsers();
-    }
-  }, [isNearBottom, hasMore, loadMoreUsers]);
-
-  useEffect(() => {
-    loadMoreUsers(); // Load initial users
-  }, [loadMoreUsers]);
+  useEffect(() => {}, [isNearBottom, hasMore]);
 
   const filteredUsers = users.filter((user) => {
     const matchesSearch =
       searchTerm === "" ||
       user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.email.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesRole = !selectedRole || user.role === selectedRole;
+    const matchesRole = !selectedRole || user.roles[0].name === selectedRole;
     return matchesSearch && matchesRole;
   });
 
@@ -187,7 +111,7 @@ export default function PermissionsPage() {
     });
   };
 
-  const handleRoleChange = (newRole: User["role"]) => {
+  const handleRoleChange = async (newRole: Roles) => {
     if (selectedUser) {
       setUsers((prevUsers) =>
         prevUsers.map((user) =>
@@ -195,9 +119,12 @@ export default function PermissionsPage() {
         )
       );
       setSelectedUser(null);
+      const formdata = new FormData();
+      formdata.append("roles", String(newRole.id));
+      await update(selectedUser.id, formdata);
       toast({
         title: "Rol actualizado",
-        description: `El rol de ${selectedUser.name} ha sido actualizado a ${roles[newRole].label}.`,
+        description: `El rol de ${selectedUser.name} ha sido actualizado a ${newRole.name}.`,
         action: <ToastAction altText="Cerrar">Cerrar</ToastAction>,
       });
     }
@@ -256,9 +183,9 @@ export default function PermissionsPage() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">Todos los roles</SelectItem>
-                {Object.entries(roles).map(([value, { label }]) => (
+                {Object.entries(roles).map(([value, { name }]) => (
                   <SelectItem key={value} value={value}>
-                    {label}
+                    {name}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -276,7 +203,7 @@ export default function PermissionsPage() {
               >
                 <div className="flex items-center space-x-4">
                   <Avatar>
-                    <AvatarImage src={user.avatar} />
+                    {/* <AvatarImage src={user} /> */}
                     <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
                   </Avatar>
                   <div>
@@ -290,12 +217,9 @@ export default function PermissionsPage() {
 
                 <div className="flex items-center space-x-4">
                   <div className="flex items-center">
-                    {roles[user.role].icon}
-                    <Badge className={`ml-2 ${roles[user.role].badge}`}>
-                      {roles[user.role].label}
-                    </Badge>
+                    <Badge className={`ml-2 `}>{user.roles[0].name}</Badge>
                   </div>
-                  <Badge
+                  {/* <Badge
                     variant={user.status === "active" ? "default" : "secondary"}
                     className="hidden md:inline-flex"
                   >
@@ -303,20 +227,19 @@ export default function PermissionsPage() {
                   </Badge>
                   <span className="hidden md:block text-sm text-gray-500 dark:text-gray-400">
                     Último acceso: {formatDate(user.lastActive)}
-                  </span>
+                  </span> */}
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => setSelectedUser(user)}
+                  >
+                    <MoreVertical className="w-4 h-4" />
+                  </Button>
                   <Dialog
                     open={!!selectedUser}
                     onOpenChange={() => setSelectedUser(null)}
                   >
-                    <DialogTrigger asChild>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => setSelectedUser(user)}
-                      >
-                        <MoreVertical className="w-4 h-4" />
-                      </Button>
-                    </DialogTrigger>
+                    <DialogTrigger asChild></DialogTrigger>
                     <DialogContent>
                       <DialogHeader>
                         <DialogTitle>Cambiar Rol de Usuario</DialogTitle>
@@ -325,17 +248,14 @@ export default function PermissionsPage() {
                         </DialogDescription>
                       </DialogHeader>
                       <div className="grid gap-4 py-4">
-                        {Object.entries(roles).map(([key, { label, icon }]) => (
+                        {Object.entries(roles).map(([key, rol]) => (
                           <Button
                             key={key}
                             variant="outline"
                             className="justify-start"
-                            onClick={() =>
-                              handleRoleChange(key as User["role"])
-                            }
+                            onClick={() => handleRoleChange(rol)}
                           >
-                            {icon}
-                            <span className="ml-2">{label}</span>
+                            <span className="ml-2">{rol.name}</span>
                           </Button>
                         ))}
                       </div>
@@ -352,7 +272,7 @@ export default function PermissionsPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {Object.entries(roles).map(([key, { label, description, icon }]) => (
             <motion.div
               key={key}
@@ -368,7 +288,7 @@ export default function PermissionsPage() {
               </p>
             </motion.div>
           ))}
-        </div>
+        </div> */}
       </div>
     </ToastProvider>
   );
