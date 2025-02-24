@@ -124,6 +124,7 @@ export default function Hero() {
                   <Image
                     src="/img/driver.webp"
                     alt={t("hero.imageAlt")}
+                    loading="eager"
                     width={240}
                     height={240}
                     className="rounded-[2rem] object-cover"
