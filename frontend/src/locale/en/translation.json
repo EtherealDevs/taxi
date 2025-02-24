@@ -51,7 +51,8 @@
     "firstName": "First Name",
     "lastName": "Last Name",
     "email": "Email",
-    "phone": "Phone Number"
+    "phone": "Phone Number",
+    "pleaseCompleteAllFields": "Please complete all fields"
   },
   "footer": {
     "brand": "Nelson Olivera",

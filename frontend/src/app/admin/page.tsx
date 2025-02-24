@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { useUser } from "@/hooks/users";
+import { useReservation } from "@/hooks/reservations";
 
 type Weather = {
   temp: number;
@@ -13,12 +15,37 @@ type Weather = {
 export default function AdminDashboard() {
   const [weather, setWeather] = useState<Weather>(null);
   const [time, setTime] = useState(new Date());
+  const { getUsers } = useUser();
+  const { getReservations } = useReservation();
+  const [users, setUsers] = useState();
+  const [bookings, setBookings] = useState();
+  const [loading, setLoading] = useState(true);
+
+  const fetchData = async () => {
+    try {
+      const response = await getUsers();
+      setUsers(response.users.length);
+      const reserv = await getReservations();
+      setBookings(reserv.reservations.length);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  const fetchReservations = async () => {
+    try {
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   const stats = [
-    { name: "Total Usuarios", value: "1,234" },
-    { name: "Reservas Nuevas", value: "120" },
-    { name: "Ingresos Totales", value: "$123,456" },
-    { name: "Choferes Activos", value: "89" },
+    { name: "Total Usuarios", value: users },
+    { name: "Reservas Nuevas", value: bookings },
   ];
 
   const quickLinks = [
@@ -107,7 +134,7 @@ export default function AdminDashboard() {
           >
             <h3 className="text-lg font-medium text-gray-500">{stat.name}</h3>
             <p className="mt-2 text-3xl font-semibold text-gray-900">
-              {stat.value}
+              {!loading ? stat.value : "Cargando..."}
             </p>
           </motion.div>
         ))}

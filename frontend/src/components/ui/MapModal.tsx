@@ -41,7 +41,7 @@ const MapModal: React.FC<MapModalProps> = ({ onClose, onSelectLocation }) => {
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-lg shadow-lg overflow-hidden w-1/2 h-1/2"
+        className="bg-white rounded-lg shadow-lg overflow-hidden w-4/5 h-2/3 md:w-1/2 md:h-1/2"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-end p-2">

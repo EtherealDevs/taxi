@@ -144,7 +144,7 @@ export default function FormReserv({ onOpenModal, location }: FormReservProps) {
             formData.email
         );
       default:
-        return true;
+        return false;
     }
   };
 
