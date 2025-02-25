@@ -104,59 +104,55 @@ export const DesktopSidebar = ({
   );
 };
 
-export const MobileSidebar = ({ className, children, ...props }: React.ComponentProps<"div">) => {
-  const { open, setOpen } = useSidebar()
-
+export const MobileSidebar = ({
+  className,
+  children,
+  ...props
+}: React.ComponentProps<"div">) => {
+  const { open, setOpen } = useSidebar();
   return (
     <>
-      <button
-        onClick={() => setOpen(!open)}
-        className="fixed top-4 left-4 z-50 md:hidden p-2 rounded-md hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors"
-        aria-label="Toggle Menu"
-      >
-        <Menu className="h-5 w-5 text-neutral-800 dark:text-neutral-200" />
-      </button>
-
-      <AnimatePresence>
-        {open && (
-          <>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 0.4 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black md:hidden z-40"
-              onClick={() => setOpen(false)}
-            />
-            <motion.div
-              initial={{ x: "-100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "-100%" }}
-              transition={{ type: "spring", damping: 20, stiffness: 300 }}
-              className={cn(
-                "fixed inset-y-0 left-0 w-[280px] bg-white dark:bg-neutral-900 shadow-xl z-50 md:hidden",
-                "flex flex-col p-6",
-                className,
-              )}
-              {...props}
-            >
-              <div className="flex items-center justify-between mb-6">
-                <span className="text-lg font-semibold">Menu</span>
-                <button
-                  onClick={() => setOpen(false)}
-                  className="p-2 rounded-md hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
-                  aria-label="Close Menu"
-                >
-                  <X className="h-5 w-5" />
-                </button>
-              </div>
-              <div className="flex-1 overflow-y-auto">{children}</div>
-            </motion.div>
-          </>
+      <div
+        className={cn(
+          "fixed top-4 left-4 z-50 md:hidden p-2 rounded-md hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors"
         )}
-      </AnimatePresence>
+        {...props}
+      >
+        <div className="flex justify-end z-20 w-full">
+          <Menu
+            className="text-neutral-800 dark:text-neutral-200 cursor-pointer"
+            onClick={() => setOpen(!open)}
+          />
+        </div>
+        <AnimatePresence>
+          {open && (
+            <motion.div
+              initial={{ x: "-100%", opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: "-100%", opacity: 0 }}
+              transition={{
+                duration: 0.3,
+                ease: "easeInOut",
+              }}
+              className={cn(
+                "fixed h-full w-full inset-0 bg-white dark:bg-neutral-900 p-10 z-[100] flex flex-col justify-between",
+                className
+              )}
+            >
+              <div
+                className="absolute right-10 top-10 z-50 text-neutral-800 dark:text-neutral-200 cursor-pointer"
+                onClick={() => setOpen(!open)}
+              >
+                <X />
+              </div>
+              {children}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </>
-  )
-}
+  );
+};
 
 export const SidebarLink = ({
   link,
