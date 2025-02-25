@@ -120,13 +120,13 @@ export default function PermissionsPage() {
       );
       setSelectedUser(null);
       const formdata = new FormData();
-      formdata.append("roles", String(newRole.id));
-      await update(selectedUser.id, formdata);
+      formdata.append("roles[]", String([newRole.id]));
       toast({
         title: "Rol actualizado",
         description: `El rol de ${selectedUser.name} ha sido actualizado a ${newRole.name}.`,
         action: <ToastAction altText="Cerrar">Cerrar</ToastAction>,
       });
+      await update(selectedUser.id, formdata);
     }
   };
 
@@ -217,7 +217,11 @@ export default function PermissionsPage() {
 
                 <div className="flex items-center space-x-4">
                   <div className="flex items-center">
-                    {/* <Badge className={`ml-2 `}>{user.roles[0].name}</Badge> */}
+                    <Badge className={`ml-2 `}>
+                      {user.roles.map((rol) => {
+                        return rol.name;
+                      })}
+                    </Badge>
                   </div>
                   {/* <Badge
                     variant={user.status === "active" ? "default" : "secondary"}
