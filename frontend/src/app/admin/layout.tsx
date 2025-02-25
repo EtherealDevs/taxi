@@ -7,7 +7,10 @@ import {
   Car,
   Calendar,
   CreditCard,
+  UserCircle,
   Settings,
+  Star,
+  ShieldCheck,
   LogOut,
 } from "lucide-react";
 import Link from "next/link";
@@ -48,9 +51,7 @@ export default function AdminLayout({
     {
       label: "Chofer Perfil",
       href: "/admin/profile",
-      icon: (
-        <Car className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
-      ),
+      icon: <UserCircle className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />,
     },
     {
       label: "Reservas",
@@ -60,25 +61,14 @@ export default function AdminLayout({
       ),
     },
     {
-      label: "Novedades",
-      href: "/admin/posts",
-      icon: (
-        <CreditCard className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
-      ),
-    },
-    {
       label: "Reseñas",
       href: "/admin/reviews",
-      icon: (
-        <CreditCard className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
-      ),
+      icon: <Star className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />,
     },
     {
       label: "Roles y Permisos",
       href: "/admin/permissions",
-      icon: (
-        <Settings className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
-      ),
+      icon: <ShieldCheck className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />,
     },
     {
       label: "Configuración",
@@ -140,7 +130,7 @@ const Logo = () => {
       href="/"
       className="font-normal flex space-x-2 items-center text-sm text-black dark:text-white py-1 relative z-20"
     >
-      <div className="h-5 w-6 bg-black dark:bg-white rounded-br-lg rounded-tr-sm rounded-tl-lg rounded-bl-sm flex-shrink-0" />
+      <Image src="/apple-touch-icon.png" alt="Logo" width={24} height={24} className="rounded-sm" />
       <motion.span
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -155,10 +145,10 @@ const Logo = () => {
 const LogoIcon = () => {
   return (
     <Link
-      href="#"
+      href="/"
       className="font-normal flex space-x-2 items-center text-sm text-black dark:text-white py-1 relative z-20"
     >
-      <div className="h-5 w-6 bg-black dark:bg-white rounded-br-lg rounded-tr-sm rounded-tl-lg rounded-bl-sm flex-shrink-0" />
+      <Image src="/apple-touch-icon.png" alt="Logo" width={24} height={24} className="rounded-sm" />
     </Link>
   );
 };
