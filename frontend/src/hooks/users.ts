@@ -48,7 +48,10 @@ export const useUser = () => {
   const update = async (id: string, formData: FormData) => {
     await csrf();
     try {
-      const response = await axios.put(`/api/users/${id}`, formData);
+      const response = await axios.post(
+        `/api/users/${id}?_method=PATCH`,
+        formData
+      );
       router.push("/admin/permissions");
       return response.data;
     } catch (error) {
