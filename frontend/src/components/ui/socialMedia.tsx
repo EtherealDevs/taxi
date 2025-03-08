@@ -29,10 +29,6 @@ export default function SocialMediaLinks() {
                         <span className="sr-only">Instagram</span>
                         <Instagram size={32} />
                     </a>
-                    <a href="https://www.facebook.com/your_profile" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-600 transition duration-300 transform hover:scale-110">
-                        <span className="sr-only">Facebook</span>
-                        <Facebook size={32} />
-                    </a>
                 </div>
             )}
         </div>
